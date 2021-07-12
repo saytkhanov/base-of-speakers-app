@@ -1,28 +1,31 @@
-const {Schema, model, Types} = require('mongoose');
+const { Schema, model, Types } = require("mongoose");
 
-const speakerSchema = new Schema({
-  login: {
-    type: String,
-    required: true,
-    unique: true
+const speakerSchema = new Schema(
+  {
+    login: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    firstName: {
+      type: String
+    },
+    lastName: {
+      type: String
+    },
+    category: {
+      type: Types.ObjectId,
+      ref: "Category"
+    },
   },
-  password: {
-    type: String,
-    required: true
-  },
-  firstName: {
-    type: String
-  },
-  lastName: {
-    type: String
-  },
-  category: {
-    type: Types.ObjectId,
-    ref: "Category"
+  {
+    timestamps: true,
   }
-}, {
-  timestamps: true
-})
+);
 
 const Speaker = model("Speaker", speakerSchema);
 

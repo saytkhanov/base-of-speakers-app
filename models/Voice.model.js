@@ -1,16 +1,18 @@
-const {Schema, model, Types} = require('mongoose');
+const { Schema, model, Types } = require("mongoose");
 
-const voiceSchema = new Schema({
-  audio: String,
-  speaker: {
-    type: Types.ObjectId,
-    ref: "Speaker"
-  }
-},
+const voiceSchema = new Schema(
   {
-    timestamps: true
-  })
+    audio: String,
+    speaker: {
+      type: Types.ObjectId,
+      ref: "Speaker",
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
 const Voice = model("Voice", voiceSchema);
 
-module.exports = Voice
+module.exports = Voice;

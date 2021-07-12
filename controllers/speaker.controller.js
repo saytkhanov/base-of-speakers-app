@@ -1,8 +1,8 @@
-const Speaker = require('../models/Speaker.model');
+const Speaker = require("../models/Speaker.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-module.exports.speakerController = {
+module.exports.speakersController = {
   getAllSpeakers: async (req, res) => {
     try {
       const getSpeakers = await Speaker.aggregate([
@@ -10,11 +10,11 @@ module.exports.speakerController = {
           $lookup: {
             from: "voices",
             as: "voices",
-            let: {speaker: "$_id"},
+            let: { speaker: "$_id" },
             pipeline: [
-              {$match: {$expr: {$eq: ["$speaker", "$$speaker"] }}}
-            ]
-          }
+              { $match: { $expr: { $eq: ["$speaker", "$$speaker"] } } },
+            ],
+          },
         },
         {
           $project: {
@@ -22,13 +22,13 @@ module.exports.speakerController = {
             firstName: 1,
             lastName: 1,
             category: 1,
-            voices: 1
-          }
-        }
+            voices: 1,
+          },
+        },
       ]);
-      res.json(getSpeakers)
+      res.json(getSpeakers);
     } catch (e) {
-      console.log(e.message)
+      console.log(e.message);
     }
   },
   getSpeakerById: async (req, res) => {
@@ -36,69 +36,90 @@ module.exports.speakerController = {
       const getSpeaker = await Speaker.findById(req.params.id);
       if (!getSpeaker) {
         return res.status(401).json({
-          error: 'Диктор с таким ID не найден',
-        })
+          error: "Диктор с таким ID не найден",
+        });
       }
       res.json(getSpeaker);
     } catch (e) {
       console.log(e.message);
     }
   },
-  registerSpeaker: async (req, res) => {
-    const {login, password, firstName, lastName, category} = req.body;
+  patchSpeaker: async (req, res) => {
+    try {
+      const { firstName, lastName, category } = req.user;
+      const id = req.user.id;
+      const options = { new: true };
 
-    if(!login) {
+      const patchSpeaker = await Speaker.findByIdAndUpdate(
+        id,
+        { firstName, lastName, category } ,
+        options
+      );
+      res.json(patchSpeaker);
+    } catch (e) {
       return res.status(401).json({
-        error: "Необходимо указать login"
-      })
+        error: e.message,
+      });
+    }
+  },
+  registerSpeaker: async (req, res) => {
+    const { login, password, firstName, lastName, category } = req.body;
+
+    if (!login) {
+      return res.status(401).json({
+        error: "Необходимо указать login",
+      });
     }
 
     if (!password) {
       return res.status(401).json({
-        error: "Необходимо указать пароль"
-      })
+        error: "Необходимо указать пароль",
+      });
     }
     try {
-      const hash = await bcrypt.hash(password, Number(process.env.BCRYPT_ROUNDS));
+      const hash = await bcrypt.hash(
+        password,
+        Number(process.env.BCRYPT_ROUNDS)
+      );
 
       const registerSpeaker = await new Speaker({
         login: login,
         password: hash,
         firstName: firstName,
         lastName: lastName,
-        category: category
-      })
+        category: category,
+      });
       await registerSpeaker.save();
-      res.status(201).json({message: "Диктор создан"})
+      res.status(201).json({ message: "Диктор создан" });
     } catch (e) {
-      res.status(500).json({message: 'Что-то пошло не так, попробуйте снова'})
+      res
+        .status(500)
+        .json({ message: "Что-то пошло не так, попробуйте снова" });
     }
   },
   login: async (req, res) => {
-    const {login, password, firstName, lastName, category} = req.body;
-    const candidate = await Speaker.findOne({login: login});
+    const { login, password, firstName, lastName, category } = req.body;
+    const candidate = await Speaker.findOne({ login: login });
 
-    if(!candidate) {
+    if (!candidate) {
       return res.status(401).json("Неверный логин");
     }
 
-    const valid = await bcrypt.compare(password, candidate.password)
+    const valid = await bcrypt.compare(password, candidate.password);
 
-    if(!valid) {
-      return res.status(401).json("Неверный пароль")
+    if (!valid) {
+      return res.status(401).json("Неверный пароль");
     }
     const payload = {
-      id: candidate._id,
-      login: candidate.login
-    }
+      id: candidate._id
+    };
 
     const token = await jwt.sign(payload, process.env.BCRYPT_ROUNDS, {
-      expressIn: '24h'
-    })
+      expiresIn: "24h",
+    });
 
     res.json({
       token
-    })
-
-  }
-}
+    });
+  },
+};
