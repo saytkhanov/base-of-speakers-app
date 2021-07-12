@@ -110,8 +110,9 @@ module.exports.speakersController = {
     if (!valid) {
       return res.status(401).json("Неверный пароль");
     }
+
     const payload = {
-      id: candidate._id
+      speakerId: candidate._id
     };
 
     const token = await jwt.sign(payload, process.env.BCRYPT_ROUNDS, {
