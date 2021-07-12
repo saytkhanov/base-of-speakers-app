@@ -59,8 +59,7 @@ export default function SignUp() {
   const changeHandler = (ev) => {
     setForm({ ...form, [ev.target.name]: ev.target.value });
   };
-  const token = useSelector((state) => state.speakers.token);
-  console.log(token);
+
 
   const handleAuthorization = () => {
     dispatch(authSpeaker(form));
@@ -103,7 +102,6 @@ export default function SignUp() {
                 autoComplete="current-password"
               />
             </Grid>
-            <Grid item xs={12}></Grid>
           </Grid>
           <Button
             type="submit"

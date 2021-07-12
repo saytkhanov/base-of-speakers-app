@@ -18,8 +18,8 @@ export default function reducers(state = initialState, action) {
         ...state,
         loading: false,
 
-        items: action.payload
-      }
+        items: action.payload,
+      };
     case "speakers/create/rejected":
       return {
         ...state,
@@ -48,10 +48,9 @@ export default function reducers(state = initialState, action) {
   }
 }
 
-
-export const registerSpeaker = () => {
-  return async dispatch => {
-    dispatch({type: "speakers/create/pending"})
+export const registerSpeaker = (data) => {
+  return async (dispatch) => {
+    dispatch({ type: "speakers/create/pending" });
     try {
       const response = await fetch(`/speaker`, {
         method: "POST",
@@ -93,6 +92,24 @@ export const authSpeaker = (data) => {
       localStorage.setItem("token", json.token);
     } catch (e) {
       dispatch({ type: "speaker/login/rejected", error: e.toString() });
+    }
+  };
+};
+
+export const speakerById = (id) => {
+  return async (dispatch) => {
+    dispatch({ type: "speaker/load/pending" });
+    try {
+      const response = await fetch(`/speaker/:${id}`);
+
+      const json = await response.json();
+
+      dispatch({
+        type: "speaker/load/fulfilled",
+        payload: json,
+      });
+    } catch (e) {
+      dispatch({ type: "speaker/load/rejected", error: e.toString() });
     }
   };
 };
