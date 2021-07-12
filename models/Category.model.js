@@ -1,9 +1,12 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
-const CategorySchema = mongoose.Schema({
-  gender: {type: String, required: true}
-}, {timestamps: true})
+const CategorySchema = mongoose.Schema(
+  {
+    gender: { type: String, required: true },
+  },
+  { timestamps: true }
+);
 
-const Category = mongoose.model("Category", CategorySchema)
+const Category = mongoose.model("Category", CategorySchema);
 
-module.exports = Category
+module.exports = Category;

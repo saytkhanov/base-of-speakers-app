@@ -1,11 +1,12 @@
-import { applyMiddleware, combineReducers, createStore } from 'redux'
-import thunk from 'redux-thunk'
+import { applyMiddleware, combineReducers, createStore } from "redux";
+import thunk from "redux-thunk";
+import categoryReducer from "./features/categories";
 
 export const store = createStore(
   combineReducers({
-    speakers: speakerReducer,
+    //speakers: speakerReducer,
     // voices: voicesReducer,
-    // categories: categoryReducer,
+    categories: categoryReducer,
     // reviews: reviewReducer,
   }),
   applyMiddleware(thunk)
