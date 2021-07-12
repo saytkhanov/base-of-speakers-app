@@ -52,7 +52,7 @@ module.exports.speakersController = {
 
       const patchSpeaker = await Speaker.findByIdAndUpdate(
         id,
-        { firstName, lastName, category } ,
+        { firstName, lastName, category },
         options
       );
       res.json(patchSpeaker);
@@ -64,7 +64,7 @@ module.exports.speakersController = {
   },
   registerSpeaker: async (req, res) => {
     const { login, password, firstName, lastName, category } = req.body;
-
+    console.log(firstName);
     if (!login) {
       return res.status(401).json({
         error: "Необходимо указать login",
@@ -87,11 +87,11 @@ module.exports.speakersController = {
         password: hash,
         firstName: firstName,
         lastName: lastName,
-        category: category,
       });
       await registerSpeaker.save();
       res.status(201).json({ message: "Диктор создан" });
     } catch (e) {
+      console.log(e.message);
       res
         .status(500)
         .json({ message: "Что-то пошло не так, попробуйте снова" });
@@ -111,7 +111,7 @@ module.exports.speakersController = {
       return res.status(401).json("Неверный пароль");
     }
     const payload = {
-      id: candidate._id
+      id: candidate._id,
     };
 
     const token = await jwt.sign(payload, process.env.BCRYPT_ROUNDS, {
@@ -119,7 +119,7 @@ module.exports.speakersController = {
     });
 
     res.json({
-      token
+      token,
     });
   },
 };
