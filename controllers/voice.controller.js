@@ -10,14 +10,19 @@ module.exports.voicesControllers = {
     }
   },
   createVoice: async (req, res) => {
-    const { audio } = req.body;
+    const { name, audio } = req.body;
     if (!audio) {
       return res.status(401).json({
         error: "Необходимо выбрать файл",
       });
     }
+    if (!name) {
+      return res.status(401).json({
+        error: "Необходимо указать название",
+      });
+    }
     try {
-      const createVoice = await new Voice({ name });
+      const createVoice = await new Voice({ name, audio });
       await createVoice.save();
       res.json(createVoice);
     } catch (e) {

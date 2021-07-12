@@ -17,8 +17,9 @@ export default function reducers(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        items: action.payload,
-      };
+
+        items: action.payload
+      }
     case "speakers/create/rejected":
       return {
         ...state,
@@ -47,9 +48,10 @@ export default function reducers(state = initialState, action) {
   }
 }
 
-export const registerSpeaker = (data) => {
-  return async (dispatch) => {
-    dispatch({ type: "speakers/create/pending" });
+
+export const registerSpeaker = () => {
+  return async dispatch => {
+    dispatch({type: "speakers/create/pending"})
     try {
       const response = await fetch(`/speaker`, {
         method: "POST",
