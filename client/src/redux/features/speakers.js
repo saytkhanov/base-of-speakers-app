@@ -49,7 +49,7 @@ export default function reducers(state = initialState, action) {
 }
 
 
-export const registerSpeaker = () => {
+export const registerSpeaker = (data) => {
   return async dispatch => {
     dispatch({type: "speakers/create/pending"})
     try {

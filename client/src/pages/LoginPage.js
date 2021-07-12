@@ -55,12 +55,10 @@ export default function SignUp() {
     login: "",
     password: "",
   });
-  console.log(form);
+
   const changeHandler = (ev) => {
     setForm({ ...form, [ev.target.name]: ev.target.value });
   };
-  const token = useSelector((state) => state.speakers.token);
-  console.log(token);
 
   const handleAuthorization = () => {
     dispatch(authSpeaker(form));
