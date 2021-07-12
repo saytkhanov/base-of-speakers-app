@@ -10,6 +10,7 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import { makeStyles } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
+import Categories from "./categories/Categories";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,6 +41,7 @@ function Header(props) {
           <Typography className={classes.title} variant="h6">
             Base of Speakers
           </Typography>
+          <Categories />
           <Box mr={3}>
             <Button color="inherit" variant="outlined">
               <NavLink to="/login">Log In</NavLink>

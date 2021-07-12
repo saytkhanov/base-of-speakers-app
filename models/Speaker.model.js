@@ -12,11 +12,15 @@ const speakerSchema = new Schema(
       required: true,
     },
     firstName: {
-      type: String
+      type: String,
     },
     lastName: {
-      type: String
+      type: String,
     },
+    gender: {
+      type: String,
+      enum: ["", "male", "female"],
+
     category: {
       type: Types.ObjectId,
       ref: "Category",
