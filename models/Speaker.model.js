@@ -20,6 +20,11 @@ const speakerSchema = new Schema(
     gender: {
       type: String,
       enum: ["", "male", "female"],
+
+    category: {
+      type: Types.ObjectId,
+      ref: "Category",
+      default: null
     },
   },
   {

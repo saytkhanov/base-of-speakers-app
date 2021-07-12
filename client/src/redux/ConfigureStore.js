@@ -1,6 +1,9 @@
-import { applyMiddleware, combineReducers, createStore } from "redux";
-import thunk from "redux-thunk";
+
 import categoryReducer from "./features/categories";
+
+import { applyMiddleware, combineReducers, createStore } from 'redux'
+import speakerReducer from "./features/speakers"
+import thunk from 'redux-thunk'
 
 export const store = createStore(
   combineReducers({
