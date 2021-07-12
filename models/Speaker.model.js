@@ -19,7 +19,8 @@ const speakerSchema = new Schema(
     },
     category: {
       type: Types.ObjectId,
-      ref: "Category"
+      ref: "Category",
+      default: null
     },
   },
   {
