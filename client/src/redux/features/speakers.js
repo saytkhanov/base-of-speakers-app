@@ -3,7 +3,7 @@ const initialState = {
   loading: false,
   deleting: false,
   error: null,
-  token: localStorage.getItem("token")
+  token: localStorage.getItem("token"),
 };
 
 export default function reducers(state = initialState, action) {
@@ -35,42 +35,41 @@ export default function reducers(state = initialState, action) {
         ...state,
         loading: false,
         token: action.payload.token,
-        items: action.payload
       };
     case "speaker/load/pending":
       return {
         ...state,
-        loading: true
-      }
+        loading: true,
+      };
     case "speaker/load/fulfilled":
       return {
         ...state,
         loading: false,
-        items: action.payload
+        items: action.payload,
       };
     case "speaker/load/rejected":
       return {
         ...state,
         loading: false,
-        error: action.error
-      }
+        error: action.error,
+      };
     case "speakerById/load/pending":
       return {
         ...state,
-        loading: true
-      }
+        loading: true,
+      };
     case "speakerById/load/fulfilled":
       return {
         ...state,
         loading: false,
-        items: action.payload
+        items: action.payload,
       };
     case "speakerById/load/rejected":
       return {
         ...state,
         loading: false,
-        error: action.error
-      }
+        error: action.error,
+      };
     case "speaker/login/rejected":
       return {
         ...state,
@@ -82,10 +81,9 @@ export default function reducers(state = initialState, action) {
   }
 }
 
-
 export const registerSpeaker = (data) => {
-  return async dispatch => {
-    dispatch({type: "speakers/create/pending"})
+  return async (dispatch) => {
+    dispatch({ type: "speakers/create/pending" });
     try {
       const response = await fetch(`/speaker`, {
         method: "POST",
@@ -131,26 +129,29 @@ export const authSpeaker = (data) => {
   };
 };
 
-export const speakerById = (id) => {
+export const speakerById = () => {
   return async (dispatch, getState) => {
-    const state = getState()
+    const state = getState();
     dispatch({ type: "speakerById/load/pending" });
     try {
-      const response = await fetch(`http://localhost:4001/speaker/${id}`, {
+      const response = await fetch(`http://localhost:4001/speaker`, {
         headers: {
-          Authorization: `Bearer ${state.speakers.token}`
-        }
+          Authorization: `Bearer ${state.speakers.token}`,
+        },
       });
 
       const json = await response.json();
 
-      if(json.error) {
-        dispatch({ type: "speakerById/load/rejected", error: "При запросе на сервер произошла ошибка" });
+      if (json.error) {
+        dispatch({
+          type: "speakerById/load/rejected",
+          error: "При запросе на сервер произошла ошибка",
+        });
       } else {
         dispatch({
           type: "speakerById/load/fulfilled",
-          payload: json
-        })
+          payload: json,
+        });
       }
     } catch (e) {
       dispatch({ type: "speakerById/load/rejected", error: e.toString() });
@@ -159,27 +160,24 @@ export const speakerById = (id) => {
 };
 
 export const getSpeakers = () => {
-  return async (dispatch, getState) => {
-    const state = getState();
-    dispatch({ type: "speakerById/load/pending" });
+  return async (dispatch) => {
+    dispatch({ type: "speaker/load/pending" });
     try {
-      const response = await fetch(`http://localhost:4001`, {
-        headers: {
-          Authorization: `Bearer ${state.speakers.token}`
-        }
-     })
+      const response = await fetch(`http://localhost:4001`);
       const json = await response.json();
-      console.log(1)
-      if(json.error) {
-        dispatch({ type: "speaker/load/rejected", error: "При запросе на сервер произошла ошибка" });
+      if (json.error) {
+        dispatch({
+          type: "speaker/load/rejected",
+          error: "При запросе на сервер произошла ошибка",
+        });
       } else {
         dispatch({
           type: "speaker/load/fulfilled",
-          payload: json
-        })
+          payload: json,
+        });
       }
     } catch (e) {
       dispatch({ type: "speaker/load/rejected", error: e.toString() });
     }
-  }
-}
+  };
+};
