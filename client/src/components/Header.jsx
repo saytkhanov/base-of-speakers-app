@@ -39,7 +39,7 @@ function Header(props) {
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6">
-            Base of Speakers
+            <NavLink to="/">Base of Speakers</NavLink>
           </Typography>
           <Categories />
           <Box mr={3}>

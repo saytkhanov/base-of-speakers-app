@@ -33,7 +33,7 @@ module.exports.speakersController = {
   },
   getSpeakerById: async (req, res) => {
     try {
-      const getSpeaker = await Speaker.findById(req.params.id);
+      const getSpeaker = await Speaker.findById(req.user.id);
 
       if (!getSpeaker) {
         return res.status(401).json({
@@ -120,7 +120,6 @@ module.exports.speakersController = {
 
     res.json({
       token,
-
     });
   },
 };

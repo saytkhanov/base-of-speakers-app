@@ -8,6 +8,7 @@ const {
 
 
 router.get('/',  speakersController.getAllSpeakers);
+router.get('/speaker', authMiddleware, speakersController.getSpeakerById);
 router.post('/speaker', speakersController.registerSpeaker);
 router.post('/login', speakersController.login);
 router.patch('/speaker/:id', authMiddleware, speakersController.patchSpeaker);

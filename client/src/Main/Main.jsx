@@ -4,7 +4,7 @@ import { Switch,Route, Redirect } from 'react-router-dom'
 import AuthPage from '../pages/AuthPage';
 import LoginPage from '../pages/LoginPage'
 import { useDispatch, useSelector } from 'react-redux'
-import PersonalArea from '../pages/PersonalArea'
+import HomePage from '../pages/HomePage'
 
 function Main (props) {
 
@@ -21,7 +21,7 @@ if(!token) {
         <Route path='/login' >
           <LoginPage/>
         </Route>
-        <Redirect to='/auth'/>
+        <Redirect to='/'/>
       </Switch>
     </Container>
   )
@@ -31,7 +31,7 @@ if(!token) {
     <Container>
       <Switch>
         <Route path='/' exact>
-          <PersonalArea/>
+          <HomePage/>
         </Route>
         <Route path='/auth' >
           <AuthPage/>
@@ -39,7 +39,7 @@ if(!token) {
         <Route path='/login' >
           <LoginPage/>
         </Route>
-        <Redirect to='/speaker/:id'/>
+        <Redirect to='/speaker'/>
       </Switch>
     </Container>
   )
