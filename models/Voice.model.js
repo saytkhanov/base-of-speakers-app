@@ -1,7 +1,6 @@
 const { Schema, model, Types } = require("mongoose");
 
-const voiceSchema = new Schema(
-  {
+const voiceSchema = new Schema({
     name: String,
     audio: String,
     speaker: {

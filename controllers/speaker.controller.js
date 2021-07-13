@@ -34,6 +34,7 @@ module.exports.speakersController = {
   getSpeakerById: async (req, res) => {
     try {
       const getSpeaker = await Speaker.findById(req.params.id);
+
       if (!getSpeaker) {
         return res.status(401).json({
           error: "Диктор с таким ID не найден",
@@ -46,8 +47,8 @@ module.exports.speakersController = {
   },
   patchSpeaker: async (req, res) => {
     try {
-      const { firstName, lastName, category } = req.user;
-      const id = req.user.id;
+      const { firstName, lastName, category } = req.body;
+      const id = req.body.id;
       const options = { new: true };
 
       const patchSpeaker = await Speaker.findByIdAndUpdate(
@@ -98,29 +99,28 @@ module.exports.speakersController = {
     }
   },
   login: async (req, res) => {
-    const { login, password, firstName, lastName, category } = req.body;
+    const { login, password } = req.body;
     const candidate = await Speaker.findOne({ login: login });
-
     if (!candidate) {
       return res.status(401).json("Неверный логин");
     }
-
     const valid = await bcrypt.compare(password, candidate.password);
 
     if (!valid) {
       return res.status(401).json("Неверный пароль");
     }
-
     const payload = {
-      id: candidate._id
+      id: candidate._id,
+      login: candidate.login,
     };
 
-    const token = await jwt.sign(payload, process.env.BCRYPT_ROUNDS, {
+    const token = await jwt.sign(payload, process.env.SECRET_JWT_KEY, {
       expiresIn: "24h",
     });
 
     res.json({
       token,
+
     });
   },
 };

@@ -6,7 +6,8 @@ const {
   speakersController
 } = require('../controllers/speaker.controller');
 
-router.get('/speaker', speakersController.getAllSpeakers);
+
+router.get('/',  speakersController.getAllSpeakers);
 router.post('/speaker', speakersController.registerSpeaker);
 router.post('/login', speakersController.login);
 router.patch('/speaker/:id', authMiddleware, speakersController.patchSpeaker);

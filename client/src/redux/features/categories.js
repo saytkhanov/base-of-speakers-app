@@ -24,7 +24,7 @@ export default function categoryReducer(state = initialState, action) {
 export const loadCategories = () => {
   return async (dispatch) => {
     dispatch({ type: "categories/load/pending" });
-    const response = await fetch("/categories");
+    const response = await fetch("http://localhost:4001/categories");
     const json = await response.json();
     dispatch({ type: "categories/load/fulfilled", payload: json });
   };

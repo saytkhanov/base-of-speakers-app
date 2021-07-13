@@ -11,33 +11,38 @@ module.exports.voicesControllers = {
   },
   createVoice: async (req, res) => {
     const { name, audio } = req.body;
-    if (!audio) {
-      return res.status(401).json({
-        error: "Необходимо выбрать файл",
-      });
-    }
-    if (!name) {
-      return res.status(401).json({
-        error: "Необходимо указать название",
-      });
-    }
+    // if (!audio) {
+    //   return res.status(401).json({
+    //     error: "Необходимо выбрать файл",
+    //   });
+    // }
+    // if (!name) {
+    //   return res.status(401).json({
+    //     error: "Необходимо указать название",
+    //   });
+    // }
     try {
-      const createVoice = await new Voice({ name, audio });
-      await createVoice.save();
-      res.json(createVoice);
+      const createVoice = await Voice.create({
+        name,
+        audio,
+        speaker: req.user.id,
+      });
+      return res.json(createVoice);
     } catch (e) {
       console.log(e.message);
     }
   },
   deleteVoice: async (req, res) => {
+    const { id } = req.params;
     try {
-      const deleteVoice = await Voice.findByIdAndDelete(req.params.id);
-      if (!deleteVoice) {
-        return res.json({
-          message: "Не удалось удалить запись. Укажите верный ID",
-        });
+      const voice = await Voice.findById(id);
+
+      if (voice.speaker.toString() === req.user.id) {
+        await voice.remove();
+        res.json("удалено");
       }
-      res.json(deleteVoice);
+
+      return res.status(401).json("Ошибка. Нет доступа");
     } catch (e) {
       console.log(e.message);
     }

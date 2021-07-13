@@ -8,6 +8,6 @@ const {
 
 router.get('/speaker/:id/voices', voicesControllers.getVoicesById );
 router.delete('/speaker/:id/voice', authMiddleware, voicesControllers.deleteVoice);
-router.post('/speaker/:id', authMiddleware, voicesControllers.createVoice);
+router.post('/voice', authMiddleware, voicesControllers.createVoice);
 
 module.exports = router
