@@ -24,7 +24,7 @@ function Categories(props) {
         return (
           <Box mr={3}>
             <Button color="inherit" variant="outlined">
-              <NavLink to="#">{item.gender}</NavLink>
+              <NavLink to={`/speakers/${item._id}/category`}>{item.gender}</NavLink>
             </Button>
           </Box>
         );

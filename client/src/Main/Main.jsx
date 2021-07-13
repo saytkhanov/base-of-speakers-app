@@ -5,6 +5,7 @@ import AuthPage from '../pages/AuthPage';
 import LoginPage from '../pages/LoginPage'
 import { useDispatch, useSelector } from 'react-redux'
 import HomePage from '../pages/HomePage'
+import CategorySpeakers from '../components/categorySpeakers/CategorySpeakers';
 
 function Main (props) {
 
@@ -38,6 +39,9 @@ if(!token) {
         </Route>
         <Route path='/login' >
           <LoginPage/>
+        </Route>
+        <Route path='/speakers/:id/category'>
+          <CategorySpeakers/>
         </Route>
         <Redirect to='/speaker'/>
       </Switch>

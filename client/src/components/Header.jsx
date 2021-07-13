@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 function Header(props) {
   const classes = useStyles();
   return (
+    <>
     <AppBar position="fixed">
       <Container fixed>
         <Toolbar>
@@ -55,6 +56,8 @@ function Header(props) {
         </Toolbar>
       </Container>
     </AppBar>
+    <Toolbar/>
+    </>
   );
 }
 

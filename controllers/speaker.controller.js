@@ -31,20 +31,6 @@ module.exports.speakersController = {
       console.log(e.message);
     }
   },
-  getSpeakerById: async (req, res) => {
-    try {
-      const getSpeaker = await Speaker.findById(req.user.id);
-
-      if (!getSpeaker) {
-        return res.status(401).json({
-          error: "Диктор с таким ID не найден",
-        });
-      }
-      res.json(getSpeaker);
-    } catch (e) {
-      console.log(e.message);
-    }
-  },
   patchSpeaker: async (req, res) => {
     try {
       const { firstName, lastName, category } = req.body;
