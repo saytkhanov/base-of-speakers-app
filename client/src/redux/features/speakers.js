@@ -3,7 +3,7 @@ const initialState = {
   loading: false,
   deleting: false,
   error: null,
-  token: null,
+  token: localStorage.getItem("token")
 };
 
 export default function reducers(state = initialState, action) {
@@ -17,9 +17,8 @@ export default function reducers(state = initialState, action) {
       return {
         ...state,
         loading: false,
-
-        items: action.payload
-      }
+        items: action.payload,
+      };
     case "speakers/create/rejected":
       return {
         ...state,
@@ -36,7 +35,42 @@ export default function reducers(state = initialState, action) {
         ...state,
         loading: false,
         token: action.payload.token,
+        items: action.payload
       };
+    case "speaker/load/pending":
+      return {
+        ...state,
+        loading: true
+      }
+    case "speaker/load/fulfilled":
+      return {
+        ...state,
+        loading: false,
+        items: action.payload
+      };
+    case "speaker/load/rejected":
+      return {
+        ...state,
+        loading: false,
+        error: action.error
+      }
+    case "speakerById/load/pending":
+      return {
+        ...state,
+        loading: true
+      }
+    case "speakerById/load/fulfilled":
+      return {
+        ...state,
+        loading: false,
+        items: action.payload
+      };
+    case "speakerById/load/rejected":
+      return {
+        ...state,
+        loading: false,
+        error: action.error
+      }
     case "speaker/login/rejected":
       return {
         ...state,
@@ -96,3 +130,56 @@ export const authSpeaker = (data) => {
     }
   };
 };
+
+export const speakerById = (id) => {
+  return async (dispatch, getState) => {
+    const state = getState()
+    dispatch({ type: "speakerById/load/pending" });
+    try {
+      const response = await fetch(`http://localhost:4001/speaker/${id}`, {
+        headers: {
+          Authorization: `Bearer ${state.speakers.token}`
+        }
+      });
+
+      const json = await response.json();
+
+      if(json.error) {
+        dispatch({ type: "speakerById/load/rejected", error: "При запросе на сервер произошла ошибка" });
+      } else {
+        dispatch({
+          type: "speakerById/load/fulfilled",
+          payload: json
+        })
+      }
+    } catch (e) {
+      dispatch({ type: "speakerById/load/rejected", error: e.toString() });
+    }
+  };
+};
+
+export const getSpeakers = () => {
+  return async (dispatch, getState) => {
+    const state = getState();
+    dispatch({ type: "speakerById/load/pending" });
+    try {
+      const response = await fetch(`http://localhost:4001`, {
+        headers: {
+          Authorization: `Bearer ${state.speakers.token}`
+        }
+     })
+      const json = await response.json();
+      console.log(1)
+      if(json.error) {
+        dispatch({ type: "speaker/load/rejected", error: "При запросе на сервер произошла ошибка" });
+      } else {
+        dispatch({
+          type: "speaker/load/fulfilled",
+          payload: json
+        })
+      }
+    } catch (e) {
+      dispatch({ type: "speaker/load/rejected", error: e.toString() });
+    }
+  }
+}

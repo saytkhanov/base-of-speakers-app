@@ -11,8 +11,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(morgan("combined"));
 app.use(routes);
+app.use(morgan("combined"));
+
 
 
 const start = async () => {
