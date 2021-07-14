@@ -49,7 +49,7 @@ function HomePage(props) {
   const dispatch = useDispatch();
 
 
-  const speaker = useSelector((state) => state.speakers.items);
+  const speakers = useSelector((state) => state.speakers.items);
 
   useEffect(() => dispatch(getSpeakers()), [dispatch]);
 
