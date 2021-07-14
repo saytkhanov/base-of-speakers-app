@@ -1,11 +1,15 @@
-import React from "react";
+
+import React, { useState } from "react";
 import { Container } from "@material-ui/core";
 import { Switch, Route, Redirect } from "react-router-dom";
 import AuthPage from "../pages/AuthPage";
 import LoginPage from "../pages/LoginPage";
-import { useSelector } from "react-redux";
-import HomePage from "../pages/HomePage";
 import Profile from "../Profile/Profile";
+import { useDispatch, useSelector } from "react-redux";
+import HomePage from "../pages/HomePage";
+import SpeakersByCategory from "../components/categories/SpeakersByCategory";
+import AllSpeakers from "../components/allSpeakers/AllSpeakers";
+
 
 function Main(props) {
   const token = useSelector((state) => state.speakers.token);
@@ -45,7 +49,13 @@ function Main(props) {
         <Route path="/login">
           <LoginPage />
         </Route>
-        <Redirect to="/" />
+        <Route path="/category/:id/speakers">
+          <SpeakersByCategory />
+        </Route>
+        <Route>
+          <AllSpeakers/>
+        </Route>
+     <Redirect to="/speaker" />
       </Switch>
     </Container>
   );

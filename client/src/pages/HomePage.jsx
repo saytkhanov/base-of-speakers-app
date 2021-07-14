@@ -9,6 +9,8 @@ function HomePage(props) {
 
   useEffect(() => dispatch(getSpeakers()), [dispatch]);
 
+  console.log(speakers)
+
   return (
     <div>
       {/*{speaker.firstName}*/}
