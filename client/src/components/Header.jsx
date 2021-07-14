@@ -71,22 +71,21 @@ function Header(props) {
             <NavLink className={classes.navLink} to="/">Base of Speakers</NavLink>
           </Typography>
           <Categories />
-          <Box mr={4}>
-            <Button style={{backgroundColor: 'white'}} variant="contained">
-              <NavLink style={{fontWeight: 'bold', color: 'black', textDecoration: 'none'}}  to="/login">
-                Log In
-              </NavLink>
-            </Button>
-          </Box>
         {token ? (
               <Box mr={3}>
-                <NavLink to="/profile">
-                  <Button color="secondary" variant="contained">
+                <NavLink style={{fontWeight: 'bold', color: 'black', textDecoration: 'none'}}  to="/profile">
+                  <Button style={{backgroundColor: 'white'}} variant="contained">
                     Личный кабинет
                   </Button>
                 </NavLink>
               </Box>
-            ) : null}
+            ) : <Box mr={4}>
+          <NavLink style={{fontWeight: 'bold', color: 'black', textDecoration: 'none'}}  to="/login">
+          <Button style={{backgroundColor: 'white', fontWeight: 'bold'}} variant="contained">
+              Log In
+          </Button>
+          </NavLink>
+        </Box>}
               {token ? (
               <Box mr={3}>
                 <Button
@@ -94,21 +93,23 @@ function Header(props) {
                   variant="contained"
                   onClick={() => dispatch(tokenRemove())}
                 >
-                  <NavLink to="/">Выйти</NavLink>
+                  <NavLink  style={{fontWeight: 'bold', color: 'white', textDecoration: 'none'}}  to="/">Выйти</NavLink>
                 </Button>
               </Box>
             ) : (
+                <Box mr={3}>
           <Button color="secondary" variant="contained">
             <NavLink  style={{fontWeight: 'bold', color: 'white', textDecoration: 'none'}}  to="/auth">
               Sign Up
             </NavLink>
           </Button>
+                </Box>
+                )}
         </Toolbar>
       </Container>
     </AppBar>
       <Toolbar/>
     </>
-
   );
 }
 

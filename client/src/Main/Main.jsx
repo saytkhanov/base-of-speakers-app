@@ -13,7 +13,7 @@ function Main(props) {
   // console.log(tokenn.id)
   if (!token) {
     return (
-      <Container>
+      <main>
         <Switch>
           <Route path="/" exact>
             <HomePage />
@@ -26,7 +26,7 @@ function Main(props) {
           </Route>
           <Redirect to="/" />
         </Switch>
-      </Container>
+      </main>
     );
   }
 
@@ -47,7 +47,6 @@ function Main(props) {
         </Route>
         <Redirect to="/" />
       </Switch>
-    </Container>
     </main>
   )
 }

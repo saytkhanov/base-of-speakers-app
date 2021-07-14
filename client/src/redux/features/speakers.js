@@ -113,11 +113,8 @@ export const authSpeaker = (data) => {
   return async (dispatch) => {
     dispatch({ type: "speaker/login/pending" });
 
-    if (!data.login || !data.password) {
-      return "Введите логин или пароль";
-    }
     try {
-      const response = await fetch(`/login`, {
+      const response = await fetch(`http://localhost:4001/login`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -127,11 +124,18 @@ export const authSpeaker = (data) => {
 
       const json = await response.json();
 
-      dispatch({
-        type: "speaker/login/fulfilled",
-        payload: json,
-      });
-      localStorage.setItem("token", json.token);
+      if(json.error) {
+        dispatch({
+          type: "speakerById/load/rejected",
+          error: "Необходимо ввести данные",
+        });
+      } else {
+        dispatch({
+          type: "speaker/login/fulfilled",
+          payload: json,
+        });
+        localStorage.setItem("token", json.token);
+      }
     } catch (e) {
       dispatch({ type: "speaker/login/rejected", error: e.toString() });
     }
