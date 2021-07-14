@@ -12,19 +12,15 @@ function Categories(props) {
 
   useEffect(() => dispatch(loadCategories()), [dispatch]);
 
-  if (loading) {
-    return <CategoryPreloader />;
-  }
 
-  console.log(categories);
 
   return (
     <>
       {categories.map((item) => {
         return (
-          <Box mr={3}>
-            <Button color="inherit" variant="outlined">
-              <NavLink to="#">{item.gender}</NavLink>
+          <Box mr={4}>
+            <Button color="inherit" variant="outlined" style={{backgroundColor: 'white'}}>
+              <NavLink style={{ color: 'black', fontWeight: 'bold', textDecoration: 'none'}} to="#">{item.gender}</NavLink>
             </Button>
           </Box>
         );

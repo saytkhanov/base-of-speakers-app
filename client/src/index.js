@@ -4,7 +4,7 @@ import App from './components/App'
 import { Provider } from 'react-redux'
 import {store} from './redux/ConfigureStore'
 import { BrowserRouter } from 'react-router-dom'
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 ReactDOM.render(
