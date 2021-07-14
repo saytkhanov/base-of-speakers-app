@@ -16,6 +16,8 @@ function Categories(props) {
     return <CategoryPreloader />;
   }
 
+
+  //Шамиль даун
   console.log(categories);
 
   return (
