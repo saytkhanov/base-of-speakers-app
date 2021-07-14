@@ -11,9 +11,14 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { makeStyles } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
 import Categories from "./categories/Categories";
+
+import { useDispatch, useSelector } from "react-redux";
+import { tokenRemove } from "../redux/features/speakers";
+
 import Grid from '@material-ui/core/Grid'
 import React from 'react'
 import HeadsetMicIcon from '@material-ui/icons/HeadsetMic';
+
 
 const useStyles = makeStyles((theme) => ({
   nav: {
@@ -46,6 +51,9 @@ const useStyles = makeStyles((theme) => ({
 
 function Header(props) {
   const classes = useStyles();
+
+  const token = useSelector((state) => state.speakers.token);
+  const dispatch = useDispatch();
   return (
     <>
     <AppBar position="fixed" style={{backgroundColor: 'black'}}>
@@ -70,6 +78,26 @@ function Header(props) {
               </NavLink>
             </Button>
           </Box>
+        {token ? (
+              <Box mr={3}>
+                <NavLink to="/profile">
+                  <Button color="secondary" variant="contained">
+                    Личный кабинет
+                  </Button>
+                </NavLink>
+              </Box>
+            ) : null}
+              {token ? (
+              <Box mr={3}>
+                <Button
+                  color="secondary"
+                  variant="contained"
+                  onClick={() => dispatch(tokenRemove())}
+                >
+                  <NavLink to="/">Выйти</NavLink>
+                </Button>
+              </Box>
+            ) : (
           <Button color="secondary" variant="contained">
             <NavLink  style={{fontWeight: 'bold', color: 'white', textDecoration: 'none'}}  to="/auth">
               Sign Up
@@ -80,6 +108,7 @@ function Header(props) {
     </AppBar>
       <Toolbar/>
     </>
+
   );
 }
 

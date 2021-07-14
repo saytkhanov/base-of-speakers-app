@@ -48,6 +48,7 @@ function HomePage(props) {
   const classes = useStyles()
   const dispatch = useDispatch();
 
+
   const speaker = useSelector((state) => state.speakers.items);
 
   useEffect(() => dispatch(getSpeakers()), [dispatch]);
