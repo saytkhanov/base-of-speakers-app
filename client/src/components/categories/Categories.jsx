@@ -20,11 +20,16 @@ function Categories(props) {
 
   return (
     <>
+      <Box mr={3}>
+        <Button color="inherit" variant="outlined">
+          <NavLink to="/speakers">Все дикторы</NavLink>
+        </Button>
+      </Box>
       {categories.map((item) => {
         return (
           <Box mr={3}>
             <Button color="inherit" variant="outlined">
-              <NavLink to="#">{item.gender}</NavLink>
+              <NavLink to={`/category/${item._id}/speakers`}>{item.gender}</NavLink>
             </Button>
           </Box>
         );
