@@ -112,6 +112,10 @@ export const registerSpeaker = (data) => {
 export const authSpeaker = (data) => {
   return async (dispatch) => {
     dispatch({ type: "speaker/login/pending" });
+
+    if (!data.login || !data.password) {
+      return "Введите логин или пароль";
+    }
     try {
       const response = await fetch(`/login`, {
         method: "POST",
@@ -188,12 +192,11 @@ export const getSpeakers = () => {
 };
 
 export const tokenRemove = () => {
-  localStorage.removeItem("token")
+  localStorage.removeItem("token");
 
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
       type: "token/remove/fulfilled",
     });
-  }
-  
+  };
 };
