@@ -20,7 +20,7 @@ function Categories(props) {
         return (
           <Box mr={4}>
             <Button color="inherit" variant="outlined" style={{backgroundColor: 'white'}}>
-              <NavLink style={{ color: 'black', fontWeight: 'bold', textDecoration: 'none'}} to="#">{item.gender}</NavLink>
+              <NavLink style={{ color: 'black', fontWeight: 'bold', textDecoration: 'none'}} to={`/category/${item._id}/speakers`}>{item.gender}</NavLink>
             </Button>
           </Box>
         );
