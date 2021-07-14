@@ -30,7 +30,7 @@ function Copyright() {
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(12),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    backgroundColor: 'black'
   },
 }));
 
@@ -69,10 +70,10 @@ export default function SignUp() {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
+        <Avatar className={classes.avatar} style={{backgroundColor: 'black'}}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h5" style={{fontWeight: "bold"}}>
           Sign up
         </Typography>
         <form className={classes.form} noValidate>
@@ -146,7 +147,7 @@ export default function SignUp() {
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link style={{textDecoration: 'none', cursor: 'pointer'}} to='/login' variant="body2" color="secondary">
                 У вас уже есть аккаунт? Войти
               </Link>
             </Grid>

@@ -31,7 +31,7 @@ function Main(props) {
   }
 
   return (
-    <Container>
+    <main>
       <Switch>
         <Route path="/" exact>
           <HomePage />
@@ -48,7 +48,8 @@ function Main(props) {
         <Redirect to="/" />
       </Switch>
     </Container>
-  );
+    </main>
+  )
 }
 
 export default Main;
