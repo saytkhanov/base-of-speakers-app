@@ -1,6 +1,7 @@
 const Speaker = require("../models/Speaker.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const path = require('path')
 
 module.exports.speakersController = {
   getAllSpeakers: async (req, res) => {
@@ -61,6 +62,20 @@ module.exports.speakersController = {
       return res.status(401).json({
         error: e.message,
       });
+    }
+  },
+  getRandomSpeakers: async (req, res) => {
+    try {
+      const getRandomSpeakers = await Speaker.aggregate([
+        {
+          $sample: {
+            size: 6
+          }
+        }
+      ])
+      res.json(getRandomSpeakers)
+    } catch (e) {
+      console.log(e.message)
     }
   },
   registerSpeaker: async (req, res) => {

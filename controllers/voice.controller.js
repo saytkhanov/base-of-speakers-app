@@ -1,4 +1,5 @@
 const Voice = require("../models/Voice.model");
+const path = require('path')
 
 module.exports.voicesControllers = {
   getVoicesById: async (req, res) => {
@@ -10,7 +11,7 @@ module.exports.voicesControllers = {
     }
   },
   createVoice: async (req, res) => {
-    const { name, audio } = req.body;
+
     // if (!audio) {
     //   return res.status(401).json({
     //     error: "Необходимо выбрать файл",
@@ -30,6 +31,25 @@ module.exports.voicesControllers = {
       return res.json(createVoice);
     } catch (e) {
       console.log(e.message);
+    }
+  },
+  postVoice: async (req, res) => {
+    const voice = req.files.voice;
+    const newFileName = `./assets/${Math.random() * 10000}${path.extname(voice.name)}`
+    try {
+      const speaker = await Voice.findById(req.params.id);
+
+      speaker.voice = newFileName
+
+      voice.mv(newFileName, (err) => {
+        if(err) {
+          console.log("Error")
+        } else {
+          res.json("Файл загружен")
+        }
+      })
+    } catch (e) {
+
     }
   },
   deleteVoice: async (req, res) => {

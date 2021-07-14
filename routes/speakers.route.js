@@ -8,6 +8,7 @@ const {
 
 
 router.get('/',  speakersController.getAllSpeakers);
+router.get('/random', speakersController.getRandomSpeakers)
 router.get('/speaker', authMiddleware, speakersController.getSpeakerById);
 router.post('/speaker', speakersController.registerSpeaker);
 router.post('/login', speakersController.login);

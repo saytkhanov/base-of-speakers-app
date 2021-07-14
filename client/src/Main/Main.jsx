@@ -15,7 +15,10 @@ if(!token) {
   return (
     <Container>
       <Switch>
-        <Route path='/auth' exact >
+        <Route path='/' exact>
+          <HomePage/>
+        </Route>
+        <Route path='/auth' >
           <AuthPage/>
         </Route>
         <Route path='/login' >
@@ -28,7 +31,7 @@ if(!token) {
 }
 
   return (
-    <Container>
+    <main>
       <Switch>
         <Route path='/' exact>
           <HomePage/>
@@ -41,7 +44,7 @@ if(!token) {
         </Route>
         <Redirect to='/speaker'/>
       </Switch>
-    </Container>
+    </main>
   )
 }
 

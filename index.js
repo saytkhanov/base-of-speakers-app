@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const morgan = require('morgan');
 require("dotenv").config();
-const routes = require('./routes/index')
+const routes = require('./routes/index');
+const fileUpload = require('express-fileupload')
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(routes);
 app.use(morgan("combined"));
+app.use(fileUpload())
 
 
 
