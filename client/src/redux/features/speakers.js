@@ -76,6 +76,11 @@ export default function reducers(state = initialState, action) {
         loading: false,
         error: action.error,
       };
+    case "token/remove/fulfilled":
+      return {
+        ...state,
+        token: null,
+      };
     default:
       return state;
   }
@@ -180,4 +185,15 @@ export const getSpeakers = () => {
       dispatch({ type: "speaker/load/rejected", error: e.toString() });
     }
   };
+};
+
+export const tokenRemove = () => {
+  localStorage.removeItem("token")
+
+  return dispatch => {
+    dispatch({
+      type: "token/remove/fulfilled",
+    });
+  }
+  
 };

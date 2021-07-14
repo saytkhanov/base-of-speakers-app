@@ -13,7 +13,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { authSpeaker }  from "../redux/features/speakers";
+import { authSpeaker } from "../redux/features/speakers";
 
 function Copyright() {
   return (
@@ -49,24 +49,24 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUp() {
-  const speaker = useSelector(state => state.speakers.items);
-  console.log(speaker)
+  const speaker = useSelector((state) => state.speakers.items);
+  console.log(speaker);
   const classes = useStyles();
   const dispatch = useDispatch();
   const [form, setForm] = useState({
     login: "",
     password: "",
   });
-  console.log(form)
+  console.log(form);
   const changeHandler = (ev) => {
     setForm({ ...form, [ev.target.name]: ev.target.value });
   };
 
-
   const handleAuthorization = () => {
     dispatch(authSpeaker(form));
   };
-
+  
+ 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -105,15 +105,17 @@ export default function SignUp() {
               />
             </Grid>
           </Grid>
-          <Button
-            fullWidth
-            variant="contained"
-            color="primary"
-            onClick={handleAuthorization}
-            className={classes.submit}
-          >
-            Log In
-          </Button>
+          
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={handleAuthorization}
+              className={classes.submit}
+            >
+              Log In
+            </Button>
+         
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link href="#" variant="body2">
