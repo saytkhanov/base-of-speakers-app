@@ -17,6 +17,9 @@ const speakerSchema = new Schema(
     lastName: {
       type: String,
     },
+    cost: Number,
+    description: String,
+    avatar: String,
     gender: {
       type: String,
       enum: ["", "male", "female"],

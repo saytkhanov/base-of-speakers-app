@@ -17,7 +17,7 @@ function Main(props) {
           <Route path="/" exact>
             <HomePage />
           </Route>
-          <Route path="/auth" exact>
+          <Route path="/auth">
             <AuthPage />
           </Route>
           <Route path="/login">

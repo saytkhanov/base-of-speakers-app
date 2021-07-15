@@ -1,8 +1,15 @@
 const Voice = require("../models/Voice.model");
-const {mv} = require('express-fileupload')
 const path = require('path')
 
 module.exports.voicesControllers = {
+  getAllVoice: async (req, res) => {
+    try {
+      const getAllVoice = await Voice.find()
+      res.json(getAllVoice)
+    } catch (e) {
+      console.log(e.message)
+    }
+  },
   getVoicesById: async (req, res) => {
     try {
       const getVoices = await Voice.find({ speaker: req.params.id });
@@ -13,15 +20,17 @@ module.exports.voicesControllers = {
   },
   createVoice:  (req, res) => {
     const file = req.files.voice;
-    const fileName = `./public/${Math.random() * 10000}${path.extname(file.name)}`
+    const fileName = file.name
+    const url = path.resolve(__dirname, "../public/uploads/img/" + fileName)
+    const urlForDB = "/uploads/img/" + fileName
     try {
-      file.mv(fileName, async (err) => {
+      file.mv(url, async (err) => {
         if(err) {
           console.log(err)
         } else {
           const createVoice = await new Voice({
-            name: file.name,
-            audio: fileName,
+            name: fileName,
+            audio: urlForDB,
             speaker: req.user.id
           })
           await createVoice.save();
