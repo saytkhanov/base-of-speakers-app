@@ -2,6 +2,7 @@ import { applyMiddleware, combineReducers, createStore } from "redux";
 import categoryReducer from "./features/categories";
 import { createLogger } from "redux-logger/src";
 import speakerReducer from "./features/speakers";
+import voicesReducer from './features/voices'
 import thunk from "redux-thunk";
 
 const logger = createLogger({
@@ -12,7 +13,7 @@ const logger = createLogger({
 export const store = createStore(
   combineReducers({
     speakers: speakerReducer,
-    //voices: voicesReducer,
+    voices: voicesReducer,
     categories: categoryReducer,
     //reviews: reviewReducer,
   }),

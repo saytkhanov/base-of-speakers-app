@@ -18,14 +18,31 @@ module.exports.speakersController = {
           },
         },
         {
+          $lookup: {
+            from: "voices",
+            as: "lastVoice",
+            let: { speaker: "$_id" },
+            pipeline: [
+              { $match: { $expr: { $eq: ["speaker", "speaker"] } } },
+              { $sort: { createdAt: -1 } },
+              { $limit: 1 },
+            ],
+          },
+        },
+        {
           $project: {
             _id: 1,
             firstName: 1,
             lastName: 1,
             category: 1,
+            description: 1,
+            cost: 1,
+            avatar: 1,
             voices: 1,
+            lastVoice: 1,
           },
         },
+        { $unwind: { path: "$lastVoice", preserveNullAndEmptyArrays: true } },
       ]);
       res.json(getSpeakers);
     } catch (e) {
@@ -79,7 +96,7 @@ module.exports.speakersController = {
     }
   },
   registerSpeaker: async (req, res) => {
-    const { login, password, firstName, lastName, category } = req.body;
+    const { login, password, firstName, lastName, category, description, avatar, cost } = req.body;
     console.log(firstName);
     if (!login) {
       return res.status(401).json({
@@ -101,8 +118,12 @@ module.exports.speakersController = {
       const registerSpeaker = await new Speaker({
         login: login,
         password: hash,
-        firstName: firstName,
-        lastName: lastName,
+         firstName,
+         lastName,
+         category,
+        description,
+        cost,
+         avatar
       });
       await registerSpeaker.save();
       res.status(201).json({ message: "Диктор создан" });
