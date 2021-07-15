@@ -1,5 +1,4 @@
 import React from "react";
-import { Container } from "@material-ui/core";
 import { Switch, Route, Redirect } from "react-router-dom";
 import AuthPage from "../pages/AuthPage";
 import LoginPage from "../pages/LoginPage";
@@ -48,7 +47,7 @@ function Main(props) {
         <Redirect to="/" />
       </Switch>
     </main>
-  )
+  );
 }
 
 export default Main;

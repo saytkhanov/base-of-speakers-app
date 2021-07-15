@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-    backgroundColor: 'black'
+    backgroundColor: "black",
   },
 }));
 
@@ -64,16 +64,15 @@ export default function SignUp() {
   const handleAuthorization = () => {
     dispatch(authSpeaker(form));
   };
-  
- 
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar} style={{backgroundColor: 'black'}}>
+        <Avatar className={classes.avatar} style={{ backgroundColor: "black" }}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5" style={{fontWeight: "bold"}}>
+        <Typography component="h1" variant="h5" style={{ fontWeight: "bold" }}>
           Log In
         </Typography>
         <form className={classes.form} noValidate>
@@ -102,17 +101,17 @@ export default function SignUp() {
               />
             </Grid>
           </Grid>
-          
-            <Button
-              fullWidth
-              variant="contained"
-              color="primary"
-              onClick={handleAuthorization}
-              className={classes.submit}
-            >
-              Log In
-            </Button>
-         
+
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={handleAuthorization}
+            className={classes.submit}
+          >
+            Log In
+          </Button>
+
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link href="#" variant="body2" color="secondary">

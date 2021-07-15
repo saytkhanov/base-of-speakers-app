@@ -3,10 +3,11 @@ import {
   Box,
   Button,
   Container,
-  IconButton, Paper,
+  IconButton,
+  Paper,
   Toolbar,
   Typography,
-} from '@material-ui/core'
+} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import { makeStyles } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
@@ -15,17 +16,16 @@ import Categories from "./categories/Categories";
 import { useDispatch, useSelector } from "react-redux";
 import { tokenRemove } from "../redux/features/speakers";
 
-import Grid from '@material-ui/core/Grid'
-import React from 'react'
-import HeadsetMicIcon from '@material-ui/icons/HeadsetMic';
-
+import Grid from "@material-ui/core/Grid";
+import React from "react";
+import HeadsetMicIcon from "@material-ui/icons/HeadsetMic";
 
 const useStyles = makeStyles((theme) => ({
   nav: {
-    '&:hover': {
+    "&:hover": {
       color: "rgba(0,0,0, 0.3)",
-      textDecoration: 'none'
-    }
+      textDecoration: "none",
+    },
   },
   root: {
     flexGrow: 1,
@@ -33,20 +33,20 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(1),
     width: 50,
-    height: 50
+    height: 50,
   },
   title: {
     flexGrow: 1,
   },
   navLink: {
-    color: 'white',
+    color: "white",
     fontSize: 30,
-    fontWeight: 'bold',
-    '&:hover': {
+    fontWeight: "bold",
+    "&:hover": {
       color: "rgba(255,255,255, 0.8)",
-      textDecoration: 'none'
-    }
-  }
+      textDecoration: "none",
+    },
+  },
 }));
 
 function Header(props) {
@@ -56,59 +56,99 @@ function Header(props) {
   const dispatch = useDispatch();
   return (
     <>
-    <AppBar position="fixed" style={{backgroundColor: 'black'}}>
-      <Container fixed >
-        <Toolbar style={{height: 100}}>
-          <HeadsetMicIcon
-            edge="start"
-            className={classes.menuButton}
-            color="secondary"
-            aria-label="menu"
-          >
-            <MenuIcon />
-          </HeadsetMicIcon>
-          <Typography className={classes.title} variant="h6">
-            <NavLink className={classes.navLink} to="/">Base of Speakers</NavLink>
-          </Typography>
-          <Categories />
-        {token ? (
+      <AppBar position="fixed" style={{ backgroundColor: "black" }}>
+        <Container fixed>
+          <Toolbar style={{ height: 100 }}>
+            <HeadsetMicIcon
+              edge="start"
+              className={classes.menuButton}
+              color="secondary"
+              aria-label="menu"
+            >
+              <MenuIcon />
+            </HeadsetMicIcon>
+            <Typography className={classes.title} variant="h6">
+              <NavLink className={classes.navLink} to="/">
+                Base of Speakers
+              </NavLink>
+            </Typography>
+            <Categories />
+            {token ? (
               <Box mr={3}>
-                <NavLink style={{fontWeight: 'bold', color: 'black', textDecoration: 'none'}}  to="/profile">
-                  <Button style={{backgroundColor: 'white'}} variant="contained">
+                <NavLink
+                  style={{
+                    fontWeight: "bold",
+                    color: "black",
+                    textDecoration: "none",
+                  }}
+                  to="/profile"
+                >
+                  <Button
+                    style={{ backgroundColor: "white" }}
+                    variant="contained"
+                  >
                     Личный кабинет
                   </Button>
                 </NavLink>
               </Box>
-            ) : <Box mr={4}>
-          <NavLink style={{fontWeight: 'bold', color: 'black', textDecoration: 'none'}}  to="/login">
-          <Button style={{backgroundColor: 'white', fontWeight: 'bold'}} variant="contained">
-              Log In
-          </Button>
-          </NavLink>
-        </Box>}
-              {token ? (
+            ) : (
+              <Box mr={4}>
+                <NavLink
+                  style={{
+                    fontWeight: "bold",
+                    color: "black",
+                    textDecoration: "none",
+                  }}
+                  to="/login"
+                >
+                  <Button
+                    style={{ backgroundColor: "white", fontWeight: "bold" }}
+                    variant="contained"
+                  >
+                    Log In
+                  </Button>
+                </NavLink>
+              </Box>
+            )}
+            {token ? (
               <Box mr={3}>
                 <Button
                   color="secondary"
                   variant="contained"
                   onClick={() => dispatch(tokenRemove())}
                 >
-                  <NavLink  style={{fontWeight: 'bold', color: 'white', textDecoration: 'none'}}  to="/">Выйти</NavLink>
+                  <NavLink
+                    style={{
+                      fontWeight: "bold",
+                      color: "white",
+                      textDecoration: "none",
+                    }}
+                    to="/"
+                  >
+                    Выйти
+                  </NavLink>
                 </Button>
               </Box>
             ) : (
-                <Box mr={3}>
-          <Button color="secondary" variant="contained">
-            <NavLink  style={{fontWeight: 'bold', color: 'white', textDecoration: 'none'}}  to="/auth">
-              Sign Up
-            </NavLink>
-          </Button>
-                </Box>
-                )}
-        </Toolbar>
-      </Container>
-    </AppBar>
-      <Toolbar/>
+              <Box mr={3}>
+                <Button color="secondary" variant="contained">
+                  <NavLink
+                    style={{
+                      fontWeight: "bold",
+                      color: "white",
+                      textDecoration: "none",
+                    }}
+                    to="/auth"
+                  >
+                    Sign Up
+                  </NavLink>
+                </Button>
+              </Box>
+            )}
+          </Toolbar>
+        </Container>
+      </AppBar>
+      <Toolbar />
     </>
   );
 }

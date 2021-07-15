@@ -124,7 +124,7 @@ export const authSpeaker = (data) => {
 
       const json = await response.json();
 
-      if(json.error) {
+      if (json.error) {
         dispatch({
           type: "speakerById/load/rejected",
           error: "Необходимо ввести данные",
