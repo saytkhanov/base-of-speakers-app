@@ -1,4 +1,5 @@
 const Voice = require("../models/Voice.model");
+const {mv} = require('express-fileupload')
 const path = require('path')
 
 module.exports.voicesControllers = {
@@ -10,48 +11,46 @@ module.exports.voicesControllers = {
       console.log(e.message);
     }
   },
-  createVoice: async (req, res) => {
-
-    // if (!audio) {
-    //   return res.status(401).json({
-    //     error: "Необходимо выбрать файл",
-    //   });
-    // }
-    // if (!name) {
-    //   return res.status(401).json({
-    //     error: "Необходимо указать название",
-    //   });
-    // }
+  createVoice:  (req, res) => {
+    const file = req.files.voice;
+    const fileName = `./public/${Math.random() * 10000}${path.extname(file.name)}`
     try {
-      const createVoice = await Voice.create({
-        name,
-        audio,
-        speaker: req.user.id,
-      });
-      return res.json(createVoice);
-    } catch (e) {
-      console.log(e.message);
-    }
-  },
-  postVoice: async (req, res) => {
-    const voice = req.files.voice;
-    const newFileName = `./assets/${Math.random() * 10000}${path.extname(voice.name)}`
-    try {
-      const speaker = await Voice.findById(req.params.id);
-
-      speaker.voice = newFileName
-
-      voice.mv(newFileName, (err) => {
+      file.mv(fileName, async (err) => {
         if(err) {
-          console.log("Error")
+          console.log(err)
         } else {
-          res.json("Файл загружен")
+          const createVoice = await new Voice({
+            name: file.name,
+            audio: fileName,
+            speaker: req.user.id
+          })
+          await createVoice.save();
+          res.json("Запись успешно добавлена")
         }
-      })
+      });
     } catch (e) {
-
+      console.log(e.message)
     }
   },
+  // postVoice: async (req, res) => {
+  //   const voice = req.files.voice;
+  //   const newFileName = `./public/${Math.random() * 10000}${path.extname(voice.name)}`
+  //   try {
+  //     const speaker = await Voice.findById(req.params.id);
+  //
+  //     speaker.voice = newFileName
+  //
+  //     voice.mv(newFileName, (err) => {
+  //       if(err) {
+  //         console.log("Error")
+  //       } else {
+  //         res.json("Файл загружен")
+  //       }
+  //     })
+  //   } catch (e) {
+  //
+  //   }
+  // },
   deleteVoice: async (req, res) => {
     const { id } = req.params;
     try {
