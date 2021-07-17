@@ -48,6 +48,9 @@ function Main(props) {
         <Route path="/login">
           <LoginPage />
         </Route>
+        <Route path='/showAll'>
+          <CategoryAndSearchHeader/>
+        </Route>
         <Redirect to="/" />
       </Switch>
     </main>
