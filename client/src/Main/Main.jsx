@@ -5,6 +5,7 @@ import LoginPage from "../pages/LoginPage";
 import { useSelector } from "react-redux";
 import HomePage from "../pages/HomePage";
 import Profile from "../Profile/Profile";
+import CategoryAndSearchHeader from '../components/categories/CategoryAndSearchHeader'
 
 function Main(props) {
   const token = useSelector((state) => state.speakers.token);
@@ -22,6 +23,9 @@ function Main(props) {
           </Route>
           <Route path="/login">
             <LoginPage />
+          </Route>
+          <Route path='/showAll'>
+            <CategoryAndSearchHeader/>
           </Route>
           <Redirect to="/" />
         </Switch>

@@ -72,7 +72,11 @@ function Header(props) {
                 Base of Speakers
               </NavLink>
             </Typography>
-            <Categories />
+            <Box mr={4}>
+            <Button color="inherit" variant="outlined" style={{backgroundColor: 'white'}}>
+              <NavLink style={{ color: 'black', fontWeight: 'bold', textDecoration: 'none'}} to={`/`}>Home</NavLink>
+            </Button>
+            </Box>
             {token ? (
               <Box mr={3}>
                 <NavLink
