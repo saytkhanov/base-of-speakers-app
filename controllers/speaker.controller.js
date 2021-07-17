@@ -1,7 +1,7 @@
 const Speaker = require("../models/Speaker.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const path = require('path')
+const path = require("path");
 
 module.exports.speakersController = {
   getAllSpeakers: async (req, res) => {
@@ -86,17 +86,26 @@ module.exports.speakersController = {
       const getRandomSpeakers = await Speaker.aggregate([
         {
           $sample: {
-            size: 6
-          }
-        }
-      ])
-      res.json(getRandomSpeakers)
+            size: 6,
+          },
+        },
+      ]);
+      res.json(getRandomSpeakers);
     } catch (e) {
-      console.log(e.message)
+      console.log(e.message);
     }
   },
   registerSpeaker: async (req, res) => {
-    const { login, password, firstName, lastName, category, description, avatar, cost } = req.body;
+    const {
+      login,
+      password,
+      firstName,
+      lastName,
+      category,
+      description,
+      avatar,
+      cost,
+    } = req.body;
     console.log(firstName);
     if (!login) {
       return res.status(401).json({
@@ -118,12 +127,12 @@ module.exports.speakersController = {
       const registerSpeaker = await new Speaker({
         login: login,
         password: hash,
-         firstName,
-         lastName,
-         category,
+        firstName,
+        lastName,
+        category,
         description,
         cost,
-         avatar
+        avatar,
       });
       await registerSpeaker.save();
       res.status(201).json({ message: "Диктор создан" });
@@ -157,5 +166,18 @@ module.exports.speakersController = {
     res.json({
       token,
     });
+  },
+  getSpeakerByIdFromParams: async (req, res) => {
+    try {
+      const getSpeaker = await Speaker.findById(req.params.id);
+      if (!getSpeaker) {
+        return res.status(401).json({
+          error: "Диктор с таким ID не найден",
+        });
+      }
+      res.json(getSpeaker);
+    } catch (e) {
+      console.log(e.message);
+    }
   },
 };

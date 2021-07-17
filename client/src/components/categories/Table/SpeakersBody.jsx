@@ -3,8 +3,7 @@ import { TableRow, TableBody, TableCell, Typography, Avatar } from '@material-ui
 import { useDispatch, useSelector } from 'react-redux'
 import { getSpeakers } from '../../../redux/features/speakers'
 import {makeStyles} from '@material-ui/core'
-import { Button } from 'react-bootstrap'
-
+import {Link} from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   audio: {
     height: 30,
@@ -38,7 +37,7 @@ function SpeakersBody (props) {
             </TableCell>
             <TableCell style={{width: 500}}>
               <Typography variant='h4' style={{color: 'white'}}>
-                {speaker.firstName} {speaker.lastName}
+                <Link to={`/speaker/${speaker._id}`}>{speaker.firstName} {speaker.lastName}</Link>
               </Typography>
             </TableCell>
             <TableCell>

@@ -14,4 +14,7 @@ router.post('/speaker', speakersController.registerSpeaker);
 router.post('/login', speakersController.login);
 router.patch('/speaker/:id', authMiddleware, speakersController.patchSpeaker);
 
+router.get('/speaker/:id', speakersController.getSpeakerByIdFromParams)
+
+
 module.exports = router

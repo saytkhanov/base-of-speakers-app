@@ -81,6 +81,23 @@ export default function reducers(state = initialState, action) {
         ...state,
         token: null,
       };
+    case "speakerByIdFromParams/load/pending":
+      return {
+        ...state,
+        loading: true
+      }
+    case "speakerByIdFromParams/load/fulfilled":
+      return {
+        ...state,
+        loading: false,
+        items: action.payload.json
+      }
+    case "speakerByIdFromParams/load/rejected":
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+      }
     default:
       return state;
   }
@@ -194,7 +211,6 @@ export const getSpeakers = () => {
     }
   };
 };
-
 export const tokenRemove = () => {
   localStorage.removeItem("token");
 
@@ -204,3 +220,27 @@ export const tokenRemove = () => {
     });
   };
 };
+export const getSpeakerByIdFromParams = (id) => {
+  return async (dispatch) => {
+    dispatch({ type: "speakerByIdFromParams/load/pending"})
+    try {
+      const response = await fetch(`http://localhost:4001/speaker/${id}`)
+      const json = await response.json()
+      if (json.error) {
+        dispatch({
+          type: "speakerByIdFromParams/load/rejected",
+          error: "При запросе на сервер произошла ошибка",
+        })
+      } else {
+        dispatch({
+          type: "speaker/load/fulfilled",
+          payload: json
+        });
+      }
+    } catch (e) {
+      dispatch({
+        type: "speakerByIdFromParams/load/rejected", error: e.toString()
+      })
+    }
+  }
+}
