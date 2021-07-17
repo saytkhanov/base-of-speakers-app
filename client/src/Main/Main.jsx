@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import HomePage from "../pages/HomePage";
 import Profile from "../Profile/Profile";
 import CategoryAndSearchHeader from '../components/categories/CategoryAndSearchHeader'
+import SpeakerById from "../components/categories/Table/SpeakerById";
 
 function Main(props) {
   const token = useSelector((state) => state.speakers.token);
@@ -26,6 +27,9 @@ function Main(props) {
           </Route>
           <Route path='/showAll'>
             <CategoryAndSearchHeader/>
+          </Route>
+          <Route path='/speaker/:id'>
+            <SpeakerById/>
           </Route>
           <Redirect to="/" />
         </Switch>
