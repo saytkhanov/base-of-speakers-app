@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getSpeakers } from '../../../redux/features/speakers'
 import {makeStyles} from '@material-ui/core'
 import {Link} from "react-router-dom";
-
 const useStyles = makeStyles((theme) => ({
   audio: {
     height: 30,
@@ -47,9 +46,14 @@ function SpeakersBody (props) {
                 </audio>
               </div>
             </TableCell>
-            {/*<TableCell>*/}
-            {/*  <Avatar src={speaker.avatar}/>*/}
-            {/*</TableCell>*/}
+            <TableCell>
+              <Typography style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}> от {speaker.cost}</Typography>
+            </TableCell>
+            <TableCell>
+              <Button style={{backgroundColor: '#f50057', fontWeight: 'bold'}}>
+                Заказать
+              </Button>
+            </TableCell>
             {/*<TableCell>*/}
             {/*  <Avatar src={speaker.avatar}/>*/}
             {/*</TableCell>*/}

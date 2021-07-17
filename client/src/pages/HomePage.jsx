@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     height: 30,
     marginTop: 30,
     "&::-webkit-media-controls-panel": {
-  backgroundColor: '#f50057',
+  backgroundColor: '#f50057'
 },
    "&::-webkit-media-controls-current-time-display": {
      color: 'white'
@@ -111,15 +111,6 @@ function HomePage(props) {
       <div style={{ height: 20, backgroundColor: "black" }}></div>
       <Carousel>
         {speakers.map(speaker => {
-          console.log(speaker.lastVoice?.audio)
-          const elem = voices.find(voice => {
-            if(voice._id === speaker.lastVoice?.speaker) {
-              return voice
-            }
-            return voice
-          })
-          console.log(elem)
-          console.log(elem?.name)
           return(
             <Carousel.Item
               style={{
@@ -149,7 +140,7 @@ function HomePage(props) {
                   <div className={classes.blockInfo}>
                     <div style={{marginTop: 50}}><Typography variant={'h4'} style={{color: 'white'}}>{speaker.firstName} {speaker.lastName}</Typography></div>
                     <div >
-                      <audio className={classes.audio} src={elem?.audio} controls>
+                      <audio className={classes.audio} src={speaker.lastVoice?.audio} controls>
                     </audio>
                     </div>
                     <div style={{marginTop: 20}}><Typography style={{color: 'white', marginRight: 25}}>{speaker.description}</Typography></div>

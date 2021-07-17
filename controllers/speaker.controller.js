@@ -23,7 +23,7 @@ module.exports.speakersController = {
             as: "lastVoice",
             let: { speaker: "$_id" },
             pipeline: [
-              { $match: { $expr: { $eq: ["speaker", "speaker"] } } },
+              { $match: { $expr: { $eq: ["$speaker", "$$speaker"] } } },
               { $sort: { createdAt: -1 } },
               { $limit: 1 },
             ],
