@@ -5,7 +5,8 @@ import { Button, Container, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import { Carousel } from "react-bootstrap";
+import { Carousel } from 'react-bootstrap'
+import {NavLink} from 'react-router-dom'
 import { getVoices } from '../redux/features/voices'
 
 const useStyles = makeStyles((theme) => ({
@@ -219,6 +220,7 @@ function HomePage(props) {
       <div
         style={{ height: 80, backgroundColor: "black", textAlign: "center" }}
       >
+        <NavLink style={{textDecoration: 'none'}} to='/showAll'>
         <Button
           fullWidth
           variant="contained"
@@ -227,6 +229,7 @@ function HomePage(props) {
         >
           Show all speakers
         </Button>
+        </NavLink>
       </div>
     </>
   );
