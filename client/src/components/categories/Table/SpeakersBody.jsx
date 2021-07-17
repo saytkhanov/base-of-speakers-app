@@ -3,6 +3,7 @@ import { TableRow, TableBody, TableCell, Typography, Avatar } from '@material-ui
 import { useDispatch, useSelector } from 'react-redux'
 import { getSpeakers } from '../../../redux/features/speakers'
 import {makeStyles} from '@material-ui/core'
+import { Button } from 'react-bootstrap'
 
 const useStyles = makeStyles((theme) => ({
   audio: {
@@ -46,9 +47,14 @@ function SpeakersBody (props) {
                 </audio>
               </div>
             </TableCell>
-            {/*<TableCell>*/}
-            {/*  <Avatar src={speaker.avatar}/>*/}
-            {/*</TableCell>*/}
+            <TableCell>
+              <Typography style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}> от {speaker.cost}</Typography>
+            </TableCell>
+            <TableCell>
+              <Button style={{backgroundColor: '#f50057', fontWeight: 'bold'}}>
+                Заказать
+              </Button>
+            </TableCell>
             {/*<TableCell>*/}
             {/*  <Avatar src={speaker.avatar}/>*/}
             {/*</TableCell>*/}
