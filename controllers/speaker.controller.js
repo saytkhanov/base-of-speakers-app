@@ -37,6 +37,7 @@ module.exports.speakersController = {
             category: 1,
             description: 1,
             cost: 1,
+            gender: 1,
             avatar: 1,
             voices: 1,
             lastVoice: 1,
