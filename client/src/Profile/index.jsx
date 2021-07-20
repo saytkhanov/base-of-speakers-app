@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { speakerById, uploadAvatar } from '../redux/features/speakers'
+import { speakerById } from "../redux/features/speakers";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
@@ -9,14 +9,13 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import MicIcon from "@material-ui/icons/Mic";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import { Avatar, Container, Fab, Paper, TextField, Typography } from '@material-ui/core'
+import { Avatar, Container, Paper, TextField, Typography } from '@material-ui/core'
 import { Button } from "@material-ui/core";
 import Box from '@material-ui/core/Box'
 import Grid from '@material-ui/core/Grid'
-import EditIcon from "@material-ui/icons/Edit";
 import { NavLink } from 'react-router-dom'
+import Edit from './Edit'
 import { getVoices } from '../redux/features/voices'
-import AddIcon from "@material-ui/icons/Add";
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -65,36 +64,16 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
     backgroundColor: "rgba(0,0,0,.3)",
   },
-  audio: {
-    height: 50,
-    marginTop: 30,
-    width: 500,
-    "&::-webkit-media-controls-panel": {
-      backgroundColor: '#f50057'
-    },
-    "&::-webkit-media-controls-current-time-display": {
-      color: 'white'
-    }
-  },
-  add: {
-    position: 'fixed',
-    bottom: 30,
-    right: 300
-  },
-  edit: {
-    position: 'fixed',
-    bottom: 30,
-  },
   hover: {
 
   }
 }));
 
-function Profile({setIsEditing}) {
+function Profile() {
   const dispatch = useDispatch();
   const speaker = useSelector((state) => state.speakers.items);
   const voices = useSelector(state => state.voices.items)
-  const [avatar, setAvatar] = useState(null)
+
   useEffect(() => {
     dispatch(getVoices())
   }, [dispatch])
@@ -105,78 +84,50 @@ function Profile({setIsEditing}) {
 
   const classes = useStyles();
 
-  const handleUploadAvatar = (e) => {
-    setAvatar(e.target.files[0])
-  }
-
-  const handleSub = () => {
-    dispatch(uploadAvatar(avatar))
-  }
- // const handleChange = (e) => {
- //   dispatch(uploadAvatar({avatar}))
- //  }
-
-
   return (
-            <div className={classes.content}>
-                 <div className={classes.dataWidth}>
-                   <Box>
-                     {/*<Avatar src={speaker.avatar} style={{width: 200, height: 200, borderRadius: 0, marginRight: 30}}/>*/}
-                     <input accept='image/*' type='file' onChange={handleUploadAvatar}/>
-                     <Button onClick={handleSub}>UP</Button>
-                   </Box>
-              <Box>
-             <h2 style={{color: 'white'}}>
-               {" "}
-               {speaker.firstName} {}
-              {speaker.lastName}
-               </h2>
-                   <Box>
-                 <Typography style={{color: 'white', fontSize: 25, marginTop: 90}}>
-                    Цена: от {speaker.cost} ₽
-                  </Typography>
-                 </Box>
-               </Box>
-                 {/* <Button>
-             <EditIcon />
-          </Button> */}
-                 </div>
-                  <div>
-                   <Typography style={{color: 'white', marginLeft: 230, fontSize: 20}}>
-                    {speaker.description}
-                   </Typography>
+    <Paper className={classes.mainFeaturesPost} style={{backgroundImage: `url(https://images.wallpaperscraft.ru/image/mikrofon_oborudovanie_temnyj_fon_121814_1920x1080.jpg)`}}>
+      <Container fixed>
+        <div className={classes.overlay}/>
+        <Grid container>
+          <Grid item md={12}>
+            <div className={classes.mainFeaturesPostContent}>
+              <div className={classes.root}>
+                <Edit voices={voices}/>
+                <div
+                  className={classes.drawer}
+                  classes={{
+                    paper: classes.drawerPaper,
+                  }}
+                >
+                  <div className={classes.drawerContainer}>
+                    <List className={classes.hover} >
+                      <ListItem button>
+                        <ListItemText style={{color: 'white'}}>
+                          Личные данные
+                        </ListItemText>
+                        <ListItemIcon style={{color: 'white'}}>
+                          <AccountCircleIcon />
+                        </ListItemIcon>
+                      </ListItem>
+                    </List>
+                    <List className={classes.hover} >
+                      <ListItem button>
+                        <ListItemText style={{color: 'white'}}>
+                          Аудиозаписи
+                        </ListItemText>
+                        <ListItemIcon style={{color: 'white'}}>
+                          <MicIcon />
+                        </ListItemIcon>
+                      </ListItem>
+                    </List>
                   </div>
-              {voices.map(voice => {
-                return(
-                  <div style={{marginLeft: 300, marginTop: 30}}>
-                    <audio
-                      className={classes.audio}
-                      src={voice.audio}
-                      controls
-                    ></audio>
-                  </div>
-                )
-              })}
-              <Grid item  classes={{root: classes.add}}>
-                <Fab style={{backgroundColor: 'black', color: 'white'}} aria-label="add" >
-                  <AddIcon />
-                </Fab>
-              </Grid>
-              <Grid item  classes={{root: classes.edit}}>
-              <Fab style={{backgroundColor: 'black',
-
-                color: 'white'
-              }} aria-label="edit" onClick={() => setIsEditing(true)}>
-                <EditIcon  />
-              </Fab>
-              </Grid>
-              {/*<p>Телефон</p>*/}
-                {/*<div style={{ display: "flex" }}>*/}
-                {/*  <p>Не указан</p>*/}
-               {/*  <Button color="primary">Добавить</Button>*/}
-                 {/*  <div></div>*/}
-                 {/*</div>*/}
-             </div>
+                </div>
+              </div>
+            </div>
+          </Grid>
+        </Grid>
+      </Container>
+    </Paper>
     // <div style={{width: '100%', height: 750, backgroundImage: `url(https://images.wallpaperscraft.ru/image/mikrofon_zvuk_muzyka_108048_1920x1080.jpg)`}}>
     // <Container style={{marginTop: 30}}>
     //   <Paper style={{height: 750,backgroundImage: `url(https://images.wallpaperscraft.ru/image/mikrofon_zvuk_muzyka_108048_1920x1080.jpg)`}}>

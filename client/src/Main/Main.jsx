@@ -7,6 +7,7 @@ import HomePage from "../pages/HomePage";
 import Profile from "../Profile/Profile";
 import CategoryAndSearchHeader from '../components/categories/CategoryAndSearchHeader'
 import SpeakerById from "../components/categories/Table/SpeakerById";
+import Index from '../Profile/index'
 
 function Main(props) {
   const token = useSelector((state) => state.speakers.token);
@@ -44,7 +45,7 @@ function Main(props) {
           <HomePage />
         </Route>
         <Route path="/profile">
-          <Profile />
+          <Index/>
         </Route>
         <Route path="/auth">
           <AuthPage />

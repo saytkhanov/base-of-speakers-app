@@ -14,7 +14,7 @@ import {
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import { getVoices } from "../../../redux/features/voices";
-import Footer from "./Footer";
+import Footer from "../../Footer";
 
 const useStyles = makeStyles((theme) => ({
   audio: {

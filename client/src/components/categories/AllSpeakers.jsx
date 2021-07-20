@@ -32,7 +32,7 @@ function AllSpeakers({ speakersResults, gender }) {
   const speakers = speakersResults.filter((item) => {
     if (!gender) return true;
     if (gender === "Мужской") return item.gender === "male";
-    if (gender === "Мужской") return item.gender === "female";
+    if (gender === "Женский") return item.gender === "female";
   });
   console.log(speakers);
 

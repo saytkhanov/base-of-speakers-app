@@ -57,6 +57,7 @@ export default function SignUp() {
     lastName: "",
     login: "",
     password: "",
+    gender: ""
   });
 
   const changeHandler = (ev) => {
@@ -102,6 +103,31 @@ export default function SignUp() {
                 onChange={changeHandler}
                 autoComplete="lname"
               />
+            </Grid>
+            <Grid item xs={12} sm={6} style={{display: 'flex', justifyContent: 'space-between'}}>
+              <input
+                required
+                type='radio'
+                id="gender"
+                name="gender"
+                value="male"
+                onChange={changeHandler}
+                autoComplete="lname"
+              /><Typography>
+              Мужской
+            </Typography>
+              <input
+                required
+                type='radio'
+                id="gender"
+                name="gender"
+                value="female"
+                onChange={changeHandler}
+                autoComplete="lname"
+              />
+              <Typography>
+                Женский
+              </Typography>
             </Grid>
             <Grid item xs={12}>
               <TextField

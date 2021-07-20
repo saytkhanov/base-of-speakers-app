@@ -145,7 +145,7 @@ function HomePage(props) {
                     </div>
                     <div style={{marginTop: 20}}><Typography style={{color: 'white', marginRight: 25}}>{speaker.description}</Typography></div>
                     <div style={{marginTop: 25}}><Typography variant={'h6'} style={{color: 'white'}}>Количество работ: {speaker.voices?.length}</Typography></div>
-                    <div style={{textAlign: 'end', marginRight: 30, marginTop: 20}}><Typography variant={'h6'} style={{color: 'white'}}> Цена: от {speaker.cost}</Typography></div>
+                    <div style={{textAlign: 'end', marginRight: 30, marginTop: 20}}><Typography variant={'h6'} style={{color: 'white'}}> Цена: от {speaker.cost}₽</Typography></div>
                   </div>
                 </div>
               </div>

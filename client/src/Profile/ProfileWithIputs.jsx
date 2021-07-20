@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from "react-redux";
-import { speakerById, uploadAvatar } from '../redux/features/speakers'
+import { patchSpeaker, speakerById } from '../redux/features/speakers'
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
@@ -17,6 +17,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import { NavLink } from 'react-router-dom'
 import { getVoices } from '../redux/features/voices'
 import AddIcon from "@material-ui/icons/Add";
+import SaveIcon from "@material-ui/icons/Save";
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -87,6 +88,10 @@ const useStyles = makeStyles((theme) => ({
   },
   hover: {
 
+  },
+  first: {
+    color: 'white',
+    borderColor: 'white'
   }
 }));
 
@@ -94,7 +99,10 @@ function Profile({setIsEditing}) {
   const dispatch = useDispatch();
   const speaker = useSelector((state) => state.speakers.items);
   const voices = useSelector(state => state.voices.items)
-  const [avatar, setAvatar] = useState(null)
+
+
+
+
   useEffect(() => {
     dispatch(getVoices())
   }, [dispatch])
@@ -103,80 +111,126 @@ function Profile({setIsEditing}) {
     dispatch(speakerById());
   }, [dispatch]);
 
+  const [firstName, setFirstName] = useState(speaker.firstName)
+  const [lastName, setLastName] = useState(speaker.lastName);
+  const [description, setDescription] = useState(speaker.description)
+  const [cost, setCost] = useState(speaker.cost)
+
+
+  const handleChangeFirstName = (e => {
+    setFirstName(e.target.value)
+  })
+
+  const handleChangeCost = (e => {
+    setCost(e.target.value)
+  })
+
+  const handleChangeDescription =(e) => {
+    setDescription(e.target.value)
+  }
+
+  const handleEdit = () => {
+    dispatch(patchSpeaker({firstName, lastName, cost, description}))
+
+    setIsEditing(false)
+  }
   const classes = useStyles();
 
-  const handleUploadAvatar = (e) => {
-    setAvatar(e.target.files[0])
-  }
-
-  const handleSub = () => {
-    dispatch(uploadAvatar(avatar))
-  }
- // const handleChange = (e) => {
- //   dispatch(uploadAvatar({avatar}))
- //  }
-
-
   return (
-            <div className={classes.content}>
-                 <div className={classes.dataWidth}>
-                   <Box>
-                     {/*<Avatar src={speaker.avatar} style={{width: 200, height: 200, borderRadius: 0, marginRight: 30}}/>*/}
-                     <input accept='image/*' type='file' onChange={handleUploadAvatar}/>
-                     <Button onClick={handleSub}>UP</Button>
-                   </Box>
-              <Box>
-             <h2 style={{color: 'white'}}>
-               {" "}
-               {speaker.firstName} {}
-              {speaker.lastName}
-               </h2>
-                   <Box>
-                 <Typography style={{color: 'white', fontSize: 25, marginTop: 90}}>
-                    Цена: от {speaker.cost} ₽
-                  </Typography>
-                 </Box>
-               </Box>
-                 {/* <Button>
+                <div className={classes.content}>
+                  <div className={classes.dataWidth}>
+                    <form>
+                      <Avatar src={speaker.avatar} style={{width: 200, height: 200, borderRadius: 0, marginRight: 30}}/>
+                      <input type='file' style={{width: 200, height: 200}}/>
+                    </form>
+                    <Box>
+                      <TextField value={firstName }
+                                 variant={"outlined"}
+                                 className={{root: classes.first}}
+                                 margin="normal"
+                                 multiline
+                                 fullWidth
+                                 InputLabelProps={{
+                                   shrink: true,
+                                 }}
+                                 onChange={handleChangeFirstName}>
+                        {speaker.firstName} {}
+                        {speaker.lastName}
+                      </TextField>
+                      <Box>
+
+                        <Typography style={{color: 'white', fontSize: 25, marginTop: 90}}>
+                          Цена: от
+                          <TextField value={cost }
+                                     variant={"outlined"}
+                                     className={{root: classes.first}}
+                                     margin="normal"
+                                     multiline
+                                     fullWidth
+                                     InputLabelProps={{
+                                       shrink: true,
+                                     }}
+                                     onChange={handleChangeCost}
+                          >
+                          {speaker.cost}
+                          </TextField>₽
+                        </Typography>
+                      </Box>
+                    </Box>
+                    {/* <Button>
              <EditIcon />
           </Button> */}
-                 </div>
+                  </div>
                   <div>
-                   <Typography style={{color: 'white', marginLeft: 230, fontSize: 20}}>
-                    {speaker.description}
-                   </Typography>
+                    <Typography style={{color: 'white', marginLeft: 230, fontSize: 20}}>
+                      <TextField value={description}
+                                 variant={"outlined"}
+                                 className={{root: classes.first}}
+                                 margin="normal"
+                                 multiline
+                                 fullWidth
+                                 InputLabelProps={{
+                                   shrink: true,
+                                 }}
+                                 onChange={handleChangeDescription}
+                      >
+                      {speaker.description}
+                      </TextField>
+                    </Typography>
                   </div>
-              {voices.map(voice => {
-                return(
-                  <div style={{marginLeft: 300, marginTop: 30}}>
-                    <audio
-                      className={classes.audio}
-                      src={voice.audio}
-                      controls
-                    ></audio>
-                  </div>
-                )
-              })}
-              <Grid item  classes={{root: classes.add}}>
-                <Fab style={{backgroundColor: 'black', color: 'white'}} aria-label="add" >
-                  <AddIcon />
-                </Fab>
-              </Grid>
-              <Grid item  classes={{root: classes.edit}}>
-              <Fab style={{backgroundColor: 'black',
-
-                color: 'white'
-              }} aria-label="edit" onClick={() => setIsEditing(true)}>
-                <EditIcon  />
-              </Fab>
-              </Grid>
-              {/*<p>Телефон</p>*/}
-                {/*<div style={{ display: "flex" }}>*/}
-                {/*  <p>Не указан</p>*/}
-               {/*  <Button color="primary">Добавить</Button>*/}
-                 {/*  <div></div>*/}
-                 {/*</div>*/}
-             </div>
+                  {voices.map(voice => {
+                    return(
+                      <div style={{marginLeft: 300, marginTop: 30}}>
+                        <audio
+                          className={classes.audio}
+                          src={voice.audio}
+                          controls
+                        ></audio>
+                      </div>
+                    )
+                  })}
+                  <Grid item  classes={{root: classes.add}}>
+                    <Fab style={{backgroundColor: 'black', color: 'white'}} aria-label="add" >
+                      <AddIcon />
+                    </Fab>
+                  </Grid>
+                  <Grid item  classes={{root: classes.edit}}>
+                    <Fab
+                      style={{ backgroundColor: "black", color: "white" }}
+                      aria-label="edit"
+                      onClick={handleEdit}
+                      // disabled={editing}
+                    >
+                      <SaveIcon />
+                    </Fab>
+                  </Grid>
+                  {/*<p>Телефон</p>*/}
+                  {/*<div style={{ display: "flex" }}>*/}
+                  {/*  <p>Не указан</p>*/}
+                  {/*  <Button color="primary">Добавить</Button>*/}
+                  {/*  <div></div>*/}
+                  {/*</div>*/}
+              </div>
     // <div style={{width: '100%', height: 750, backgroundImage: `url(https://images.wallpaperscraft.ru/image/mikrofon_zvuk_muzyka_108048_1920x1080.jpg)`}}>
     // <Container style={{marginTop: 30}}>
     //   <Paper style={{height: 750,backgroundImage: `url(https://images.wallpaperscraft.ru/image/mikrofon_zvuk_muzyka_108048_1920x1080.jpg)`}}>
