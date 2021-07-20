@@ -15,8 +15,9 @@ import Box from '@material-ui/core/Box'
 import Grid from '@material-ui/core/Grid'
 import EditIcon from "@material-ui/icons/Edit";
 import { NavLink } from 'react-router-dom'
-import { getVoices } from '../redux/features/voices'
+import { deleteVoice, getVoices, uploadVoice } from '../redux/features/voices'
 import AddIcon from "@material-ui/icons/Add";
+import DeleteIcon from '@material-ui/icons/Delete'
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -94,7 +95,8 @@ function Profile({setIsEditing}) {
   const dispatch = useDispatch();
   const speaker = useSelector((state) => state.speakers.items);
   const voices = useSelector(state => state.voices.items)
-  const [avatar, setAvatar] = useState(null)
+  const [avatar, setAvatar] = useState('')
+  // const [file, setFile] = useState('')
   useEffect(() => {
     dispatch(getVoices())
   }, [dispatch])
@@ -105,26 +107,40 @@ function Profile({setIsEditing}) {
 
   const classes = useStyles();
 
-  const handleUploadAvatar = (e) => {
-    setAvatar(e.target.files[0])
+  // const handleUploadAvatar = (e) => {
+  //   setAvatar(e.target.files[0])
+  // }
+  //
+  // const handleAdd = () => {
+  //   dispatch(uploadVoice(avatar))
+  // }
+  function changeHandler(e) {
+    const file = e.target.files[0]
+    dispatch(uploadAvatar(file))
   }
 
-  const handleSub = () => {
-    dispatch(uploadAvatar(avatar))
-  }
+ const handleUploadVoice = e => {
+    const file = e.target.files[0]
+   const fileName = e.target.files[0].name
+   dispatch(uploadVoice(file, fileName))
+ }
  // const handleChange = (e) => {
  //   dispatch(uploadAvatar({avatar}))
  //  }
-
+ //  const sub = e => {
+ //    const formData = new FormData()
+ //    formData.append('file', file)
+ //    dispatch(uploadVoice({file, avatar}))
+ //  }
 
   return (
             <div className={classes.content}>
                  <div className={classes.dataWidth}>
-                   <Box>
-                     {/*<Avatar src={speaker.avatar} style={{width: 200, height: 200, borderRadius: 0, marginRight: 30}}/>*/}
-                     <input accept='image/*' type='file' onChange={handleUploadAvatar}/>
-                     <Button onClick={handleSub}>UP</Button>
-                   </Box>
+                   <form >
+                     <Avatar src={speaker.avatar} style={{width: 200, height: 200, borderRadius: 0, marginRight: 30}}/>
+                     <input accept="image/*" onChange={e => changeHandler(e)} type="file" placeholder="Загрузить аватар"/>
+                     {/*<Button onClick={handleAdd}>UP</Button>*/}
+                   </form>
               <Box>
              <h2 style={{color: 'white'}}>
                {" "}
@@ -154,9 +170,16 @@ function Profile({setIsEditing}) {
                       src={voice.audio}
                       controls
                     ></audio>
+                      <Fab style={{backgroundColor: '#4c4dc3',
+
+                        color: 'white'
+                      }} aria-label="edit" onClick={() => dispatch(deleteVoice(voice._id))}>
+                        <DeleteIcon  />
+                      </Fab>
                   </div>
                 )
               })}
+              <form><input type="file" onChange={e => handleUploadVoice(e)}/></form>
               <Grid item  classes={{root: classes.add}}>
                 <Fab style={{backgroundColor: 'black', color: 'white'}} aria-label="add" >
                   <AddIcon />

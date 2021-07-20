@@ -19,7 +19,7 @@ module.exports.voicesControllers = {
     }
   },
   createVoice:  (req, res) => {
-    const file = req.files.voice;
+    const file = req.files.file;
     const fileName = file.name
     const url = path.resolve(__dirname, "../public/uploads/img/" + fileName)
     const urlForDB = "/uploads/img/" + fileName
