@@ -1,20 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getSpeakerByIdFromParams } from "../../../redux/features/speakers";
 import Box from "@material-ui/core/Box";
 import {
-  Avatar, Button,
+  Avatar,
+  Button,
   makeStyles,
-  TableBody,
   TableCell,
-  TableRow,
   Typography,
 } from "@material-ui/core";
+import Rating from "@material-ui/lab/Rating";
+import StarBorderIcon from "@material-ui/icons/StarBorder";
+
+import FormatQuoteIcon from "@material-ui/icons/FormatQuote";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import { getVoices } from "../../../redux/features/voices";
 import Footer from "../../Footer";
+import { addReview, loadReviews } from "../../../redux/features/reviews";
+import { addRating, loadRatings } from "../../../redux/features/ratings";
 
 const useStyles = makeStyles((theme) => ({
   audio: {
@@ -43,13 +48,21 @@ const useStyles = makeStyles((theme) => ({
   voicesBlock: {
     textAlign: "center",
     width: "80%",
-    margin: "auto"
+    margin: "auto",
   },
   cost: {
     margin: "auto",
     marginTop: "5%",
-    paddingBottom: "3%"
-  }
+    paddingBottom: "3%",
+  },
+  reviews: {
+    width: 500,
+    height: 200,
+    backgroundColor: "white",
+    borderRadius: "5px ",
+    margin: "auto",
+    marginBottom: 20,
+  },
 }));
 
 function SpeakerById(props) {
@@ -60,11 +73,55 @@ function SpeakerById(props) {
   const dispatch = useDispatch();
   const speaker = useSelector((state) => state.speakers.items);
   const voices = useSelector((state) => state.voices.items);
+  const reviews = useSelector((state) =>
+    state.reviews.items.filter((review) => review.speaker === id)
+  );
+  const ratings = useSelector((state) => {
+    const getRatingBySpeakerId = state.ratings.items.filter(
+      (item) => item.speaker === id
+    );
 
+    if (getRatingBySpeakerId.length === 0) {
+      return 0;
+    }
+    return (
+      getRatingBySpeakerId.reduce((value, item) => {
+        if (!item.rating) {
+          return 0;
+        }
+        return item.rating + value;
+      }, 0) / getRatingBySpeakerId.length
+    );
+  });
+
+  const fixRating = ratings.toFixed(1);
+
+  const [openForm, setOpenForm] = useState(false);
+  const [form, setForm] = useState({
+    username: "",
+    text: "",
+  });
+  const [rating, setRating] = useState({
+    rating: 1,
+  });
+
+  const handleChange = (ev) => {
+    setForm({ ...form, [ev.target.name]: ev.target.value });
+    setRating({ ...rating, rating: ev.target.value });
+  };
+  const handleaddRating = (ev) => {
+    dispatch(addRating(id, rating));
+    console.log(ev.target.value);
+  };
+
+  const handleAddReview = () => {
+    dispatch(addReview(id, form));
+    setOpenForm(false);
+  };
   useEffect(() => dispatch(getSpeakerByIdFromParams(id)), [dispatch]);
   useEffect(() => dispatch(getVoices()), [dispatch]);
-
-  console.log(speaker)
+  useEffect(() => dispatch(loadReviews()), [dispatch]);
+  useEffect(() => dispatch(loadRatings()), [dispatch]);
 
   return (
     <>
@@ -105,9 +162,9 @@ function SpeakerById(props) {
                     {speaker.firstName} {speaker.lastName}
                   </Typography>
                   <Typography
-                      classes={{ root: classes.firstName }}
-                      variant="h6"
-                      style={{ color: "white" }}
+                    classes={{ root: classes.firstName }}
+                    variant="h6"
+                    style={{ color: "white" }}
                   >
                     Возраст: 24
                   </Typography>
@@ -115,31 +172,122 @@ function SpeakerById(props) {
                     {speaker.description}
                   </Typography>
                 </Grid>
+                <Grid classes={{ root: classes.cost }}>
+                  <Typography variant={"h6"} style={{ color: "white" }}>
+                    Рейтинг: {fixRating}
+                  </Typography>
+                  <Box component="fieldset" mb={3} borderColor="transparent">
+                    <Rating
+                      name="simple-controlled"
+                      value={fixRating}
+                      precision={0.5}
+                      emptyIcon={<StarBorderIcon fontSize="inherit" />}
+                      onChange={handleChange}
+                      onClick={handleaddRating}
+                    />
+                  </Box>
+                </Grid>
+                <Grid classes={{ root: classes.cost }}>
+                  <Typography variant={"h6"} style={{ color: "white" }}>
+                    Цена: {speaker.cost}
+                  </Typography>
+                  <Button color={"secondary"} variant={"contained"}>
+                    Заказать
+                  </Button>
+                </Grid>
               </Grid>
             </Grid>
-            <Grid container style={{ marginTop: "5%"}}>
-              {voices.map(voice => {
+            <Grid container style={{ marginTop: "5%" }}>
+              {voices.map((voice) => {
                 if (voice?.speaker === id) {
-                  return(
-                      <TableCell classes={{root: classes.voicesBlock}}>
-                        <audio
-                            className={classes.audio}
-                            src={voice?.audio}
-                            controls
-                        />
-                      </TableCell>
-                  )
+                  return (
+                    <TableCell classes={{ root: classes.voicesBlock }}>
+                      <audio
+                        className={classes.audio}
+                        src={voice?.audio}
+                        controls
+                      />
+                    </TableCell>
+                  );
                 }
               })}
             </Grid>
-            <Grid classes={{root: classes.cost}}>
-              <Typography variant={"h6"} style={{ color: "white" }}>Цена: {speaker.cost}</Typography>
-              <Button color={"secondary"} variant={"contained"}>Заказать</Button>
+            <Grid classes={{ root: classes.cost }}>
+              <Button
+                onClick={() => setOpenForm(true)}
+                color={"secondary"}
+                variant={"contained"}
+              >
+                Оставьте отзыв
+              </Button>
             </Grid>
+            <Container classes={{ root: classes.cost }}>
+              {openForm ? (
+                <form>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1">
+                        @
+                      </span>
+                    </div>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Username"
+                      aria-label="Username"
+                      name="username"
+                      aria-describedby="basic-addon1"
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div class="form-group">
+                    <textarea
+                      onChange={handleChange}
+                      name="text"
+                      placeholder="Коментарий"
+                      class="form-control"
+                    ></textarea>
+                  </div>
+                  <div class="form-group">
+                    <button
+                      onClick={handleAddReview}
+                      class="btn btn-primary btn-sm"
+                      type="button"
+                    >
+                      {" "}
+                      Добавить комментарий{" "}
+                    </button>
+                    <button
+                      onClick={() => setOpenForm(false)}
+                      class="btn btn-primary btn-sm"
+                      type="button"
+                    >
+                      {" "}
+                      Закрыть
+                    </button>
+                  </div>
+                </form>
+              ) : null}
+            </Container>
+            <div style={{ margin: "auto" }}>
+              {reviews.map((review) => {
+                return (
+                  <div className={classes.reviews}>
+                    <div style={{ marginLeft: 30 }}>
+                      <FormatQuoteIcon />
+                      <p>{review.text}</p>
+                      <div style={{ display: "flex" }}>
+                        <Avatar /> <p>{review.username}</p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </Grid>
         </Container>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 }
