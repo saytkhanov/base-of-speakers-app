@@ -3,7 +3,7 @@ const Review = require("../models/Reviews.model")
 class ReviewController {
   async getReviewsBySpeaker(req,res) {
     try {
-      const review = await Review.find(req.params.id)
+      const review = await Review.find()
       res.json(review)
     } catch (e) {
       res.json(e.message)
@@ -11,7 +11,7 @@ class ReviewController {
   }
   async addReviewForSpeaker(req,res) {
     const {username, text} = req.body
-
+    
     if (!username) {
       return res.status(401).json({
         error: "Необходимо указать имя юзера"
@@ -23,7 +23,7 @@ class ReviewController {
       })
     }
     try {
-      const {speaker} = req.params.id
+      const speaker = req.params.id
       const review = new Review({
         username, text, speaker
       })
