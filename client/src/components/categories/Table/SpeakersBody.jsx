@@ -32,7 +32,6 @@ function SpeakersBody({ speaker }) {
 
   return (
     <TableBody>
-      return(
       <TableRow>
         <TableCell style={{ width: 120 }}>
           <img

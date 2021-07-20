@@ -17,17 +17,18 @@ const speakerSchema = new Schema(
     lastName: {
       type: String,
     },
+    // rating: [
+    //   {
+    //     value: Number,
+    //     default: 0
+    //   }
+    // ],
     cost: Number,
     description: String,
     avatar: String,
     gender: {
       type: String,
       enum: ["", "male", "female"],
-    },
-    category: {
-      type: Types.ObjectId,
-      ref: "Category",
-      default: null
     },
   },
 

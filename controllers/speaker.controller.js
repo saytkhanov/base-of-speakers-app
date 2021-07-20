@@ -64,15 +64,36 @@ module.exports.speakersController = {
       console.log(e.message);
     }
   },
+  addAvatar: async (req, res) => {
+    const file = req.files.file;
+    const fileName = file.name;
+    const url = path.resolve(__dirname, "../public/uploads/img/" + fileName)
+    const urlForDB = "/uploads/img/" + fileName
+    try {
+      file.mv(url, async (err) => {
+        if(err) {
+          console.log(err)
+        } else {
+          const speaker = await Speaker.findById(req.user.id)
+
+          speaker.avatar = urlForDB
+          await speaker.save()
+          res.json("Картинка загружена")
+        }
+        })
+    } catch (e) {
+      console.log(e.message)
+    }
+  },
   patchSpeaker: async (req, res) => {
     try {
-      const { firstName, lastName, category } = req.body;
-      const id = req.body.id;
+      const { firstName, lastName, description, cost } = req.body;
+      const id = req.user.id;
       const options = { new: true };
 
       const patchSpeaker = await Speaker.findByIdAndUpdate(
         id,
-        { firstName, lastName, category },
+        { firstName, lastName, description, cost },
         options
       );
       res.json(patchSpeaker);
@@ -96,13 +117,27 @@ module.exports.speakersController = {
       console.log(e.message);
     }
   },
+  // addRating: async (req, res) => {
+  //   try {
+  //     const speaker = await Speaker.findById(req.user.id)
+  //     const {user} = req.body;
+  //     const userSave = {
+  //       user
+  //     }
+  //     speaker.rating.push(userSave.user)
+  //     await speaker.save();
+  //     res.json(speaker)
+  //   } catch (e) {
+  //     console.log(e.message)
+  //   }
+  // },
   registerSpeaker: async (req, res) => {
     const {
       login,
       password,
       firstName,
       lastName,
-      category,
+      gender,
       description,
       avatar,
       cost,
@@ -130,7 +165,7 @@ module.exports.speakersController = {
         password: hash,
         firstName,
         lastName,
-        category,
+        gender,
         description,
         cost,
         avatar,

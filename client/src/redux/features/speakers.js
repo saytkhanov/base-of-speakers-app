@@ -1,3 +1,5 @@
+
+
 const initialState = {
   items: [],
   loading: false,
@@ -93,6 +95,48 @@ export default function reducers(state = initialState, action) {
         items: action.payload.json
       }
     case "speakerByIdFromParams/load/rejected":
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+      }
+    case "speakers/edit/pending":
+      return {
+        ...state,
+        editing: true
+      };
+    case "speakers/edit/fulfilled":
+      return {
+        ...state,
+        items: state.items.map(item => {
+          if(item._id === action.payload.id) {
+            return {
+              ...item,
+              ...action.payload.data
+            }
+          }
+          return item
+        })
+      };
+    case "speakers/edit/rejected": {
+      return {
+        ...state,
+        editing: false,
+        error: action.error,
+      }
+    }
+    case "avatar/create/pending":
+      return {
+        ...state,
+        loading: true
+      }
+    case "avatar/create/fulfilled":
+      return {
+        ...state,
+        loading: false,
+        items: [...state.items, action.payload]
+      }
+    case "avatar/create/rejected":
       return {
         ...state,
         loading: false,
@@ -241,6 +285,55 @@ export const getSpeakerByIdFromParams = (id) => {
       dispatch({
         type: "speakerByIdFromParams/load/rejected", error: e.toString()
       })
+    }
+  }
+}
+
+
+export const patchSpeaker = (data) => {
+  return async (dispatch, getState) => {
+    const state = getState()
+    dispatch({type: "speakers/edit/pending"})
+    try {
+      await fetch(`http://localhost:4001/speaker`, {
+        method: 'PATCH',
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${state.speakers.token}`
+        },
+        body: JSON.stringify(data)
+      })
+      dispatch({
+        type: "speakers/edit/fulfilled",
+      payload:  data
+      })
+    } catch (e) {
+      dispatch({
+        type: "speakers/edit/rejected", error: e.toString()
+      })
+    }
+  }
+}
+
+
+export const uploadAvatar =(file) => {
+  return async (dispatch, getState) => {
+    const state = getState()
+    const formData= new FormData();
+    formData.append('file', file)
+    try {
+     const response = await fetch(`http://localhost:4001/avatar`, {
+        method: 'POST',
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${state.speakers.token}`
+        },
+       body: JSON.stringify(formData)
+      })
+      const json = await response.json()
+      dispatch({type: "avatar/create/fulfilled", payload: json})
+    } catch (e) {
+      console.log(e.message)
     }
   }
 }
