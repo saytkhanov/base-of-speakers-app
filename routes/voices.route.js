@@ -10,7 +10,7 @@ const {
 
 router.get('/voice', voicesControllers.getAllVoice)
 router.get('/speaker/:id/voices', voicesControllers.getVoicesById );
-router.delete('/speaker/:id/voice', authMiddleware, voicesControllers.deleteVoice);
+router.delete('/voice/:id', authMiddleware, voicesControllers.deleteVoice);
 router.post('/voice', authMiddleware, voicesControllers.createVoice);
 
 module.exports = router

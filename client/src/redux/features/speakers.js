@@ -134,7 +134,7 @@ export default function reducers(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        items: [...state.items, action.payload]
+        items: action.payload
       }
     case "avatar/create/rejected":
       return {
@@ -319,19 +319,18 @@ export const patchSpeaker = (data) => {
 export const uploadAvatar =(file) => {
   return async (dispatch, getState) => {
     const state = getState()
-    const formData= new FormData();
-    formData.append('file', file)
     try {
-     const response = await fetch(`http://localhost:4001/avatar`, {
+      const formData = new FormData()
+      formData.append('file', file)
+     await fetch(`http://localhost:4001/avatar`, {
         method: 'POST',
         headers: {
-          "Content-type": "application/json",
+          // "Content-type": "application/json",
           Authorization: `Bearer ${state.speakers.token}`
         },
-       body: JSON.stringify(formData)
+       body: formData
       })
-      const json = await response.json()
-      dispatch({type: "avatar/create/fulfilled", payload: json})
+      dispatch({type: "avatar/create/fulfilled", payload: file})
     } catch (e) {
       console.log(e.message)
     }
