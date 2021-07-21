@@ -20,8 +20,7 @@ import { getVoices } from "../../../redux/features/voices";
 import Footer from "../../Footer";
 import { addReview, loadReviews } from "../../../redux/features/reviews";
 import { addRating, loadRatings } from "../../../redux/features/ratings";
-import Preloader from "../Preloader";
-
+import Preloader from "../../Preloader";
 
 const useStyles = makeStyles((theme) => ({
   audio: {
@@ -75,7 +74,7 @@ function SpeakerById(props) {
   const dispatch = useDispatch();
   const speaker = useSelector((state) => state.speakers.items);
   const voices = useSelector((state) => state.voices.items);
-  const loading = useSelector(state => state.speakers.loading)
+  const loading = useSelector((state) => state.speakers.loading);
   const reviews = useSelector((state) =>
     state.reviews.items.filter((review) => review.speaker === id)
   );

@@ -1,21 +1,12 @@
 import React, { useEffect } from "react";
-import {
-  Box,
-  Button,
-  Table,
-  TableContainer,
-  Typography,
-} from "@material-ui/core";
-import { useDispatch, useSelector } from "react-redux";
+import { Box, Table, TableContainer, Typography } from "@material-ui/core";
+import { useDispatch, useSelector } from 'react-redux'
 import { getSpeakers } from "../../redux/features/speakers";
-import { NavLink } from "react-router-dom";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core";
-import TableHeader from "./Table/TableHeader";
 import SpeakersBody from "./Table/SpeakersBody";
 import Grid from "@material-ui/core/Grid";
-import Preloader from "../categories/Preloader";
-
+import Preloader from "../Preloader";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,23 +16,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function AllSpeakers({ speakersResults, gender, speakersLoading }) {
+function AllSpeakers({ speakersResults, gender }) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  // const speakers = useSelector((state) => state.speakers.items);
   useEffect(() => dispatch(getSpeakers()), [dispatch]);
+
+
   const speakers = speakersResults.filter((item) => {
     if (!gender) return true;
     if (gender === "Мужской") return item.gender === "male";
     if (gender === "Женский") return item.gender === "female";
   });
-  console.log(speakers);
+
+
 
   return (
     <>
       <div style={{ height: 20, backgroundColor: "black" }}></div>
-      {Preloader(speakersLoading)}
       <div
         style={{
           width: "100%",

@@ -4,16 +4,13 @@ import {
   Container,
   makeStyles,
   Paper,
-  InputBase,
-  TextField,
-  fade,
   alpha,
 } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import SearchIcon from "@material-ui/icons/Search";
+
 import Fuse from "fuse.js";
 
 import Box from "@material-ui/core/Box";
@@ -22,6 +19,7 @@ import Search from "./Search";
 import AllSpeakers from "./AllSpeakers";
 import { getSpeakers } from "../../redux/features/speakers";
 import Footer from '../Footer'
+import Preloader from '../Preloader'
 
 const useStyles = makeStyles((theme) => ({
   mainFeaturesPost: {
@@ -93,18 +91,14 @@ const useStyles = makeStyles((theme) => ({
 
 function CategoryAndSearchHeader(props) {
   const dispatch = useDispatch();
-  const categories = useSelector((state) => state.categories.items);
-  const loading = useSelector((state) => state.categories.loading);
   const [query, setQuery] = useState("");
   const [gender, setGender] = useState();
-  const categoryId = useParams();
   const speakers = useSelector((state) => state.speakers.items);
-  const speakersLoading = useSelector(state => state.speakers.loading)
-  console.log(categoryId);
+  const loading = useSelector(state => state.speakers.loading)
 
   useEffect(() => {
     dispatch(loadCategories());
-    dispatch(getSpeakers());
+    dispatch(getSpeakers())
   }, [dispatch]);
 
   const classes = useStyles();
@@ -123,6 +117,10 @@ function CategoryAndSearchHeader(props) {
   const speakersResults = query
     ? results.map((result) => result.item)
     : speakers;
+  //
+  // if(loading) {
+  //   return <Preloader/>
+  // }
 
   return (
     <>
@@ -153,20 +151,26 @@ function CategoryAndSearchHeader(props) {
                   >
                     Все
                   </Button>
-                  {categories.map((item) => {
-                    return (
                       <Box mr={3}>
                         <Button
                           style={{ fontWeight: "bold" }}
                           variant="contained"
                           color="secondary"
-                          onClick={() => setGender(item.gender)}
+                          onClick={() => setGender("Мужской")}
                         >
-                          {item.gender}
+                          Мужской
                         </Button>
                       </Box>
-                    );
-                  })}
+                  <Box mr={3}>
+                    <Button
+                      style={{ fontWeight: "bold" }}
+                      variant="contained"
+                      color="secondary"
+                      onClick={() => setGender("Женский")}
+                    >
+                      Женский
+                    </Button>
+                  </Box>
                   <Button
                     style={{ fontWeight: "bold", marginRight: 20 }}
                     variant="contained"
@@ -189,12 +193,9 @@ function CategoryAndSearchHeader(props) {
             </Grid>
           </Grid>
         </Container>
-        {/*{speaker.map((item) => {*/}
-        {/*  return <div>{item.firstName}</div>;*/}
-        {/*})}*/}
       </Paper>
 
-      <AllSpeakers speakersResults={speakersResults} gender={gender} speakersLoading={speakersLoading} />
+      <AllSpeakers speakersResults={speakersResults} gender={gender}  />
         <Footer/>
     </>
   );
