@@ -5,9 +5,9 @@ import LoginPage from "../pages/LoginPage";
 import { useSelector } from "react-redux";
 import HomePage from "../pages/HomePage";
 import Profile from "../Profile/Profile";
-import CategoryAndSearchHeader from '../components/categories/CategoryAndSearchHeader'
-import SpeakerById from "../components/categories/Table/SpeakerById";
-import Index from '../Profile/index'
+import CategoryAndSearchHeader from "../categories/CategoryAndSearchHeader";
+import SpeakerById from "../categories/Table/SpeakerById";
+import Index from "../Profile";
 
 function Main(props) {
   const token = useSelector((state) => state.speakers.token);
@@ -26,11 +26,11 @@ function Main(props) {
           <Route path="/login">
             <LoginPage />
           </Route>
-          <Route path='/showAll'>
-            <CategoryAndSearchHeader/>
+          <Route path="/showAll">
+            <CategoryAndSearchHeader />
           </Route>
-          <Route path='/speaker/:id'>
-            <SpeakerById/>
+          <Route path="/speaker/:id">
+            <SpeakerById />
           </Route>
           <Redirect to="/" />
         </Switch>
@@ -45,7 +45,7 @@ function Main(props) {
           <HomePage />
         </Route>
         <Route path="/profile">
-          <Index/>
+          <Index />
         </Route>
         <Route path="/auth">
           <AuthPage />
@@ -53,11 +53,11 @@ function Main(props) {
         <Route path="/login">
           <LoginPage />
         </Route>
-        <Route path='/showAll'>
-          <CategoryAndSearchHeader/>
+        <Route path="/showAll">
+          <CategoryAndSearchHeader />
         </Route>
-        <Route path='/speaker/:id'>
-          <SpeakerById/>
+        <Route path="/speaker/:id">
+          <SpeakerById />
         </Route>
         <Redirect to="/" />
       </Switch>

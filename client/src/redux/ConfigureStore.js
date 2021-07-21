@@ -17,7 +17,6 @@ export const store = createStore(
   combineReducers({
     speakers: speakerReducer,
     voices: voicesReducer,
-    categories: categoryReducer,
     reviews: reviewsReducer,
     ratings: ratingsReducer
   }),

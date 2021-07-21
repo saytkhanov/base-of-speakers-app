@@ -11,7 +11,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { authSpeaker } from "../redux/features/speakers";
+import { authSpeaker } from "../../redux/features/speakers";
 
 function Copyright() {
   return (

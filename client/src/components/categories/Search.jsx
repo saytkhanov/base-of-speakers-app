@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Box from "@material-ui/core/Box";
 import SearchIcon from "@material-ui/icons/Search";
 import { alpha, InputBase } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
-import { useDispatch, useSelector } from "react-redux";
-import { getSpeakers } from "../../redux/features/speakers";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   search: {

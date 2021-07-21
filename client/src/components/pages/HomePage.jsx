@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getSpeakers } from "../redux/features/speakers";
+import { getSpeakers } from "../../redux/features/speakers";
 import { Button, Container, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import { Carousel } from 'react-bootstrap'
-import {NavLink} from 'react-router-dom'
-import { getVoices } from '../redux/features/voices'
-import AboutsUs from '../components/AboutsUs'
-import Footer from '../components/Footer'
-import Preloader from "../components/categories/Preloader";
+import { Carousel } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
+import { getVoices } from "../../redux/features/voices";
+import AboutsUs from "../AboutsUs";
+import Footer from "../Footer";
+import Preloader from "../Preloader";
 
 const useStyles = makeStyles((theme) => ({
   mainFeaturesPost: {
@@ -49,26 +49,29 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   audio: {
-    backgroundColor: 'black',
+    backgroundColor: "black",
     height: 30,
     marginTop: 30,
     "&::-webkit-media-controls-panel": {
-  backgroundColor: '#f50057'
-},
-   "&::-webkit-media-controls-current-time-display": {
-     color: 'white'
-}
-  }
+      backgroundColor: "#f50057",
+    },
+    "&::-webkit-media-controls-current-time-display": {
+      color: "white",
+    },
+  },
 }));
 
 function HomePage(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const voices = useSelector(state => state.voices.items)
   const speakers = useSelector((state) => state.speakers.items);
-  const loading = useSelector(state => state.speakers.loading)
-  useEffect(() => dispatch(getVoices()), [dispatch])
+  const loading = useSelector((state) => state.speakers.loading);
+  useEffect(() => dispatch(getVoices()), [dispatch]);
   useEffect(() => dispatch(getSpeakers()), [dispatch]);
+
+  if(loading) {
+    return <Preloader/>
+  }
 
   return (
     <>
@@ -108,15 +111,11 @@ function HomePage(props) {
             </Grid>
           </Grid>
         </Container>
-        {/*{speaker.map((item) => {*/}
-        {/*  return <div>{item.firstName}</div>;*/}
-        {/*})}*/}
       </Paper>
       <div style={{ height: 20, backgroundColor: "black" }}></div>
       <Carousel>
-        {Preloader(loading)}
-        {speakers.map(speaker => {
-          return(
+        {speakers.map((speaker) => {
+          return (
             <Carousel.Item
               style={{
                 height: 700,
@@ -131,10 +130,10 @@ function HomePage(props) {
                   marginTop: 135,
                   marginLeft: 350,
                   borderRadius: 5,
-                  opacity: 0.8
+                  opacity: 0.8,
                 }}
               >
-                <div style={{display: 'flex'}}>
+                <div style={{ display: "flex" }}>
                   <div>
                     <img
                       style={{ height: "440px", width: 450, borderRadius: 5 }}
@@ -143,37 +142,63 @@ function HomePage(props) {
                     />
                   </div>
                   <div className={classes.blockInfo}>
-                    <div style={{marginTop: 50}}><Typography variant={'h4'} style={{color: 'white'}}>{speaker?.firstName} {speaker?.lastName}</Typography></div>
-                    <div >
-                      <audio className={classes.audio} src={speaker.lastVoice?.audio} controls>
-                    </audio>
+                    <div style={{ marginTop: 50 }}>
+                      <Typography variant={"h4"} style={{ color: "white" }}>
+                        {speaker?.firstName} {speaker?.lastName}
+                      </Typography>
                     </div>
-                    <div style={{marginTop: 20}}><Typography style={{color: 'white', marginRight: 25}}>{speaker?.description}</Typography></div>
-                    <div style={{marginTop: 25}}><Typography variant={'h6'} style={{color: 'white'}}>Количество работ: {speaker.voices?.length}</Typography></div>
-                    <div style={{textAlign: 'end', marginRight: 30, marginTop: 20}}><Typography variant={'h6'} style={{color: 'white'}}> Цена: от {speaker?.cost}₽</Typography></div>
+                    <div>
+                      <audio
+                        className={classes.audio}
+                        src={speaker.lastVoice?.audio}
+                        controls
+                      ></audio>
+                    </div>
+                    <div style={{ marginTop: 20 }}>
+                      <Typography style={{ color: "white", marginRight: 25 }}>
+                        {speaker?.description}
+                      </Typography>
+                    </div>
+                    <div style={{ marginTop: 25 }}>
+                      <Typography variant={"h6"} style={{ color: "white" }}>
+                        Количество работ: {speaker.voices?.length}
+                      </Typography>
+                    </div>
+                    <div
+                      style={{
+                        textAlign: "end",
+                        marginRight: 30,
+                        marginTop: 20,
+                      }}
+                    >
+                      <Typography variant={"h6"} style={{ color: "white" }}>
+                        {" "}
+                        Цена: от {speaker?.cost}₽
+                      </Typography>
+                    </div>
                   </div>
                 </div>
               </div>
             </Carousel.Item>
-          )
+          );
         })}
       </Carousel>
       <div
         style={{ height: 80, backgroundColor: "black", textAlign: "center" }}
       >
-        <NavLink style={{textDecoration: 'none'}} to='/showAll'>
-        <Button
-          fullWidth
-          variant="contained"
-          color="primary"
-          className={classes.submit}
-        >
-          Show all speakers
-        </Button>
+        <NavLink style={{ textDecoration: "none" }} to="/showAll">
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            Show all speakers
+          </Button>
         </NavLink>
       </div>
-      <AboutsUs/>
-      <Footer/>
+      <AboutsUs />
+      <Footer />
     </>
   );
 }

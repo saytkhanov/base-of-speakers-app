@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { speakerById } from "../redux/features/speakers";
+import { speakerById } from "../../redux/features/speakers";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
@@ -9,14 +9,14 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import MicIcon from "@material-ui/icons/Mic";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import { Avatar, Container, Paper, TextField, Typography } from '@material-ui/core'
-import { Button } from "@material-ui/core";
-import Box from '@material-ui/core/Box'
-import Grid from '@material-ui/core/Grid'
-import { NavLink } from 'react-router-dom'
-import Edit from './Edit'
-import { getVoices } from '../redux/features/voices'
-import Footer from '../components/Footer'
+import {
+  Container,
+  Paper,
+} from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
+import Edit from "./Edit";
+import { getVoices } from "../../redux/features/voices";
+import Footer from "../Footer";
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -65,19 +65,17 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
     backgroundColor: "rgba(0,0,0,.3)",
   },
-  hover: {
-
-  }
+  hover: {},
 }));
 
 function Profile() {
   const dispatch = useDispatch();
   const speaker = useSelector((state) => state.speakers.items);
-  const voices = useSelector(state => state.voices.items)
+  const voices = useSelector((state) => state.voices.items);
 
   useEffect(() => {
-    dispatch(getVoices())
-  }, [dispatch])
+    dispatch(getVoices());
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(speakerById());
@@ -86,14 +84,19 @@ function Profile() {
   const classes = useStyles();
 
   return (
-    <Paper className={classes.mainFeaturesPost} style={{backgroundImage: `url(https://images.wallpaperscraft.ru/image/mikrofon_oborudovanie_temnyj_fon_121814_1920x1080.jpg)`}}>
+    <Paper
+      className={classes.mainFeaturesPost}
+      style={{
+        backgroundImage: `url(https://images.wallpaperscraft.ru/image/mikrofon_oborudovanie_temnyj_fon_121814_1920x1080.jpg)`,
+      }}
+    >
       <Container fixed>
-        <div className={classes.overlay}/>
+        <div className={classes.overlay} />
         <Grid container>
           <Grid item md={12}>
             <div className={classes.mainFeaturesPostContent}>
               <div className={classes.root}>
-                <Edit voices={voices}/>
+                <Edit voices={voices} />
                 <div
                   className={classes.drawer}
                   classes={{
@@ -101,22 +104,22 @@ function Profile() {
                   }}
                 >
                   <div className={classes.drawerContainer}>
-                    <List className={classes.hover} >
+                    <List className={classes.hover}>
                       <ListItem button>
-                        <ListItemText style={{color: 'white'}}>
+                        <ListItemText style={{ color: "white" }}>
                           Личные данные
                         </ListItemText>
-                        <ListItemIcon style={{color: 'white'}}>
+                        <ListItemIcon style={{ color: "white" }}>
                           <AccountCircleIcon />
                         </ListItemIcon>
                       </ListItem>
                     </List>
-                    <List className={classes.hover} >
+                    <List className={classes.hover}>
                       <ListItem button>
-                        <ListItemText style={{color: 'white'}}>
+                        <ListItemText style={{ color: "white" }}>
                           Аудиозаписи
                         </ListItemText>
-                        <ListItemIcon style={{color: 'white'}}>
+                        <ListItemIcon style={{ color: "white" }}>
                           <MicIcon />
                         </ListItemIcon>
                       </ListItem>
@@ -128,7 +131,7 @@ function Profile() {
           </Grid>
         </Grid>
       </Container>
-      <Footer/>
+      <Footer />
     </Paper>
     // <div style={{width: '100%', height: 750, backgroundImage: `url(https://images.wallpaperscraft.ru/image/mikrofon_zvuk_muzyka_108048_1920x1080.jpg)`}}>
     // <Container style={{marginTop: 30}}>
