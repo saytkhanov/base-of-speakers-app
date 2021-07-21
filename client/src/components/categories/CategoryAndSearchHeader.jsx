@@ -98,6 +98,7 @@ function CategoryAndSearchHeader(props) {
   const [gender, setGender] = useState();
   const categoryId = useParams();
   const speakers = useSelector((state) => state.speakers.items);
+  const speakersLoading = useSelector(state => state.speakers.loading)
   console.log(categoryId);
 
   useEffect(() => {
@@ -192,7 +193,7 @@ function CategoryAndSearchHeader(props) {
         {/*})}*/}
       </Paper>
 
-      <AllSpeakers speakersResults={speakersResults} gender={gender} />
+      <AllSpeakers speakersResults={speakersResults} gender={gender} speakersLoading={speakersLoading} />
     </>
   );
 }
