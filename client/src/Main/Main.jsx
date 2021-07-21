@@ -56,6 +56,9 @@ function Main(props) {
         <Route path='/showAll'>
           <CategoryAndSearchHeader/>
         </Route>
+        <Route path='/speaker/:id'>
+          <SpeakerById/>
+        </Route>
         <Redirect to="/" />
       </Switch>
     </main>

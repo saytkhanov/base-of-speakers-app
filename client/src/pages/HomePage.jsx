@@ -8,6 +8,8 @@ import Typography from "@material-ui/core/Typography";
 import { Carousel } from 'react-bootstrap'
 import {NavLink} from 'react-router-dom'
 import { getVoices } from '../redux/features/voices'
+import AboutsUs from '../components/AboutsUs'
+import Footer from '../components/Footer'
 import Preloader from "../components/categories/Preloader";
 
 const useStyles = makeStyles((theme) => ({
@@ -136,80 +138,25 @@ function HomePage(props) {
                   <div>
                     <img
                       style={{ height: "440px", width: 450, borderRadius: 5 }}
-                      src={speaker.avatar}
+                      src={speaker?.avatar}
                       alt="First Slide"
                     />
                   </div>
                   <div className={classes.blockInfo}>
-                    <div style={{marginTop: 50}}><Typography variant={'h4'} style={{color: 'white'}}>{speaker.firstName} {speaker.lastName}</Typography></div>
+                    <div style={{marginTop: 50}}><Typography variant={'h4'} style={{color: 'white'}}>{speaker?.firstName} {speaker?.lastName}</Typography></div>
                     <div >
                       <audio className={classes.audio} src={speaker.lastVoice?.audio} controls>
                     </audio>
                     </div>
-                    <div style={{marginTop: 20}}><Typography style={{color: 'white', marginRight: 25}}>{speaker.description}</Typography></div>
+                    <div style={{marginTop: 20}}><Typography style={{color: 'white', marginRight: 25}}>{speaker?.description}</Typography></div>
                     <div style={{marginTop: 25}}><Typography variant={'h6'} style={{color: 'white'}}>Количество работ: {speaker.voices?.length}</Typography></div>
-                    <div style={{textAlign: 'end', marginRight: 30, marginTop: 20}}><Typography variant={'h6'} style={{color: 'white'}}> Цена: от {speaker.cost}₽</Typography></div>
+                    <div style={{textAlign: 'end', marginRight: 30, marginTop: 20}}><Typography variant={'h6'} style={{color: 'white'}}> Цена: от {speaker?.cost}₽</Typography></div>
                   </div>
                 </div>
               </div>
-              {/*<img className='d-block w-100' style={{height: '100%'}} src={"https://images.wallpaperscraft.ru/image/mikrofon_ustrojstvo_pribor_elektroakustika_118327_1920x1080.jpg"} alt="First Slide"/>*/}
-              {/*<Carousel.Caption>*/}
-              {/*  <h3>Speakers</h3>*/}
-              {/*  <p>How are you?</p>*/}
-              {/*</Carousel.Caption>*/}
             </Carousel.Item>
           )
         })}
-        {/*<Carousel.Item style={{height: 650}}>*/}
-        {/*  <img className='d-block w-100' style={{height: '100%'}} src={"https://images.wallpaperscraft.ru/image/mikrofon_ustrojstvo_muzyka_143960_1920x1080.jpg"} alt="First Slide"/>*/}
-        {/*  <Carousel.Caption>*/}
-        {/*    <h3>Speakers</h3>*/}
-        {/*    <p>How are you?</p>*/}
-        {/*  </Carousel.Caption>*/}
-        {/*</Carousel.Item>*/}
-        {/*<Carousel.Item style={{height: 600}}>*/}
-        {/*  <img className='d-block w-100' style={{height: '100%'}} src={"https://images.wallpaperscraft.ru/image/mikrofon_metallicheskij_ustrojstvo_149328_1920x1080.jpg"} alt="First Slide"/>*/}
-        {/*  <Carousel.Caption>*/}
-        {/*    <h3>Speakers</h3>*/}
-        {/*    <p>How are you?</p>*/}
-        {/*  </Carousel.Caption>*/}
-        {/*</Carousel.Item>*/}
-        {/*<Carousel.Item*/}
-        {/*  style={{*/}
-        {/*    height: 700,*/}
-        {/*    backgroundImage: `url(https://images.wallpaperscraft.ru/image/mikrofon_ustrojstvo_pribor_elektroakustika_118327_1920x1080.jpg)`,*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  <div*/}
-        {/*    style={{*/}
-        {/*      width: 1200,*/}
-        {/*      height: 500,*/}
-        {/*      backgroundColor: "black",*/}
-        {/*      marginTop: 100,*/}
-        {/*      marginLeft: 250,*/}
-        {/*      borderRadius: 30,*/}
-        {/*      opacity: 0.3,*/}
-        {/*    }}*/}
-        {/*  >*/}
-        {/*    <div>*/}
-        {/*      <div>*/}
-        {/*        <img*/}
-        {/*          style={{ height: "500px", width: 500, borderRadius: 30 }}*/}
-        {/*          src={*/}
-        {/*            "https://images.wallpaperscraft.ru/image/mikrofon_ustrojstvo_pribor_elektroakustika_118327_1920x1080.jpg"*/}
-        {/*          }*/}
-        {/*          alt="First Slide"*/}
-        {/*        />*/}
-        {/*      </div>*/}
-        {/*      <div className={classes.blockInfo}></div>*/}
-        {/*    </div>*/}
-        {/*  </div>*/}
-        {/*  /!*<img className='d-block w-100' style={{height: '100%'}} src={"https://images.wallpaperscraft.ru/image/mikrofon_ustrojstvo_pribor_elektroakustika_118327_1920x1080.jpg"} alt="First Slide"/>*!/*/}
-        {/*  /!*<Carousel.Caption>*!/*/}
-        {/*  /!*  <h3>Speakers</h3>*!/*/}
-        {/*  /!*  <p>How are you?</p>*!/*/}
-        {/*  /!*</Carousel.Caption>*!/*/}
-        {/*</Carousel.Item>*/}
       </Carousel>
       <div
         style={{ height: 80, backgroundColor: "black", textAlign: "center" }}
@@ -225,6 +172,8 @@ function HomePage(props) {
         </Button>
         </NavLink>
       </div>
+      <AboutsUs/>
+      <Footer/>
     </>
   );
 }

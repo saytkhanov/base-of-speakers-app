@@ -112,7 +112,7 @@ function SpeakerById(props) {
     setForm({ ...form, [ev.target.name]: ev.target.value });
     setRating({ ...rating, rating: ev.target.value });
   };
-  const handleaddRating = (ev) => {
+  const handleAddRating = (ev) => {
     dispatch(addRating(id, rating));
     console.log(ev.target.value);
   };
@@ -187,7 +187,7 @@ function SpeakerById(props) {
                       precision={0.5}
                       emptyIcon={<StarBorderIcon fontSize="inherit" />}
                       onChange={handleChange}
-                      onClick={handleaddRating}
+                      onClick={handleAddRating}
                     />
                   </Box>
                 </Grid>
