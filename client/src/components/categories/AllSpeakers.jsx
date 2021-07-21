@@ -14,6 +14,8 @@ import { makeStyles } from "@material-ui/core";
 import TableHeader from "./Table/TableHeader";
 import SpeakersBody from "./Table/SpeakersBody";
 import Grid from "@material-ui/core/Grid";
+import Preloader from "../categories/Preloader";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function AllSpeakers({ speakersResults, gender }) {
+function AllSpeakers({ speakersResults, gender, speakersLoading }) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -39,6 +41,7 @@ function AllSpeakers({ speakersResults, gender }) {
   return (
     <>
       <div style={{ height: 20, backgroundColor: "black" }}></div>
+      {Preloader(speakersLoading)}
       <div
         style={{
           width: "100%",

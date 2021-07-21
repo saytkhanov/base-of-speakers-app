@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import { Carousel } from 'react-bootstrap'
 import {NavLink} from 'react-router-dom'
 import { getVoices } from '../redux/features/voices'
+import Preloader from "../components/categories/Preloader";
 
 const useStyles = makeStyles((theme) => ({
   mainFeaturesPost: {
@@ -63,6 +64,7 @@ function HomePage(props) {
   const dispatch = useDispatch();
   const voices = useSelector(state => state.voices.items)
   const speakers = useSelector((state) => state.speakers.items);
+  const loading = useSelector(state => state.speakers.loading)
   useEffect(() => dispatch(getVoices()), [dispatch])
   useEffect(() => dispatch(getSpeakers()), [dispatch]);
 
@@ -110,6 +112,7 @@ function HomePage(props) {
       </Paper>
       <div style={{ height: 20, backgroundColor: "black" }}></div>
       <Carousel>
+        {Preloader(loading)}
         {speakers.map(speaker => {
           return(
             <Carousel.Item
