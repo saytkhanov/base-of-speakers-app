@@ -200,64 +200,6 @@ function Profile({setIsEditing}) {
                  {/*  <div></div>*/}
                  {/*</div>*/}
              </div>
-    // <div style={{width: '100%', height: 750, backgroundImage: `url(https://images.wallpaperscraft.ru/image/mikrofon_zvuk_muzyka_108048_1920x1080.jpg)`}}>
-    // <Container style={{marginTop: 30}}>
-    //   <Paper style={{height: 750,backgroundImage: `url(https://images.wallpaperscraft.ru/image/mikrofon_zvuk_muzyka_108048_1920x1080.jpg)`}}>
-    // <div className={classes.root}>
-    //   <div className={classes.content}>
-    //       <div className={classes.dataWidth}>
-    //         <Avatar style={{width: 200, height: 200, borderRadius: 0, marginRight: 30}}/>
-    //         <Box>
-    //         <h2 style={{color: 'white'}}>
-    //           {" "}
-    //           {speaker.firstName} {}
-    //           {speaker.lastName}
-    //         </h2>
-    //           <Box>
-    //             <Typography style={{color: 'white', fontSize: 25, marginTop: 90}}>
-    //               Цена: от {speaker.cost} ₽
-    //             </Typography>
-    //           </Box>
-    //         </Box>
-    //         {/* <Button>
-    //           <EditIcon />
-    //         </Button> */}
-    //       </div>
-    //         <div>
-    //           <Typography style={{color: 'white',marginTop: 110, marginLeft: 230, fontSize: 20}}>
-    //             {speaker.description}
-    //           </Typography>
-    //         </div>
-    //       {/*<p>Телефон</p>*/}
-    //       {/*<div style={{ display: "flex" }}>*/}
-    //       {/*  <p>Не указан</p>*/}
-    //       {/*  <Button color="primary">Добавить</Button>*/}
-    //       {/*  <div></div>*/}
-    //       {/*</div>*/}
-    //   </div>
-    //   <div
-    //     className={classes.drawer}
-    //     classes={{
-    //       paper: classes.drawerPaper,
-    //     }}
-    //   >
-    //     <div className={classes.drawerContainer}>
-    //       <List style={{backgroundColor: '#f50057'}}>
-    //         {["Личные данные", "Аудиозаписи"].map((text, index) => (
-    //           <ListItem button key={text}>
-    //             <ListItemText style={{color: 'white'}} primary={text} />
-    //             <ListItemIcon style={{color: 'white'}}>
-    //               {index % 2 === 0 ? <AccountCircleIcon /> : <MicIcon />}
-    //             </ListItemIcon>
-    //           </ListItem>
-    //         ))}
-    //       </List>
-    //     </div>
-    //   </div>
-    // </div>
-    //   </Paper>
-    // </Container>
-    // </div>
   );
 }
 

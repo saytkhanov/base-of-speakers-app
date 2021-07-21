@@ -21,6 +21,7 @@ import { loadCategories } from "../../redux/features/categories";
 import Search from "./Search";
 import AllSpeakers from "./AllSpeakers";
 import { getSpeakers } from "../../redux/features/speakers";
+import Footer from '../Footer'
 
 const useStyles = makeStyles((theme) => ({
   mainFeaturesPost: {
@@ -193,6 +194,7 @@ function CategoryAndSearchHeader(props) {
       </Paper>
 
       <AllSpeakers speakersResults={speakersResults} gender={gender} />
+      <Footer/>
     </>
   );
 }

@@ -16,6 +16,7 @@ import Grid from '@material-ui/core/Grid'
 import { NavLink } from 'react-router-dom'
 import Edit from './Edit'
 import { getVoices } from '../redux/features/voices'
+import Footer from '../components/Footer'
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -127,6 +128,7 @@ function Profile() {
           </Grid>
         </Grid>
       </Container>
+      <Footer/>
     </Paper>
     // <div style={{width: '100%', height: 750, backgroundImage: `url(https://images.wallpaperscraft.ru/image/mikrofon_zvuk_muzyka_108048_1920x1080.jpg)`}}>
     // <Container style={{marginTop: 30}}>
