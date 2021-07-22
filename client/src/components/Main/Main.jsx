@@ -7,7 +7,7 @@ import HomePage from "../pages/HomePage";
 import Profile from "../Profile/Profile";
 import CategoryAndSearchHeader from "../categories/CategoryAndSearchHeader";
 import SpeakerById from "../categories/Table/SpeakerById";
-import Index from "../Profile";
+import Index from "../Profile/InfoIcons";
 
 function Main(props) {
   const token = useSelector((state) => state.speakers.token);

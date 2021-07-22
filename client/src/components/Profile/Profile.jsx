@@ -94,6 +94,7 @@ function Profile({ setIsEditing }) {
   const [description, setDescription] = useState("");
   const speaker = useSelector((state) => state.speakers.items);
   const voices = useSelector((state) => state.voices.items);
+  const deleting = useSelector(state => state.voices.deleting)
   useEffect(() => {
     dispatch(getVoiceById());
   }, [dispatch]);
@@ -130,6 +131,8 @@ function Profile({ setIsEditing }) {
   //   const fileName = e.target.files[0].name;
   //   dispatch(uploadVoice(file, fileName));
   // };
+
+  console.log(deleting)
 
   return (
     <div className={classes.content}>
@@ -181,7 +184,7 @@ function Profile({ setIsEditing }) {
       </div>
       {voices.map((voice) => {
         return (
-          <div style={{ marginLeft: 300, marginTop: 30 }}>
+          <div style={{ marginLeft: 300, marginTop: 30 }} >
             <audio className={classes.audio} src={voice.audio} controls />
             <Fab
               style={{
@@ -189,6 +192,7 @@ function Profile({ setIsEditing }) {
 
                 color: "white",
               }}
+              disabled={deleting}
               aria-label="edit"
               onClick={() => dispatch(deleteVoice(voice._id))}
             >
