@@ -3,17 +3,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { speakerById, uploadAvatar } from "../../redux/features/speakers";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Avatar, Fab, Typography } from "@material-ui/core";
+import { Avatar, Fab, TextField, Typography } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import EditIcon from "@material-ui/icons/Edit";
 import {
+  addVoice,
   deleteVoice,
+  getVoiceById,
   getVoices,
   uploadVoice,
 } from "../../redux/features/voices";
 import AddIcon from "@material-ui/icons/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
+import Button from "@material-ui/core/Button";
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -87,11 +90,12 @@ const useStyles = makeStyles((theme) => ({
 
 function Profile({ setIsEditing }) {
   const dispatch = useDispatch();
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const speaker = useSelector((state) => state.speakers.items);
   const voices = useSelector((state) => state.voices.items);
-
   useEffect(() => {
-    dispatch(getVoices());
+    dispatch(getVoiceById());
   }, [dispatch]);
 
   useEffect(() => {
@@ -100,18 +104,32 @@ function Profile({ setIsEditing }) {
 
   const classes = useStyles();
 
-
   function changeHandler(e) {
     const file = e.target.files[0];
     dispatch(uploadAvatar(file));
   }
 
-  const handleUploadVoice = (e) => {
-    const file = e.target.files[0];
-    const fileName = e.target.files[0].name;
-    dispatch(uploadVoice(file, fileName));
+  const handleChangeTitle = (e) => {
+    setTitle(e.target.value);
   };
 
+  const handleChangeDescription = (e) => {
+    setDescription(e.target.value);
+  };
+
+  const handleChangeVoice = async (e) => {
+    await dispatch(uploadVoice(e));
+  };
+
+  const handleAdd = async () => {
+    await dispatch(addVoice({ title, description }));
+  };
+
+  // const handleUploadVoice = (e) => {
+  //   const file = e.target.files[0];
+  //   const fileName = e.target.files[0].name;
+  //   dispatch(uploadVoice(file, fileName));
+  // };
 
   return (
     <div className={classes.content}>
@@ -155,6 +173,12 @@ function Profile({ setIsEditing }) {
           {speaker.description}
         </Typography>
       </div>
+      <div>
+        <TextField onChange={handleChangeDescription} />
+        <TextField onChange={handleChangeTitle} />
+        <input type="file" onChange={handleChangeVoice} />
+        <Button onClick={handleAdd}>Добавить</Button>
+      </div>
       {voices.map((voice) => {
         return (
           <div style={{ marginLeft: 300, marginTop: 30 }}>
@@ -173,9 +197,6 @@ function Profile({ setIsEditing }) {
           </div>
         );
       })}
-      <form>
-        <input type="file" onChange={(e) => handleUploadVoice(e)} />
-      </form>
       <Grid item classes={{ root: classes.add }}>
         <Fab
           style={{ backgroundColor: "black", color: "white" }}

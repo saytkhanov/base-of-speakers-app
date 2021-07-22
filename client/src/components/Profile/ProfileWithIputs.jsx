@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Avatar, Fab, TextField, Typography } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
-import { getVoices } from "../../redux/features/voices";
+import { getVoiceById, getVoices } from '../../redux/features/voices'
 import AddIcon from "@material-ui/icons/Add";
 import SaveIcon from "@material-ui/icons/Save";
 const drawerWidth = 240;
@@ -90,7 +90,7 @@ function Profile({ setIsEditing }) {
   const voices = useSelector((state) => state.voices.items);
 
   useEffect(() => {
-    dispatch(getVoices());
+    dispatch(getVoiceById());
   }, [dispatch]);
 
   useEffect(() => {

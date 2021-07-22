@@ -97,7 +97,6 @@ function CategoryAndSearchHeader(props) {
   const loading = useSelector(state => state.speakers.loading)
 
   useEffect(() => {
-    dispatch(loadCategories());
     dispatch(getSpeakers())
   }, [dispatch]);
 
@@ -118,9 +117,7 @@ function CategoryAndSearchHeader(props) {
     ? results.map((result) => result.item)
     : speakers;
   //
-  // if(loading) {
-  //   return <Preloader/>
-  // }
+
 
   return (
     <>
@@ -178,13 +175,6 @@ function CategoryAndSearchHeader(props) {
                   >
                     Цены
                   </Button>
-                  <Button
-                    style={{ fontWeight: "bold" }}
-                    variant="contained"
-                    color="secondary"
-                  >
-                    Оплата
-                  </Button>
                 </Box>
               </div>
             </Grid>
@@ -196,7 +186,6 @@ function CategoryAndSearchHeader(props) {
       </Paper>
 
       <AllSpeakers speakersResults={speakersResults} gender={gender}  />
-        <Footer/>
     </>
   );
 }

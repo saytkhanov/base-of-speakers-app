@@ -16,7 +16,7 @@ import StarBorderIcon from "@material-ui/icons/StarBorder";
 import FormatQuoteIcon from "@material-ui/icons/FormatQuote";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-import { getVoices } from "../../../redux/features/voices";
+import { getVoiceById, getVoices } from '../../../redux/features/voices'
 import Footer from "../../Footer";
 import { addReview, loadReviews } from "../../../redux/features/reviews";
 import { addRating, loadRatings } from "../../../redux/features/ratings";
@@ -113,7 +113,6 @@ function SpeakerById(props) {
   };
   const handleAddRating = (ev) => {
     dispatch(addRating(id, rating));
-    console.log(ev.target.value);
   };
 
   const handleAddReview = () => {
@@ -121,9 +120,13 @@ function SpeakerById(props) {
     setOpenForm(false);
   };
   useEffect(() => dispatch(getSpeakerByIdFromParams(id)), [dispatch]);
-  useEffect(() => dispatch(getVoices()), [dispatch]);
+  useEffect(() => dispatch(getVoiceById()), [dispatch]);
   useEffect(() => dispatch(loadReviews()), [dispatch]);
   useEffect(() => dispatch(loadRatings()), [dispatch]);
+
+  if(loading) {
+    return <Preloader/>
+  }
 
   return (
     <>
@@ -156,7 +159,6 @@ function SpeakerById(props) {
                   item
                   style={{ textAlign: "left" }}
                 >
-                  {Preloader(loading)}
                   <Typography
                     classes={{ root: classes.firstName }}
                     variant="h5"

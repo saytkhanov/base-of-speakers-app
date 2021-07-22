@@ -66,7 +66,7 @@ function HomePage(props) {
   const dispatch = useDispatch();
   const speakers = useSelector((state) => state.speakers.items);
   const loading = useSelector((state) => state.speakers.loading);
-  useEffect(() => dispatch(getVoices()), [dispatch]);
+
   useEffect(() => dispatch(getSpeakers()), [dispatch]);
 
   if(loading) {

@@ -12,13 +12,29 @@ module.exports.voicesControllers = {
   },
   getVoicesById: async (req, res) => {
     try {
-      const getVoices = await Voice.find({ speaker: req.params.id });
+      const getVoices = await Voice.find({ speaker: req.user.id });
       res.json(getVoices);
     } catch (e) {
       console.log(e.message);
     }
   },
-  createVoice:  (req, res) => {
+  createVoice: async (req, res) => {
+    const {title, description, file} = req.body
+    try {
+          const createVoice = await new Voice({
+            title,
+            audio: file,
+            description,
+            speaker: req.user.id
+          })
+          await createVoice.save();
+          res.json(createVoice)
+        } catch (e) {
+      console.log(e.message)
+    }
+  },
+
+  uploadVoice:  (req, res) => {
     const file = req.files.file;
     const fileName = file.name
     const url = path.resolve(__dirname, "../public/uploads/img/" + fileName)
@@ -28,19 +44,17 @@ module.exports.voicesControllers = {
         if(err) {
           console.log(err)
         } else {
-          const createVoice = await new Voice({
-            name: fileName,
-            audio: urlForDB,
-            speaker: req.user.id
+          res.json({
+            success: "Запись успешно добавлена",
+            file: urlForDB
           })
-          await createVoice.save();
-          res.json("Запись успешно добавлена")
         }
       });
     } catch (e) {
       console.log(e.message)
     }
   },
+
   // postVoice: async (req, res) => {
   //   const voice = req.files.voice;
   //   const newFileName = `./public/${Math.random() * 10000}${path.extname(voice.name)}`
