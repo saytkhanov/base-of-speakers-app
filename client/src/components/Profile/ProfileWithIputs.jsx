@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { patchSpeaker, speakerById } from "../../redux/features/speakers";
+import { patchSpeaker, speakerById, uploadAvatar } from '../../redux/features/speakers'
+import styled from 'styled-components';
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Avatar, Fab, TextField, Typography } from "@material-ui/core";
+import { Avatar, Fab, IconButton, TextField, Typography } from '@material-ui/core'
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
-import { getVoiceById, getVoices } from '../../redux/features/voices'
+import { getVoiceById, getVoiceByIdForAuth, getVoices } from '../../redux/features/voices'
 import AddIcon from "@material-ui/icons/Add";
 import SaveIcon from "@material-ui/icons/Save";
+import { PhotoCamera } from '@material-ui/icons'
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -78,11 +80,90 @@ const useStyles = makeStyles((theme) => ({
     bottom: 30,
   },
   hover: {},
-  first: {
-    color: "white",
-    borderColor: "white",
+  account: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column',
   },
+  avatar: {
+    width: '120px',
+    height: '120px',
+  },
+  avatarWrapper: {
+
+    display: 'inline-block',
+    padding: '10px',
+    borderRadius: '50%',
+    position: 'relative',
+  },
+  avatarButton: {
+    opacity: 0,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '200px',
+    height: '200px',
+    position: 'absolute',
+    top: '10px',
+    transition: '300ms',
+    backgroundColor: 'rgba(0,0,0,0.45)',
+    '&:hover': {
+      opacity: 1,
+    },
+  },
+  button: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: '50%',
+    width: '120px',
+    height: '120px',
+    color: 'whitesmoke',
+  },
+  subtitle: {
+    fontSize: '12px',
+    textAlign: 'center',
+    padding: '10px 50px',
+    color: '#6a6a6a',
+    marginBottom: '100px',
+  },
+  input: {
+    display: 'none',
+  }
 }));
+const StyledTextField = styled(TextField)`
+  .MuiInputBase-root {
+      color: white;
+    }
+  }
+.MuiOutlinedInput-root {
+  fieldset {
+    border-color: white;
+  }
+  &:hover fieldset {
+    border-color: #f50057;
+  }
+  &.Mui-focused fieldset {
+    border-color: #f50057;
+  }
+`;
+
+const StyledTextFieldForInfo = styled(TextField)`
+.MuiInputBase-root {
+  height: 25px;
+  color: white;
+}
+  .MuiOutlinedInput-root {
+    fieldset {
+      border-color: white;
+    }
+    &:hover fieldset {
+      border-color: #f50057;
+    }
+    &.Mui-focused fieldset {
+      border-color: #f50057;
+    }
+`
 
 function Profile({ setIsEditing }) {
   const dispatch = useDispatch();
@@ -90,7 +171,7 @@ function Profile({ setIsEditing }) {
   const voices = useSelector((state) => state.voices.items);
 
   useEffect(() => {
-    dispatch(getVoiceById());
+    dispatch(getVoiceByIdForAuth());
   }, [dispatch]);
 
   useEffect(() => {
@@ -106,9 +187,18 @@ function Profile({ setIsEditing }) {
     setFirstName(e.target.value);
   };
 
+  const handleChangeLastName = (e) => {
+    setLastName(e.target.value)
+  }
+
   const handleChangeCost = (e) => {
     setCost(e.target.value);
   };
+
+  function handleChangeAvatar(e) {
+    const file = e.target.files[0];
+    dispatch(uploadAvatar(file));
+  }
 
   const handleChangeDescription = (e) => {
     setDescription(e.target.value);
@@ -122,43 +212,71 @@ function Profile({ setIsEditing }) {
   const classes = useStyles();
 
   return (
-    <div className={classes.content}>
-      <div className={classes.dataWidth}>
-        <form>
-          <Avatar
-            src={speaker.avatar}
-            style={{
-              width: 200,
-              height: 200,
-              borderRadius: 0,
-              marginRight: 30,
-            }}
-          />
-          <input type="file" style={{ width: 200, height: 200 }} />
-        </form>
-        <Box>
-          <TextField
-            value={firstName}
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col-4" style={{flex: 0}}>
+          <div className={classes.account}>
+            <input
+              accept="image/*"
+              className={classes.input}
+              id="icon-button-file"
+              type="file"
+              onChange={handleChangeAvatar}
+            />
+
+            <div className={classes.avatarWrapper}>
+              <Grid className={classes.picture}>
+                <img style={{width: 200, height: 200}} src={speaker.avatar} alt="" />
+              </Grid>
+              <div className={classes.avatarButton}>
+                <label htmlFor="icon-button-file">
+                  <IconButton
+                    color="default"
+                    aria-label="upload picture"
+                    component="span"
+                    className={classes.button}
+                  >
+                    <PhotoCamera />
+                  </IconButton>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-8">
+          <div style={{marginTop: 13}}>
+          <StyledTextFieldForInfo
+            style={{width: 180, marginBottom: 10, marginRight: 10}}
             variant={"outlined"}
-            className={{ root: classes.first }}
             margin="normal"
             multiline
             fullWidth
             InputLabelProps={{
               shrink: true,
             }}
+            value={firstName}
             onChange={handleChangeFirstName}
-          >
-            {speaker.firstName} {}
-            {speaker.lastName}
-          </TextField>
-          <Box>
-            <Typography style={{ color: "white", fontSize: 25, marginTop: 90 }}>
+          />
+          <StyledTextFieldForInfo
+            style={{width: 180}}
+            variant={"outlined"}
+            margin="normal"
+            multiline
+            fullWidth
+            InputLabelProps={{
+              shrink: true,
+            }}
+            value={lastName}
+            onChange={handleChangeLastName}
+          />
+          </div>
+          <div style={{marginTop: 80, display: 'flex'}}>
+            <Typography style={{ color: "white", fontSize: 22}}>
               Цена: от
-              <TextField
-                value={cost}
+            </Typography>
+              <StyledTextFieldForInfo
+                style={{marginLeft: 10, marginRight: 10, width: 70}}
                 variant={"outlined"}
-                className={{ root: classes.first }}
                 margin="normal"
                 multiline
                 fullWidth
@@ -166,23 +284,28 @@ function Profile({ setIsEditing }) {
                   shrink: true,
                 }}
                 onChange={handleChangeCost}
-              >
-                {speaker.cost}
-              </TextField>
-              ₽
-            </Typography>
-          </Box>
-        </Box>
+              /> <span style={{marginTop:  4, fontSize: 18}}>₽</span>
+          </div>
+        </div>
         {/* <Button>
              <EditIcon />
           </Button> */}
       </div>
-      <div>
-        <Typography style={{ color: "white", marginLeft: 230, fontSize: 20 }}>
-          <TextField
+      <div className="row">
+        <div className="col-4"></div>
+        <div className="col-8">
+          {/*<input*/}
+          {/*  style={{width: 180}}*/}
+          {/*  type="text"*/}
+          {/*  className="form-control"*/}
+          {/*  name="description"*/}
+          {/*  value={description}*/}
+          {/*  aria-describedby="basic-addon1"*/}
+          {/*  onChange={handleChangeLastName}*/}
+          {/*/>*/}
+          <StyledTextField
             value={description}
             variant={"outlined"}
-            className={{ root: classes.first }}
             margin="normal"
             multiline
             fullWidth
@@ -190,10 +313,8 @@ function Profile({ setIsEditing }) {
               shrink: true,
             }}
             onChange={handleChangeDescription}
-          >
-            {speaker.description}
-          </TextField>
-        </Typography>
+          />
+        </div>
       </div>
       {voices.map((voice) => {
         return (
@@ -227,64 +348,6 @@ function Profile({ setIsEditing }) {
       {/*  <div></div>*/}
       {/*</div>*/}
     </div>
-    // <div style={{width: '100%', height: 750, backgroundImage: `url(https://images.wallpaperscraft.ru/image/mikrofon_zvuk_muzyka_108048_1920x1080.jpg)`}}>
-    // <Container style={{marginTop: 30}}>
-    //   <Paper style={{height: 750,backgroundImage: `url(https://images.wallpaperscraft.ru/image/mikrofon_zvuk_muzyka_108048_1920x1080.jpg)`}}>
-    // <div className={classes.root}>
-    //   <div className={classes.content}>
-    //       <div className={classes.dataWidth}>
-    //         <Avatar style={{width: 200, height: 200, borderRadius: 0, marginRight: 30}}/>
-    //         <Box>
-    //         <h2 style={{color: 'white'}}>
-    //           {" "}
-    //           {speaker.firstName} {}
-    //           {speaker.lastName}
-    //         </h2>
-    //           <Box>
-    //             <Typography style={{color: 'white', fontSize: 25, marginTop: 90}}>
-    //               Цена: от {speaker.cost} ₽
-    //             </Typography>
-    //           </Box>
-    //         </Box>
-    //         {/* <Button>
-    //           <EditIcon />
-    //         </Button> */}
-    //       </div>
-    //         <div>
-    //           <Typography style={{color: 'white',marginTop: 110, marginLeft: 230, fontSize: 20}}>
-    //             {speaker.description}
-    //           </Typography>
-    //         </div>
-    //       {/*<p>Телефон</p>*/}
-    //       {/*<div style={{ display: "flex" }}>*/}
-    //       {/*  <p>Не указан</p>*/}
-    //       {/*  <Button color="primary">Добавить</Button>*/}
-    //       {/*  <div></div>*/}
-    //       {/*</div>*/}
-    //   </div>
-    //   <div
-    //     className={classes.drawer}
-    //     classes={{
-    //       paper: classes.drawerPaper,
-    //     }}
-    //   >
-    //     <div className={classes.drawerContainer}>
-    //       <List style={{backgroundColor: '#f50057'}}>
-    //         {["Личные данные", "Аудиозаписи"].map((text, index) => (
-    //           <ListItem button key={text}>
-    //             <ListItemText style={{color: 'white'}} primary={text} />
-    //             <ListItemIcon style={{color: 'white'}}>
-    //               {index % 2 === 0 ? <AccountCircleIcon /> : <MicIcon />}
-    //             </ListItemIcon>
-    //           </ListItem>
-    //         ))}
-    //       </List>
-    //     </div>
-    //   </div>
-    // </div>
-    //   </Paper>
-    // </Container>
-    // </div>
   );
 }
 

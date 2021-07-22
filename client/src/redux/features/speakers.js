@@ -1,5 +1,3 @@
-
-
 const initialState = {
   items: [],
   loading: false,
@@ -86,62 +84,65 @@ export default function reducers(state = initialState, action) {
     case "speakerByIdFromParams/load/pending":
       return {
         ...state,
-        loading: true
-      }
+        loading: true,
+      };
     case "speakerByIdFromParams/load/fulfilled":
       return {
         ...state,
         loading: false,
-        items: action.payload.json
-      }
+        items: action.payload.json,
+      };
     case "speakerByIdFromParams/load/rejected":
       return {
         ...state,
         loading: false,
         error: action.error,
-      }
+      };
     case "speakers/edit/pending":
       return {
         ...state,
-        editing: true
+        editing: true,
       };
     case "speakers/edit/fulfilled":
       return {
         ...state,
-        items: state.items.map(item => {
-          if(item._id === action.payload.id) {
+        items: state.items.map((item) => {
+          if (item._id === action.payload.id) {
             return {
               ...item,
-              ...action.payload.data
-            }
+              ...action.payload.data,
+            };
           }
-          return item
-        })
+          return item;
+        }),
       };
     case "speakers/edit/rejected": {
       return {
         ...state,
         editing: false,
         error: action.error,
-      }
+      };
     }
     case "avatar/create/pending":
       return {
         ...state,
-        loading: true
-      }
+        loading: true,
+      };
     case "avatar/create/fulfilled":
       return {
         ...state,
         loading: false,
-        items: action.payload
-      }
+        items: {
+          ...state.items,
+          avatar: action.payload,
+        },
+      };
     case "avatar/create/rejected":
       return {
         ...state,
         loading: false,
         error: action.error,
-      }
+      };
     default:
       return state;
   }
@@ -266,73 +267,74 @@ export const tokenRemove = () => {
 };
 export const getSpeakerByIdFromParams = (id) => {
   return async (dispatch) => {
-    dispatch({ type: "speakerByIdFromParams/load/pending"})
+    dispatch({ type: "speakerByIdFromParams/load/pending" });
     try {
-      const response = await fetch(`http://localhost:4001/speaker/${id}`)
-      const json = await response.json()
+      const response = await fetch(`http://localhost:4001/speaker/${id}`);
+      const json = await response.json();
       if (json.error) {
         dispatch({
           type: "speakerByIdFromParams/load/rejected",
           error: "При запросе на сервер произошла ошибка",
-        })
+        });
       } else {
         dispatch({
           type: "speaker/load/fulfilled",
-          payload: json
+          payload: json,
         });
       }
     } catch (e) {
       dispatch({
-        type: "speakerByIdFromParams/load/rejected", error: e.toString()
-      })
+        type: "speakerByIdFromParams/load/rejected",
+        error: e.toString(),
+      });
     }
-  }
-}
-
+  };
+};
 
 export const patchSpeaker = (data) => {
   return async (dispatch, getState) => {
-    const state = getState()
-    dispatch({type: "speakers/edit/pending"})
+    const state = getState();
+    dispatch({ type: "speakers/edit/pending" });
     try {
       await fetch(`http://localhost:4001/speaker`, {
-        method: 'PATCH',
+        method: "PATCH",
         headers: {
           "Content-type": "application/json",
-          Authorization: `Bearer ${state.speakers.token}`
+          Authorization: `Bearer ${state.speakers.token}`,
         },
-        body: JSON.stringify(data)
-      })
+        body: JSON.stringify(data),
+      });
       dispatch({
         type: "speakers/edit/fulfilled",
-      payload:  data
-      })
+        payload: data,
+      });
     } catch (e) {
       dispatch({
-        type: "speakers/edit/rejected", error: e.toString()
-      })
+        type: "speakers/edit/rejected",
+        error: e.toString(),
+      });
     }
-  }
-}
+  };
+};
 
-
-export const uploadAvatar =(file) => {
+export const uploadAvatar = (file) => {
   return async (dispatch, getState) => {
-    const state = getState()
+    const state = getState();
     try {
-      const formData = new FormData()
-      formData.append('file', file)
-     await fetch(`http://localhost:4001/avatar`, {
-        method: 'POST',
+      const formData = new FormData();
+      formData.append("file", file);
+      const response = await fetch(`http://localhost:4001/avatar`, {
+        method: "POST",
         headers: {
           // "Content-type": "application/json",
-          Authorization: `Bearer ${state.speakers.token}`
+          Authorization: `Bearer ${state.speakers.token}`,
         },
-       body: formData
-      })
-      dispatch({type: "avatar/create/fulfilled", payload: file})
+        body: formData,
+      });
+      const json = await response.json()
+      dispatch({ type: "avatar/create/fulfilled", payload: json.avatar });
     } catch (e) {
-      console.log(e.message)
+      console.log(e.message);
     }
-  }
-}
+  };
+};

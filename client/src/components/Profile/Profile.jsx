@@ -3,20 +3,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { speakerById, uploadAvatar } from "../../redux/features/speakers";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Avatar, Fab, TextField, Typography } from "@material-ui/core";
+import { Avatar, Fab, IconButton, TextField, Typography } from '@material-ui/core'
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import EditIcon from "@material-ui/icons/Edit";
 import {
   addVoice,
   deleteVoice,
-  getVoiceById,
+  getVoiceById, getVoiceByIdForAuth,
   getVoices,
   uploadVoice,
-} from "../../redux/features/voices";
+} from '../../redux/features/voices'
 import AddIcon from "@material-ui/icons/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Button from "@material-ui/core/Button";
+import { PhotoCamera } from '@material-ui/icons'
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -86,6 +87,56 @@ const useStyles = makeStyles((theme) => ({
     bottom: 30,
   },
   hover: {},
+  account: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column',
+  },
+  avatar: {
+    width: '120px',
+    height: '120px',
+  },
+  avatarWrapper: {
+
+    display: 'inline-block',
+    padding: '10px',
+    borderRadius: '50%',
+    position: 'relative',
+  },
+  avatarButton: {
+    opacity: 0,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '200px',
+    height: '200px',
+    position: 'absolute',
+    top: '10px',
+    transition: '300ms',
+    backgroundColor: 'rgba(0,0,0,0.45)',
+    '&:hover': {
+      opacity: 1,
+    },
+  },
+  button: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: '50%',
+    width: '120px',
+    height: '120px',
+    color: 'whitesmoke',
+  },
+  subtitle: {
+    fontSize: '12px',
+    textAlign: 'center',
+    padding: '10px 50px',
+    color: '#6a6a6a',
+    marginBottom: '100px',
+  },
+  input: {
+    display: 'none',
+  },
 }));
 
 function Profile({ setIsEditing }) {
@@ -95,7 +146,7 @@ function Profile({ setIsEditing }) {
   const speaker = useSelector((state) => state.speakers.items);
   const voices = useSelector((state) => state.voices.items);
   useEffect(() => {
-    dispatch(getVoiceById());
+    dispatch(getVoiceByIdForAuth());
   }, [dispatch]);
 
   useEffect(() => {
@@ -104,7 +155,7 @@ function Profile({ setIsEditing }) {
 
   const classes = useStyles();
 
-  function changeHandler(e) {
+  function handleChangeAvatar(e) {
     const file = e.target.files[0];
     dispatch(uploadAvatar(file));
   }
@@ -132,38 +183,51 @@ function Profile({ setIsEditing }) {
   // };
 
   return (
-    <div className={classes.content}>
-      <div className={classes.dataWidth}>
-        <form>
-          <Avatar
-            src={speaker.avatar}
-            style={{
-              width: 200,
-              height: 200,
-              borderRadius: 0,
-              marginRight: 30,
-            }}
-          />
-          <input
-            accept="image/*"
-            onChange={(e) => changeHandler(e)}
-            type="file"
-            placeholder="Загрузить аватар"
-          />
-          {/*<Button onClick={handleAdd}>UP</Button>*/}
-        </form>
-        <Box>
+    <div className="container">
+      <div className="row">
+        <div className="col-4" style={{flex: 0}}>
+          <div className={classes.account}>
+            <input
+              accept="image/*"
+              className={classes.input}
+              id="icon-button-file"
+              type="file"
+              onChange={handleChangeAvatar}
+            />
+
+            <div className={classes.avatarWrapper}>
+              <Grid className={classes.picture}>
+                <img style={{width: 200, height: 200}} src={speaker.avatar} alt="" />
+              </Grid>
+              <div className={classes.avatarButton}>
+                <label htmlFor="icon-button-file">
+                  <IconButton
+                    color="default"
+                    aria-label="upload picture"
+                    component="span"
+                    className={classes.button}
+                  >
+                    <PhotoCamera />
+                  </IconButton>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-8">
+          <div style={{marginTop: 10}}>
           <h2 style={{ color: "white" }}>
             {" "}
             {speaker.firstName} {}
             {speaker.lastName}
           </h2>
-          <Box>
-            <Typography style={{ color: "white", fontSize: 25, marginTop: 90 }}>
+          </div>
+          <div>
+            <Typography style={{ color: "white", fontSize: 25, marginTop: 120 }}>
               Цена: от {speaker.cost} ₽
             </Typography>
-          </Box>
-        </Box>
+          </div>
+        </div>
         {/* <Button>
              <EditIcon />
           </Button> */}
