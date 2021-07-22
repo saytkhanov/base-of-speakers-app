@@ -12,6 +12,14 @@ module.exports.voicesControllers = {
   },
   getVoicesById: async (req, res) => {
     try {
+      const getVoices = await Voice.find({ speaker: req.params.id });
+      res.json(getVoices);
+    } catch (e) {
+      console.log(e.message);
+    }
+  },
+  getVoicesByIdForAuth: async (req, res) => {
+    try {
       const getVoices = await Voice.find({ speaker: req.user.id });
       res.json(getVoices);
     } catch (e) {

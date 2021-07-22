@@ -120,7 +120,7 @@ function SpeakerById(props) {
     setOpenForm(false);
   };
   useEffect(() => dispatch(getSpeakerByIdFromParams(id)), [dispatch]);
-  useEffect(() => dispatch(getVoiceById()), [dispatch]);
+  useEffect(() => dispatch(getVoiceById(id)), [dispatch]);
   useEffect(() => dispatch(loadReviews()), [dispatch]);
   useEffect(() => dispatch(loadRatings()), [dispatch]);
 
@@ -204,12 +204,12 @@ function SpeakerById(props) {
             </Grid>
             <Grid container style={{ marginTop: "5%" }}>
               {voices.map((voice) => {
-                if (voice?.speaker === id) {
+                if (voice.speaker === id) {
                   return (
                     <TableCell classes={{ root: classes.voicesBlock }}>
                       <audio
                         className={classes.audio}
-                        src={voice?.audio}
+                        src={voice.audio}
                         controls
                       />
                     </TableCell>

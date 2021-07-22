@@ -78,7 +78,10 @@ module.exports.speakersController = {
 
           speaker.avatar = urlForDB
           await speaker.save()
-          res.json("Картинка загружена")
+          res.json({
+            success: "Картинка загружена",
+            avatar: urlForDB
+          })
         }
         })
     } catch (e) {
