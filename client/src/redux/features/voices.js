@@ -25,6 +25,17 @@ export default function reducers(state = initialState, action) {
         loading: false,
         error: action.error,
       };
+    case "voice/upload/pending":
+      return {
+        ...state,
+        loading: true
+      }
+    case "voice/upload/fulfilled":
+      return {
+        ...state,
+        loading: false,
+        file: action.payload.file
+      }
     case "voice/create/pending":
       return {
         ...state,
@@ -64,37 +75,62 @@ export default function reducers(state = initialState, action) {
   }
   }
 
-  export const getVoices = () => {
-    return async (dispatch) => {
-      dispatch({ type: "voices/load/pending" });
-      try {
-        const response = await fetch(`http://localhost:4001/voice`);
-        const json = await response.json();
-        if (json.error) {
-          dispatch({
-            type: "voices/load/rejected",
-            error: "При запросе на сервер произошла ошибка",
-          });
-        } else {
-          dispatch({
-            type: "voices/load/fulfilled",
-            payload: json,
-          });
-        }
-      } catch (e) {
-        dispatch({ type: "voices/load/rejected", error: e.toString() });
-      }
-      }
-  }
+  // export const getVoices = () => {
+  //   return async (dispatch) => {
+  //     dispatch({ type: "voices/load/pending" });
+  //     try {
+  //       const response = await fetch(`http://localhost:4001/voice`);
+  //       const json = await response.json();
+  //       if (json.error) {
+  //         dispatch({
+  //           type: "voices/load/rejected",
+  //           error: "При запросе на сервер произошла ошибка",
+  //         });
+  //       } else {
+  //         dispatch({
+  //           type: "voices/load/fulfilled",
+  //           payload: json,
+  //         });
+  //       }
+  //     } catch (e) {
+  //       dispatch({ type: "voices/load/rejected", error: e.toString() });
+  //     }
+  //     }
+  // }
 
-export const uploadVoice =(file) => {
+export const addVoice =(data) => {
   return async (dispatch, getState) => {
     dispatch({type: "voice/create/pending"})
     const state = getState()
     try {
+      const response = await fetch(`http://localhost:4001/voice`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${state.speakers.token}`,
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          title: data.title,
+          description: data.title,
+          file: state.voices.file
+        })
+      })
+      const json = response.json()
+      dispatch({type: "voice/create/fulfilled", payload: json})
+    } catch (e) {
+      console.log(e.message)
+    }
+  }
+}
+
+export const uploadVoice =(e) => {
+  return async (dispatch, getState) => {
+    dispatch({type: "voice/upload/pending"})
+    const state = getState()
+    try {
       const formData = new FormData()
-      formData.append('file', file)
-      await fetch(`http://localhost:4001/voice`, {
+      formData.append('file', e.target.files[0])
+      const response = await fetch(`http://localhost:4001/voice/upload`, {
         method: 'POST',
         headers: {
           // "Content-type": "application/json",
@@ -102,7 +138,8 @@ export const uploadVoice =(file) => {
         },
         body: formData
       })
-      dispatch({type: "voice/create/fulfilled", payload: file})
+       const json = await response.json()
+      dispatch({type: "voice/upload/fulfilled", payload: json})
     } catch (e) {
       console.log(e.message)
     }
@@ -121,6 +158,25 @@ export const deleteVoice =(id) => {
         }
       })
       dispatch({type: "voice/delete/fulfilled", payload: id})
+    } catch (e) {
+      console.log(e.message)
+    }
+  }
+}
+
+export const getVoiceById =() => {
+  return async (dispatch, getState) => {
+    dispatch({type: "voices/load/pending"})
+    const state = getState()
+    try {
+     const response = await fetch(`http://localhost:4001/voices`, {
+        headers: {
+          // "Content-type": "application/json",
+          Authorization: `Bearer ${state.speakers.token}`
+        }
+      })
+      const json = await response.json()
+      dispatch({type: "voices/load/fulfilled", payload: json})
     } catch (e) {
       console.log(e.message)
     }

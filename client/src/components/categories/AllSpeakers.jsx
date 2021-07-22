@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core";
 import SpeakersBody from "./Table/SpeakersBody";
 import Grid from "@material-ui/core/Grid";
 import Preloader from "../Preloader";
+import Footer from '../Footer'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 function AllSpeakers({ speakersResults, gender }) {
   const classes = useStyles();
   const dispatch = useDispatch();
-
+  const loading = useSelector(state => state.speakers.loading)
   useEffect(() => dispatch(getSpeakers()), [dispatch]);
 
 
@@ -29,6 +30,10 @@ function AllSpeakers({ speakersResults, gender }) {
     if (gender === "Женский") return item.gender === "female";
   });
 
+
+  if(loading) {
+    return <Preloader/>
+  }
 
 
   return (
@@ -60,6 +65,7 @@ function AllSpeakers({ speakersResults, gender }) {
           </Grid>
         </Container>
       </div>
+      <Footer/>
       {/*{speakers.map(item => {*/}
       {/*    return (*/}
       {/*        <Box>{item.firstName}</Box>*/}

@@ -65,18 +65,6 @@ function SpeakersBody({ speaker }) {
             Заказать
           </Button>
         </TableCell>
-        {/*<TableCell>*/}
-        {/*  <Avatar src={speaker.avatar}/>*/}
-        {/*</TableCell>*/}
-        {/*<TableCell>*/}
-        {/*  <Avatar src={speaker.avatar}/>*/}
-        {/*</TableCell>*/}
-        {/*<TableCell>*/}
-        {/*  <Avatar src={speaker.avatar}/>*/}
-        {/*</TableCell>*/}
-        {/*<TableCell>*/}
-        {/*  <Avatar src={speaker.avatar}/>*/}
-        {/*</TableCell>*/}
       </TableRow>
       )
     </TableBody>

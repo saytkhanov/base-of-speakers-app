@@ -15,7 +15,7 @@ import {
 } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Edit from "./Edit";
-import { getVoices } from "../../redux/features/voices";
+import { getVoiceById, getVoices } from '../../redux/features/voices'
 import Footer from "../Footer";
 const drawerWidth = 240;
 
@@ -74,7 +74,7 @@ function Profile() {
   const voices = useSelector((state) => state.voices.items);
 
   useEffect(() => {
-    dispatch(getVoices());
+    dispatch(getVoiceById());
   }, [dispatch]);
 
   useEffect(() => {
