@@ -8,6 +8,9 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import {getSpeakers} from "../../../redux/features/speakers";
+import {useDispatch, useSelector} from "react-redux";
+import Preloader from "../../Preloader";
 
 const useStyles = makeStyles((theme) => ({
   audio: {
@@ -23,7 +26,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SpeakersBody({ speaker }) {
+  const dispatch = useDispatch()
+  const loading = useSelector(state => state.speakers.loading)
+  useEffect(() => dispatch(getSpeakers()), [dispatch]);
+
   const classes = useStyles();
+
+
+  if(loading) {
+    return <Preloader/>
+  }
 
   return (
     <TableBody>

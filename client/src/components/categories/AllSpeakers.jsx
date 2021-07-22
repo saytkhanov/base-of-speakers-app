@@ -31,11 +31,6 @@ function AllSpeakers({ speakersResults, gender }) {
   });
 
 
-  if(loading) {
-    return <Preloader/>
-  }
-
-
   return (
     <>
       <div style={{ height: 20, backgroundColor: "black" }}></div>
