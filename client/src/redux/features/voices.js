@@ -148,6 +148,7 @@ export const uploadVoice =(e) => {
 
 export const deleteVoice =(id) => {
   return async (dispatch, getState) => {
+    dispatch({type: "voice/delete/pending"})
     const state = getState()
     try {
       await fetch(`http://localhost:4001/voice/${id}`, {

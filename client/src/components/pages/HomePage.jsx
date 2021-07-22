@@ -11,6 +11,7 @@ import { getVoices } from "../../redux/features/voices";
 import AboutsUs from "../AboutsUs";
 import Footer from "../Footer";
 import Preloader from "../Preloader";
+import HomePagePreloader from "../HomePagePreloader";
 
 const useStyles = makeStyles((theme) => ({
   mainFeaturesPost: {
@@ -70,7 +71,7 @@ function HomePage(props) {
   useEffect(() => dispatch(getSpeakers()), [dispatch]);
 
   if(loading) {
-    return <Preloader/>
+    return <HomePagePreloader/>
   }
 
   return (

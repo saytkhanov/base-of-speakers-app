@@ -1,17 +1,21 @@
 import React from "react";
+import { TableBody, TableCell, TableRow } from "@material-ui/core";
 
 function Preloader() {
-    return (
-      <div
-        style={{
-          textAlign: "center",
-          width: "100%",
-          marginTop: 350
-        }}
-      >
-        <h1>Идет загрузка...</h1>
-      </div>
-    );
+  return (
+            <div
+                style={{
+                    width: "100%",
+                    height: 100,
+                    marginBottom: 10,
+                    backgroundColor: "black",
+                    borderRadius: 5,
+                    opacity: 0.8,
+                    textAlign: "center",
+                    color: "white",
+                }}
+            ><h1>Идет загрузка...</h1></div>
+  );
 }
 
 export default Preloader;
