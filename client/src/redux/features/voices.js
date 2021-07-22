@@ -25,6 +25,23 @@ export default function reducers(state = initialState, action) {
         loading: false,
         error: action.error,
       };
+    case "voice/load/pending":
+      return {
+        ...state,
+        loading: true,
+      };
+    case "voice/load/fulfilled":
+      return {
+        ...state,
+        loading: false,
+        items: action.payload,
+      };
+    case "voice/load/rejected":
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+      };
     case "voice/upload/pending":
       return {
         ...state,
@@ -164,19 +181,32 @@ export const deleteVoice =(id) => {
   }
 }
 
-export const getVoiceById =() => {
-  return async (dispatch, getState) => {
+export const getVoiceById =(id) => {
+  return async (dispatch) => {
     dispatch({type: "voices/load/pending"})
-    const state = getState()
     try {
-     const response = await fetch(`http://localhost:4001/voices`, {
-        headers: {
-          // "Content-type": "application/json",
-          Authorization: `Bearer ${state.speakers.token}`
-        }
-      })
+     const response = await fetch(`http://localhost:4001/voices/${id}`)
       const json = await response.json()
       dispatch({type: "voices/load/fulfilled", payload: json})
+    } catch (e) {
+      console.log(e.message)
+    }
+  }
+}
+
+export const getVoiceByIdForAuth =() => {
+  return async (dispatch, getState) => {
+    dispatch({type: "voice/load/pending"})
+    const state = getState()
+    try {
+      const response = await fetch(`http://localhost:4001/voice`,
+        {
+          headers: {
+            Authorization: `Bearer ${state.speakers.token}`
+          }
+        })
+      const json = await response.json()
+      dispatch({type: "voice/load/fulfilled", payload: json})
     } catch (e) {
       console.log(e.message)
     }

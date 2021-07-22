@@ -7,6 +7,10 @@ import reviewsReducer from './features/reviews'
 import ratingsReducer from './features/ratings'
 
 import thunk from "redux-thunk";
+import Grid from '@material-ui/core/Grid'
+import { IconButton } from '@material-ui/core'
+import { PhotoCamera } from '@material-ui/icons'
+import React from 'react'
 
 const logger = createLogger({
   diff: true,
@@ -22,3 +26,8 @@ export const store = createStore(
   }),
   applyMiddleware(thunk, logger)
 );
+
+
+
+
+
