@@ -50,6 +50,14 @@ module.exports.speakersController = {
       console.log(e.message);
     }
   },
+  getSpeakerBySort: async (req,res) => {
+    try {
+      const speaker = await Speaker.find({}, {_id: 0}).sort({cost: -1})
+      res.json(speaker)
+    } catch (e) {
+
+    }
+  },
   getSpeakerById: async (req, res) => {
     try {
       const getSpeaker = await Speaker.findById(req.user.id);

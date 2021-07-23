@@ -23,7 +23,7 @@ function HomePagePreloader(props) {
                         color: "white",
                         paddingTop: "10%"
                     }}
-                ><h1>Идет загрузка...</h1></div></Carousel.Item>
+                ></div></Carousel.Item>
         </Carousel>
     );
 }

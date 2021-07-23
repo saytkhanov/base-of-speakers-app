@@ -119,6 +119,7 @@ function CategoryAndSearchHeader(props) {
   //
 
 
+
   return (
     <>
       <Paper
@@ -174,6 +175,13 @@ function CategoryAndSearchHeader(props) {
                     color="secondary"
                   >
                     Цены
+                  </Button>
+                  <Button
+                    style={{ fontWeight: "bold", marginRight: 20 }}
+                    variant="contained"
+                    color="secondary"
+                  >
+                    Рейтинг
                   </Button>
                 </Box>
               </div>

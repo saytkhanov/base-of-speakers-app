@@ -7,6 +7,7 @@ router.get("/rating", ratingsController.getRating);
 
 router.post("/rating/:id", ratingsController.addRating);
 router.delete("/rating/:id", ratingsController.deleteRating);
+router.get('/sort', ratingsController.getRatingBySort)
 
 
 module.exports = router;

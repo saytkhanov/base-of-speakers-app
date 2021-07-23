@@ -1,6 +1,14 @@
 const Rating = require("../models/Rating.model");
 
 module.exports.ratingsController = {
+  getRatingBySort: async (req, res) => {
+    try {
+      const rating = await Rating.find({}, {_id: 0}).sort({rating: -1})
+      res.json(rating)
+    } catch (e) {
+
+    }
+  },
   addRating: async (req, res) => {
     try {
       const speaker = req.params.id;
