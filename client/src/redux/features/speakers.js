@@ -178,12 +178,19 @@ export const registerSpeaker = (data) => {
       });
 
       const json = await response.json();
-      dispatch({
-        type: "speakers/create/fulfilled",
-        payload: json,
-      });
+      if (json.error) {
+        dispatch({
+          type: "speakers/create/rejected",
+          error: json.error,
+        });
+      } else {
+        dispatch({
+          type: "speakers/create/fulfilled",
+          payload: json,
+        });
+      }
     } catch (e) {
-      dispatch({ type: "speakers/create/rejected", error: e.toString() });
+      console.log(e.message);
     }
   };
 };
@@ -206,7 +213,7 @@ export const authSpeaker = (data) => {
       if (json.error) {
         dispatch({
           type: "speakerById/load/rejected",
-          error: "Необходимо ввести данные",
+          error: json.error,
         });
       } else {
         dispatch({
@@ -237,7 +244,7 @@ export const speakerById = () => {
       if (json.error) {
         dispatch({
           type: "speakerById/load/rejected",
-          error: "При запросе на сервер произошла ошибка",
+          error: json.error,
         });
       } else {
         dispatch({
@@ -260,7 +267,7 @@ export const getSpeakers = () => {
       if (json.error) {
         dispatch({
           type: "speaker/load/rejected",
-          error: "При запросе на сервер произошла ошибка",
+          error: json.error,
         });
       } else {
         dispatch({
@@ -316,7 +323,7 @@ export const getSpeakerByIdFromParams = (id) => {
       if (json.error) {
         dispatch({
           type: "speakerByIdFromParams/load/rejected",
-          error: "При запросе на сервер произошла ошибка",
+          error: json.error,
         });
       } else {
         dispatch({
@@ -373,7 +380,7 @@ export const uploadAvatar = (file) => {
         },
         body: formData,
       });
-      const json = await response.json()
+      const json = await response.json();
       dispatch({ type: "avatar/create/fulfilled", payload: json.avatar });
     } catch (e) {
       console.log(e.message);
