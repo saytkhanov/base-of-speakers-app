@@ -89,7 +89,7 @@ module.exports.voicesControllers = {
 
       if (voice.speaker.toString() === req.user.id) {
         await voice.remove();
-        res.json("удалено");
+         return res.json(voice);
       }
 
       return res.status(401).json("Ошибка. Нет доступа");

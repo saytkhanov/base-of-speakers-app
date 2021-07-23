@@ -88,6 +88,9 @@ function Profile() {
       className={classes.mainFeaturesPost}
       style={{
         backgroundImage: `url(https://images.wallpaperscraft.ru/image/mikrofon_oborudovanie_temnyj_fon_121814_1920x1080.jpg)`,
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        backgroundSize: "cover",
       }}
     >
       <Container fixed>

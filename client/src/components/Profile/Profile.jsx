@@ -334,7 +334,7 @@ function Profile({ setIsEditing }) {
       {voices.map((voice) => {
         return (
           <div style={{ marginLeft: 300, marginTop: 30 }} >
-            <audio className={classes.audio} src={voice.audio} controls />
+            <audio className={classes.audio} src={voice.audio} preload="auto" controls />
             <Fab
               style={{
                 backgroundColor: "#4c4dc3",
