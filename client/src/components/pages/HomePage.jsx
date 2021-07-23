@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getSpeakers } from "../../redux/features/speakers";
+import { getRandomSpeakers, getSpeakers } from '../../redux/features/speakers'
 import { Button, Container, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
@@ -68,7 +68,7 @@ function HomePage(props) {
   const speakers = useSelector((state) => state.speakers.items);
   const loading = useSelector((state) => state.speakers.loading);
 
-  useEffect(() => dispatch(getSpeakers()), [dispatch]);
+  useEffect(() => dispatch(getRandomSpeakers()), [dispatch]);
 
   if(loading) {
     return <HomePagePreloader/>

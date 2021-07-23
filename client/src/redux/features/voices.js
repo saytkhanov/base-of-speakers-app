@@ -168,14 +168,15 @@ export const deleteVoice =(id) => {
     dispatch({type: "voice/delete/pending"})
     const state = getState()
     try {
-      await fetch(`http://localhost:4001/voice/${id}`, {
+     const response = await fetch(`http://localhost:4001/voice/${id}`, {
         method: 'DELETE',
         headers: {
           // "Content-type": "application/json",
           Authorization: `Bearer ${state.speakers.token}`
         }
       })
-      dispatch({type: "voice/delete/fulfilled", payload: id})
+      const json = await response.json()
+      dispatch({type: "voice/delete/fulfilled", payload: { id, json }})
     } catch (e) {
       console.log(e.message)
     }
