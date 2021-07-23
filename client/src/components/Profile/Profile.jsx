@@ -139,6 +139,18 @@ const useStyles = makeStyles((theme) => ({
   input: {
     display: 'none',
   },
+  title: {
+    display:'flex',
+    fontSize: 20,
+    margin: "auto",
+    width: "100%",
+    justifyContent: "space-between",
+    cursor: 'pointer'
+  },
+  cost: {
+    textAlign: "center",
+    paddingTop: 20
+  }
 }));
 
 const StyledTextFieldForInfo = styled(TextField)`
@@ -162,7 +174,7 @@ function Profile({ setIsEditing }) {
   const dispatch = useDispatch();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const speaker = useSelector((state) => state.speakers.items);
+  const speaker = useSelector((state) => state.speakers.currentItem);
   const voices = useSelector((state) => state.voices.items);
   const [openForm, setOpenForm] = useState(false)
   const deleting = useSelector(state => state.voices.deleting)
@@ -271,12 +283,6 @@ function Profile({ setIsEditing }) {
           {speaker.description}
         </Typography>
       </div>
-      <div>
-        <StyledTextFieldForInfo onChange={handleChangeDescription} />
-        <StyledTextFieldForInfo onChange={handleChangeTitle} />
-        <input type="file" onChange={handleChangeVoice} />
-        <Button onClick={handleAdd}>Добавить</Button>
-      </div>
       <Grid classes={{ root: classes.cost }}>
         <Button
           onClick={() => setOpenForm(true)}
@@ -335,6 +341,16 @@ function Profile({ setIsEditing }) {
         return (
           <div style={{ marginLeft: 300, marginTop: 30 }} >
             <audio className={classes.audio} src={voice.audio} preload="auto" controls />
+            <div className={classes.title}>
+              <div>{"<"}</div>
+              <div>{voice.title}</div>
+              <div>{">"}</div>
+            </div>
+            <div style={{display: "flex", justifyContent: "space-between", width: 600}}>
+              <div>
+            <audio className={classes.audio} src={voice.audio} controls />
+              </div>
+              <div style={{lineHeight: 7}}>
             <Fab
               style={{
                 backgroundColor: "#4c4dc3",
@@ -347,6 +363,8 @@ function Profile({ setIsEditing }) {
             >
               <DeleteIcon />
             </Fab>
+              </div>
+            </div>
           </div>
         );
       })}

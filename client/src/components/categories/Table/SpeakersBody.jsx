@@ -78,7 +78,6 @@ function SpeakersBody({ speaker }) {
           </Button>
         </TableCell>
       </TableRow>
-      )
     </TableBody>
   );
 }

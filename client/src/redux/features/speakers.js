@@ -3,6 +3,7 @@ const initialState = {
   loading: false,
   deleting: false,
   error: null,
+  currentItem: [],
   token: localStorage.getItem("token"),
 };
 
@@ -79,7 +80,7 @@ export default function reducers(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        items: action.payload,
+        currentItem: action.payload,
       };
     case "speakerById/load/rejected":
       return {
@@ -107,7 +108,7 @@ export default function reducers(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        items: action.payload.json,
+        currentItem: action.payload,
       };
     case "speakerByIdFromParams/load/rejected":
       return {
@@ -320,7 +321,7 @@ export const getSpeakerByIdFromParams = (id) => {
         });
       } else {
         dispatch({
-          type: "speaker/load/fulfilled",
+          type: "speakerByIdFromParams/load/fulfilled",
           payload: json,
         });
       }
