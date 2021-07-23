@@ -14,7 +14,7 @@ function Preloader() {
                     textAlign: "center",
                     color: "white",
                 }}
-            ><h1>Идет загрузка...</h1></div>
+            ></div>
   );
 }
 

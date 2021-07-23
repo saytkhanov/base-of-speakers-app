@@ -18,6 +18,8 @@ import AddIcon from "@material-ui/icons/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Button from "@material-ui/core/Button";
 import { PhotoCamera } from '@material-ui/icons'
+import Container from '@material-ui/core/Container'
+import styled from 'styled-components'
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -139,12 +141,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const StyledTextFieldForInfo = styled(TextField)`
+.MuiInputBase-root {
+  height: 25px;
+  color: white;
+}
+  .MuiOutlinedInput-root {
+    fieldset {
+      border-color: white;
+    }
+    &:hover fieldset {
+      border-color: #f50057;
+    }
+    &.Mui-focused fieldset {
+      border-color: #f50057;
+    }
+`
+
 function Profile({ setIsEditing }) {
   const dispatch = useDispatch();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const speaker = useSelector((state) => state.speakers.items);
   const voices = useSelector((state) => state.voices.items);
+  const [openForm, setOpenForm] = useState(false)
   const deleting = useSelector(state => state.voices.deleting)
   useEffect(() => {
     dispatch(getVoiceByIdForAuth());
@@ -218,12 +238,23 @@ function Profile({ setIsEditing }) {
           </div>
         </div>
         <div className="col-8">
-          <div style={{marginTop: 10}}>
+          <div style={{marginTop: 10,display: 'flex', justifyContent: 'space-between'}}>
           <h2 style={{ color: "white" }}>
             {" "}
             {speaker.firstName} {}
             {speaker.lastName}
           </h2>
+            <Fab
+              style={{
+                backgroundColor: "black",
+
+                color: "white",
+              }}
+              aria-label="edit"
+              onClick={() => setIsEditing(true)}
+            >
+              <EditIcon />
+            </Fab>
           </div>
           <div>
             <Typography style={{ color: "white", fontSize: 25, marginTop: 120 }}>
@@ -236,16 +267,70 @@ function Profile({ setIsEditing }) {
           </Button> */}
       </div>
       <div>
-        <Typography style={{ color: "white", marginLeft: 230, fontSize: 20 }}>
+        <Typography style={{ color: "white", marginLeft: 250, marginTop: 40, fontSize: 20 }}>
           {speaker.description}
         </Typography>
       </div>
       <div>
-        <TextField onChange={handleChangeDescription} />
-        <TextField onChange={handleChangeTitle} />
+        <StyledTextFieldForInfo onChange={handleChangeDescription} />
+        <StyledTextFieldForInfo onChange={handleChangeTitle} />
         <input type="file" onChange={handleChangeVoice} />
         <Button onClick={handleAdd}>Добавить</Button>
       </div>
+      <Grid classes={{ root: classes.cost }}>
+        <Button
+          onClick={() => setOpenForm(true)}
+          color={"secondary"}
+          variant={"contained"}
+        >
+          Добавить запись
+        </Button>
+      </Grid>
+      <Container classes={{ root: classes.cost }}>
+        {openForm ? (
+          <form>
+            <div class="input-group mb-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Введите тему записи"
+                aria-label="Тема"
+                name="Тема"
+                aria-describedby="basic-addon1"
+               onChange={handleChangeTitle}
+              />
+            </div>
+            <div class="form-group">
+                    <textarea
+                      name="text"
+                      placeholder="Введите описание"
+                      class="form-control"
+                      onChange={handleChangeDescription}
+                    ></textarea>
+            </div>
+            <input type="file" onChange={handleChangeVoice} />
+            <div class="form-group">
+              <button
+
+                class="btn btn-primary btn-sm"
+                type="button"
+                onClick={handleAdd}
+              >
+                {" "}
+                Добавить запись{" "}
+              </button>
+              <button
+                onClick={() => setOpenForm(false)}
+                class="btn btn-primary btn-sm"
+                type="button"
+              >
+                {" "}
+                Закрыть
+              </button>
+            </div>
+          </form>
+        ) : null}
+      </Container>
       {voices.map((voice) => {
         return (
           <div style={{ marginLeft: 300, marginTop: 30 }} >
@@ -273,19 +358,7 @@ function Profile({ setIsEditing }) {
           <AddIcon />
         </Fab>
       </Grid>
-      <Grid item classes={{ root: classes.edit }}>
-        <Fab
-          style={{
-            backgroundColor: "black",
 
-            color: "white",
-          }}
-          aria-label="edit"
-          onClick={() => setIsEditing(true)}
-        >
-          <EditIcon />
-        </Fab>
-      </Grid>
       {/*<p>Телефон</p>*/}
       {/*<div style={{ display: "flex" }}>*/}
       {/*  <p>Не указан</p>*/}

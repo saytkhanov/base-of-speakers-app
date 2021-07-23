@@ -244,7 +244,7 @@ function Profile({ setIsEditing }) {
           </div>
         </div>
         <div className="col-8">
-          <div style={{marginTop: 13}}>
+          <div style={{marginTop: 13, display: 'flex', justifyContent: 'space-between'}}>
           <StyledTextFieldForInfo
             style={{width: 180, marginBottom: 10, marginRight: 10}}
             variant={"outlined"}
@@ -269,8 +269,16 @@ function Profile({ setIsEditing }) {
             value={lastName}
             onChange={handleChangeLastName}
           />
+            <Fab
+              style={{ backgroundColor: "black", color: "white" }}
+              aria-label="edit"
+              onClick={handleEdit}
+              // disabled={editing}
+            >
+              <SaveIcon />
+            </Fab>
           </div>
-          <div style={{marginTop: 80, display: 'flex'}}>
+          <div style={{marginTop: 80, display: 'flex',alignItems: 'center'}}>
             <Typography style={{ color: "white", fontSize: 22}}>
               Цена: от
             </Typography>
@@ -280,6 +288,7 @@ function Profile({ setIsEditing }) {
                 margin="normal"
                 multiline
                 fullWidth
+                value={cost}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -292,8 +301,8 @@ function Profile({ setIsEditing }) {
           </Button> */}
       </div>
       <div className="row">
-        <div className="col-4"></div>
-        <div className="col-8">
+        <div className="col-4" style={{flex: 0}}></div>
+        <div className="col-8" style={{marginLeft: 220}}>
           {/*<input*/}
           {/*  style={{width: 180}}*/}
           {/*  type="text"*/}
@@ -332,14 +341,6 @@ function Profile({ setIsEditing }) {
         </Fab>
       </Grid>
       <Grid item classes={{ root: classes.edit }}>
-        <Fab
-          style={{ backgroundColor: "black", color: "white" }}
-          aria-label="edit"
-          onClick={handleEdit}
-          // disabled={editing}
-        >
-          <SaveIcon />
-        </Fab>
       </Grid>
       {/*<p>Телефон</p>*/}
       {/*<div style={{ display: "flex" }}>*/}
