@@ -39,6 +39,9 @@ function AllSpeakers({ speakersResults, gender }) {
           width: "100%",
           backgroundColor: "#052040",
           backgroundImage: `url(https://images.wallpaperscraft.ru/image/mikrofon_dym_zatemnennyj_117667_1920x1080.jpg)`,
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+          backgroundSize: "cover"
         }}
       >
         <Container fixed>

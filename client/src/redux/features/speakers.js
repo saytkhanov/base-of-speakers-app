@@ -36,6 +36,23 @@ export default function reducers(state = initialState, action) {
         loading: false,
         token: action.payload.token,
       };
+    case "speakerRandom/load/pending":
+      return {
+        ...state,
+        loading: true,
+      };
+    case "speakerRandom/load/fulfilled":
+      return {
+        ...state,
+        loading: false,
+        items: action.payload,
+      };
+    case "speakerRandom/load/rejected":
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+      };
     case "speaker/load/pending":
       return {
         ...state,
@@ -263,6 +280,31 @@ export const getSpeakers = () => {
     }
   };
 };
+
+
+export const getRandomSpeakers = () => {
+  return async (dispatch) => {
+    dispatch({ type: "speakerRandom/load/pending" });
+    try {
+      const response = await fetch(`http://localhost:4001/random`);
+      const json = await response.json();
+      if (json.error) {
+        dispatch({
+          type: "speakerRandom/load/rejected",
+          error: "При запросе на сервер произошла ошибка",
+        });
+      } else {
+        dispatch({
+          type: "speakerRandom/load/fulfilled",
+          payload: json,
+        });
+      }
+    } catch (e) {
+      dispatch({ type: "speakersRandom/load/rejected", error: e.toString() });
+    }
+  };
+};
+
 export const tokenRemove = () => {
   localStorage.removeItem("token");
 
