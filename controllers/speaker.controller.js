@@ -2,6 +2,7 @@ const Speaker = require("../models/Speaker.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const path = require("path");
+const httpStatus = require("http-status");
 
 module.exports.speakersController = {
   getAllSpeakers: async (req, res) => {
@@ -47,53 +48,55 @@ module.exports.speakersController = {
       ]);
       res.json(getSpeakers);
     } catch (e) {
-      console.log(e.message);
+      return res.status(httpStatus.SERVICE_UNAVAILABLE).json({
+        error: e.message,
+      });
     }
   },
-  getSpeakerBySort: async (req,res) => {
+  getSpeakerBySort: async (req, res) => {
     try {
-      const speaker = await Speaker.find({}, {_id: 0}).sort({cost: -1})
-      res.json(speaker)
-    } catch (e) {
-
-    }
+      const speaker = await Speaker.find({}, { _id: 0 }).sort({ cost: -1 });
+      res.json(speaker);
+    } catch (e) {}
   },
   getSpeakerById: async (req, res) => {
     try {
       const getSpeaker = await Speaker.findById(req.user.id);
 
       if (!getSpeaker) {
-        return res.status(401).json({
+        return res.status(httpStatus.BAD_REQUEST).json({
           error: "Диктор с таким ID не найден",
         });
       }
       res.json(getSpeaker);
     } catch (e) {
-      console.log(e.message);
+      return res.status(httpStatus.SERVICE_UNAVAILABLE).json({
+        error: e.message,
+      });
     }
   },
   addAvatar: async (req, res) => {
     const file = req.files.file;
     const fileName = file.name;
-    const url = path.resolve(__dirname, "../public/uploads/img/" + fileName)
-    const urlForDB = "/uploads/img/" + fileName
+    const url = path.resolve(__dirname, "../public/uploads/img/" + fileName);
+    const urlForDB = "/uploads/img/" + fileName;
     try {
       file.mv(url, async (err) => {
-        if(err) {
-          console.log(err)
+        if (err) {
+          console.log(err);
         } else {
-          const speaker = await Speaker.findById(req.user.id)
+          const speaker = await Speaker.findById(req.user.id);
 
-          speaker.avatar = urlForDB
-          await speaker.save()
+          speaker.avatar = urlForDB;
+          await speaker.save();
           res.json({
             success: "Картинка загружена",
-            avatar: urlForDB
-          })
+            avatar: urlForDB,
+          });
         }
-        })
+      });
     } catch (e) {
-      console.log(e.message)
+      console.log(e.message);
     }
   },
   patchSpeaker: async (req, res) => {
@@ -109,7 +112,7 @@ module.exports.speakersController = {
       );
       res.json(patchSpeaker);
     } catch (e) {
-      return res.status(401).json({
+      return res.status(httpStatus.SERVICE_UNAVAILABLE).json({
         error: e.message,
       });
     }
@@ -125,7 +128,9 @@ module.exports.speakersController = {
       ]);
       res.json(getRandomSpeakers);
     } catch (e) {
-      console.log(e.message);
+      return res.status(httpStatus.SERVICE_UNAVAILABLE).json({
+        error: e.message,
+      });
     }
   },
   // addRating: async (req, res) => {
@@ -155,14 +160,32 @@ module.exports.speakersController = {
     } = req.body;
     console.log(firstName);
     if (!login) {
-      return res.status(401).json({
-        error: "Необходимо указать login",
+      return res.status(httpStatus.BAD_REQUEST).json({
+        message: "Необходимо указать login",
       });
     }
 
     if (!password) {
-      return res.status(401).json({
+      return res.status(httpStatus.BAD_REQUEST).json({
         error: "Необходимо указать пароль",
+      });
+    }
+
+    if (!firstName) {
+      return res.status(httpStatus.BAD_REQUEST).json({
+        error: "Необходимо ввести имя",
+      });
+    }
+
+    if (!lastName) {
+      return res.status(httpStatus.BAD_REQUEST).json({
+        error: "Необходимо ввести фамилию",
+      });
+    }
+
+    if (!gender) {
+      return res.status(httpStatus.BAD_REQUEST).json({
+        error: "Необходимо выбрать пол",
       });
     }
     try {
@@ -185,46 +208,52 @@ module.exports.speakersController = {
       res.status(201).json({ message: "Диктор создан" });
     } catch (e) {
       console.log(e.message);
-      res
-        .status(500)
-        .json({ message: "Что-то пошло не так, попробуйте снова" });
+      res.status(httpStatus.SERVICE_UNAVAILABLE).json({ message: e.message });
     }
   },
   login: async (req, res) => {
     const { login, password } = req.body;
-    const candidate = await Speaker.findOne({ login: login });
-    if (!candidate) {
-      return res.status(401).json("Неверный логин");
+    try {
+      const candidate = await Speaker.findOne({ login: login });
+      if (!candidate) {
+        return res.status(httpStatus.BAD_REQUEST).json("Неверный логин");
+      }
+      const valid = await bcrypt.compare(password, candidate.password);
+
+      if (!valid) {
+        return res.status(httpStatus.BAD_REQUEST).json("Неверный пароль");
+      }
+      const payload = {
+        id: candidate._id,
+        login: candidate.login,
+      };
+
+      const token = await jwt.sign(payload, process.env.SECRET_JWT_KEY, {
+        expiresIn: "24h",
+      });
+
+      res.json({
+        token,
+      });
+    } catch (e) {
+      return res.status(httpStatus.SERVICE_UNAVAILABLE).json({
+        error: e.message,
+      });
     }
-    const valid = await bcrypt.compare(password, candidate.password);
-
-    if (!valid) {
-      return res.status(401).json("Неверный пароль");
-    }
-    const payload = {
-      id: candidate._id,
-      login: candidate.login,
-    };
-
-    const token = await jwt.sign(payload, process.env.SECRET_JWT_KEY, {
-      expiresIn: "24h",
-    });
-
-    res.json({
-      token,
-    });
   },
   getSpeakerByIdFromParams: async (req, res) => {
     try {
       const getSpeaker = await Speaker.findById(req.params.id);
       if (!getSpeaker) {
-        return res.status(401).json({
+        return res.status(httpStatus.BAD_REQUEST).json({
           error: "Диктор с таким ID не найден",
         });
       }
       res.json(getSpeaker);
     } catch (e) {
-      console.log(e.message);
+      return res.status(httpStatus.SERVICE_UNAVAILABLE).json({
+        error: e.message,
+      });
     }
   },
 };
