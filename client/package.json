@@ -11,6 +11,7 @@
     "@testing-library/user-event": "^12.1.10",
     "bootstrap": "^4.6.0",
     "fuse.js": "^6.4.6",
+    "material-ui-audio-player": "^1.6.6",
     "materialize-css": "^1.0.0-rc.2",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.1",

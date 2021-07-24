@@ -84,9 +84,9 @@ export default function reducers(state = initialState, action) {
     case "voice/delete/rejected":
       return {
         ...state,
-        error: action.error,
-        deleting: true,
-      };
+        deleting: false,
+        error: action.error
+      }
     default: {
       return state;
     }
@@ -183,14 +183,14 @@ export const deleteVoice = (id) => {
     dispatch({ type: "voice/delete/pending" });
     const state = getState();
     try {
-      await fetch(`http://localhost:4001/voice/${id}`, {
-        method: "DELETE",
+    await fetch(`http://localhost:4001/voice/${id}`, {
+        method: 'DELETE',
         headers: {
           // "Content-type": "application/json",
-          Authorization: `Bearer ${state.speakers.token}`,
-        },
-      });
-      dispatch({ type: "voice/delete/fulfilled", payload: id });
+          Authorization: `Bearer ${state.speakers.token}`
+        }
+      })
+      dispatch({type: "voice/delete/fulfilled", payload:  id})
     } catch (e) {
       console.log(e.message);
     }
@@ -202,7 +202,7 @@ export const getVoiceById = (id) => {
     dispatch({ type: "voices/load/pending" });
     try {
       const response = await fetch(`http://localhost:4001/voices/${id}`);
-      const json = await response.json();
+      const json = await response.json();:
       if (json.error) {
         dispatch({
           type: "voices/load/rejected",

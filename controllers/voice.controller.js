@@ -53,41 +53,39 @@ module.exports.voicesControllers = {
       });
     }
     try {
-      const createVoice = await new Voice({
-        title,
-        audio: file,
-        description,
-        speaker: req.user.id,
-      });
-      await createVoice.save();
-      res.json(createVoice);
-    } catch (e) {
+          const createVoice = await new Voice({
+            title,
+            audio: file,
+            description,
+            speaker: req.user.id
+          })
+          await createVoice.save();
+          res.json(createVoice)
+        } catch (e) {
       return res.status(httpStatus.SERVICE_UNAVAILABLE).json({
         error: e.message,
       });
     }
   },
 
-  uploadVoice: (req, res) => {
+  uploadVoice:  (req, res) => {
     const file = req.files.file;
-    const fileName = file.name;
-    const url = path.resolve(__dirname, "../public/uploads/img/" + fileName);
-    const urlForDB = "/uploads/img/" + fileName;
+    const fileName = file.name
+    const url = path.resolve(__dirname, "../public/uploads/img/" + fileName)
+    const urlForDB = "/uploads/img/" + fileName
     try {
       file.mv(url, async (err) => {
-        if (err) {
-          console.log(err);
+        if(err) {
+          console.log(err)
         } else {
           res.json({
             success: "Запись успешно добавлена",
-            file: urlForDB,
-          });
+            file: urlForDB
+          })
         }
       });
     } catch (e) {
-      return res.status(httpStatus.SERVICE_UNAVAILABLE).json({
-        error: e.message,
-      });
+      console.log(e.message)
     }
   },
 
@@ -120,11 +118,9 @@ module.exports.voicesControllers = {
          return res.json(voice);
       }
 
-      return res.status(httpStatus.BAD_REQUEST).json("Ошибка. Нет доступа");
+      return res.status(401).json("Ошибка. Нет доступа");
     } catch (e) {
-      return res.status(httpStatus.SERVICE_UNAVAILABLE).json({
-        error: e.message,
-      });
+      console.log(e.message);
     }
   },
 };

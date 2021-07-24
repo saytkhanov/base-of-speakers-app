@@ -167,7 +167,7 @@ const StyledTextFieldForInfo = styled(TextField)`
 
 function Profile({ setIsEditing }) {
   const dispatch = useDispatch();
-  const speaker = useSelector((state) => state.speakers.items);
+  const speaker = useSelector((state) => state.speakers.currentItem);
   const voices = useSelector((state) => state.voices.items);
 
   useEffect(() => {

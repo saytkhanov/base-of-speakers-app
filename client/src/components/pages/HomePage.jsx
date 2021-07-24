@@ -12,6 +12,75 @@ import AboutsUs from "../AboutsUs";
 import Footer from "../Footer";
 import Preloader from "../Preloader";
 import HomePagePreloader from "../HomePagePreloader";
+import { createMuiTheme, ThemeProvider } from '@material-ui/core';
+import AudioPlayer from 'material-ui-audio-player';
+const muiTheme = createMuiTheme({});
+
+
+
+const useStyless = makeStyles((theme) => {
+  return {
+    root: {
+      backgroundColor: 'inherit',
+      height: 40,
+      marginTop: 10,
+      // marginLeft: 1,
+      width: 400,
+      lineHeight: '3px'
+    },
+    loopIcon: {
+      color: '#f50057',
+      '&.selected': {
+        color: '#f50057',
+      },
+      '&:hover': {
+        color: 'white',
+      },
+      [theme.breakpoints.down('sm')]: {
+        display: 'none',
+      },
+    },
+    playIcon: {
+      color: '#f50057',
+      '&:hover': {
+        color: 'white',
+      },
+    },
+    replayIcon: {
+      color: '#f50057',
+    },
+    pauseIcon: {
+      color: '#f50057',
+      '&:hover': {
+        color: 'white',
+      },
+    },
+    volumeIcon: {
+      color: '#f50057',
+      '&:hover': {
+        color: 'white',
+      },
+    },
+    volumeSlider: {
+      color: '#f50057',
+    },
+    progressTime: {
+      color: '#f50057',
+    },
+    mainSlider: {
+      color: '#f50057',
+      '& .MuiSlider-rail': {
+        color: 'white',
+      },
+      '& .MuiSlider-track': {
+        color: '#f50057',
+      },
+      '& .MuiSlider-thumb': {
+        color: '#f50057',
+      },
+    },
+  };
+});
 
 const useStyles = makeStyles((theme) => ({
   mainFeaturesPost: {
@@ -149,11 +218,9 @@ function HomePage(props) {
                       </Typography>
                     </div>
                     <div>
-                      <audio
-                        className={classes.audio}
-                        src={speaker.lastVoice?.audio}
-                        controls
-                      ></audio>
+                      <ThemeProvider style theme={muiTheme}>
+                        <AudioPlayer volume={false} useStyles={useStyless} src={speaker.lastVoice?.audio} />
+                      </ThemeProvider>;
                     </div>
                     <div style={{ marginTop: 20 }}>
                       <Typography style={{ color: "white", marginRight: 25 }}>
@@ -169,13 +236,16 @@ function HomePage(props) {
                       style={{
                         textAlign: "end",
                         marginRight: 30,
-                        marginTop: 20,
+                        marginTop: 10,
                       }}
                     >
                       <Typography variant={"h6"} style={{ color: "white" }}>
                         {" "}
                         Цена: от {speaker?.cost}₽
                       </Typography>
+                      <Button style={{width: 142}} color={"secondary"} variant={"contained"}>
+                        Заказать
+                      </Button>
                     </div>
                   </div>
                 </div>

@@ -125,6 +125,43 @@ module.exports.speakersController = {
             size: 6,
           },
         },
+        {
+          $lookup: {
+            from: "voices",
+            as: "voices",
+            let: { speaker: "$_id" },
+            pipeline: [
+              { $match: { $expr: { $eq: ["$speaker", "$$speaker"] } } },
+            ],
+          },
+        },
+        {
+          $lookup: {
+            from: "voices",
+            as: "lastVoice",
+            let: { speaker: "$_id" },
+            pipeline: [
+              { $match: { $expr: { $eq: ["$speaker", "$$speaker"] } } },
+              { $sort: { createdAt: -1 } },
+              { $limit: 1 },
+            ],
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            firstName: 1,
+            lastName: 1,
+            category: 1,
+            description: 1,
+            cost: 1,
+            gender: 1,
+            avatar: 1,
+            voices: 1,
+            lastVoice: 1,
+          },
+        },
+        { $unwind: { path: "$lastVoice", preserveNullAndEmptyArrays: true } },
       ]);
       res.json(getRandomSpeakers);
     } catch (e) {

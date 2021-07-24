@@ -72,7 +72,7 @@ function SpeakerById(props) {
   const { id } = useParams();
 
   const dispatch = useDispatch();
-  const speaker = useSelector((state) => state.speakers.items);
+  const speaker = useSelector((state) => state.speakers.currentItem);
   const voices = useSelector((state) => state.voices.items);
   const loading = useSelector((state) => state.speakers.loading);
   const reviews = useSelector((state) =>

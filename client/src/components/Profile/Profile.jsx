@@ -20,9 +20,86 @@ import Button from "@material-ui/core/Button";
 import { PhotoCamera } from '@material-ui/icons'
 import Container from '@material-ui/core/Container'
 import styled from 'styled-components'
-const drawerWidth = 240;
+import { createMuiTheme, ThemeProvider } from '@material-ui/core';
+import AudioPlayer from 'material-ui-audio-player';
+const drawerWidth = 240
+
+const muiTheme = createMuiTheme({});
+
+const useStyless = makeStyles((theme) => {
+  return {
+    root: {
+      backgroundColor: 'inherit',
+      height: 0,
+      marginTop: 10,
+      // marginLeft: 1,
+      width: 400,
+      lineHeight: '3px'
+    },
+    loopIcon: {
+      color: '#f50057',
+      '&.selected': {
+        color: '#f50057',
+      },
+      '&:hover': {
+        color: 'white',
+      },
+      [theme.breakpoints.down('sm')]: {
+        display: 'none',
+      },
+    },
+    playIcon: {
+      color: '#f50057',
+      '&:hover': {
+        color: 'white',
+      },
+    },
+    replayIcon: {
+      color: '#f50057',
+    },
+    pauseIcon: {
+      color: '#f50057',
+      '&:hover': {
+        color: 'white',
+      },
+    },
+    volumeIcon: {
+      color: '#f50057',
+      '&:hover': {
+        color: 'white',
+      },
+    },
+    volumeSlider: {
+      color: '#f50057',
+    },
+    progressTime: {
+      color: '#f50057',
+    },
+    mainSlider: {
+      color: '#f50057',
+      '& .MuiSlider-rail': {
+        color: 'white',
+      },
+      '& .MuiSlider-track': {
+        color: '#f50057',
+      },
+      '& .MuiSlider-thumb': {
+        color: '#f50057',
+      },
+    },
+  };
+});
+
+
 
 const useStyles = makeStyles((theme) => ({
+  class: {
+    color: '#f50057',
+    backgroundColor: 'inherit',
+    '&:hover': {
+      color: 'white',
+    }
+  },
   root: {
     display: "flex",
   },
@@ -67,17 +144,6 @@ const useStyles = makeStyles((theme) => ({
     left: 0,
     right: 0,
     backgroundColor: "rgba(0,0,0,.3)",
-  },
-  audio: {
-    height: 50,
-    marginTop: 30,
-    width: 500,
-    "&::-webkit-media-controls-panel": {
-      backgroundColor: "#f50057",
-    },
-    "&::-webkit-media-controls-current-time-display": {
-      color: "white",
-    },
   },
   add: {
     position: "fixed",
@@ -139,30 +205,26 @@ const useStyles = makeStyles((theme) => ({
   input: {
     display: 'none',
   },
+  title: {
+    display:'flex',
+    fontSize: 20,
+    margin: "auto",
+    width: "100%",
+    justifyContent: "space-around",
+    cursor: 'pointer'
+  },
+  cost: {
+    textAlign: "center",
+    paddingTop: 20
+  }
 }));
 
-const StyledTextFieldForInfo = styled(TextField)`
-.MuiInputBase-root {
-  height: 25px;
-  color: white;
-}
-  .MuiOutlinedInput-root {
-    fieldset {
-      border-color: white;
-    }
-    &:hover fieldset {
-      border-color: #f50057;
-    }
-    &.Mui-focused fieldset {
-      border-color: #f50057;
-    }
-`
 
 function Profile({ setIsEditing }) {
   const dispatch = useDispatch();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const speaker = useSelector((state) => state.speakers.items);
+  const speaker = useSelector((state) => state.speakers.currentItem);
   const voices = useSelector((state) => state.voices.items);
   const [openForm, setOpenForm] = useState(false)
   const deleting = useSelector(state => state.voices.deleting)
@@ -271,16 +333,11 @@ function Profile({ setIsEditing }) {
           {speaker.description}
         </Typography>
       </div>
-      <div>
-        <StyledTextFieldForInfo onChange={handleChangeDescription} />
-        <StyledTextFieldForInfo onChange={handleChangeTitle} />
-        <input type="file" onChange={handleChangeVoice} />
-        <Button onClick={handleAdd}>Добавить</Button>
-      </div>
       <Grid classes={{ root: classes.cost }}>
         <Button
           onClick={() => setOpenForm(true)}
           color={"secondary"}
+          style={{marginLeft: 80}}
           variant={"contained"}
         >
           Добавить запись
@@ -300,18 +357,9 @@ function Profile({ setIsEditing }) {
                onChange={handleChangeTitle}
               />
             </div>
-            <div class="form-group">
-                    <textarea
-                      name="text"
-                      placeholder="Введите описание"
-                      class="form-control"
-                      onChange={handleChangeDescription}
-                    ></textarea>
-            </div>
             <input type="file" onChange={handleChangeVoice} />
             <div class="form-group">
               <button
-
                 class="btn btn-primary btn-sm"
                 type="button"
                 onClick={handleAdd}
@@ -333,20 +381,34 @@ function Profile({ setIsEditing }) {
       </Container>
       {voices.map((voice) => {
         return (
-          <div style={{ marginLeft: 300, marginTop: 30 }} >
-            <audio className={classes.audio} src={voice.audio} preload="auto" controls />
-            <Fab
-              style={{
-                backgroundColor: "#4c4dc3",
-
-                color: "white",
-              }}
+          <div style={{ marginLeft: 170, marginTop: 30 }} >
+            <div className={classes.title}>
+              <div>{"<"}</div>
+              <div>{voice.title}</div>
+              <div>{">"}</div>
+            </div>
+            <div style={{display: "flex", width: 600}}>
+              <div style={{marginLeft: 140}}>
+                <ThemeProvider theme={muiTheme}>
+                  <AudioPlayer useStyles={useStyless} src={voice.audio} />
+                </ThemeProvider>
+              </div>
+              <div style={{lineHeight: 4}}>
+            <Button
+              classes={{root: classes.class}}
+              // style={{
+              //   backgroundColor: "#4c4dc3",
+              //
+              //   color: "white",
+              // }}
               disabled={deleting}
               aria-label="edit"
               onClick={() => dispatch(deleteVoice(voice._id))}
             >
               <DeleteIcon />
-            </Fab>
+            </Button>
+              </div>
+            </div>
           </div>
         );
       })}

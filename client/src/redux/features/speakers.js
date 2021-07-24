@@ -3,6 +3,7 @@ const initialState = {
   loading: false,
   deleting: false,
   error: null,
+  currentItem: [],
   token: localStorage.getItem("token"),
 };
 
@@ -79,7 +80,7 @@ export default function reducers(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        items: action.payload,
+        currentItem: action.payload,
       };
     case "speakerById/load/rejected":
       return {
@@ -107,7 +108,7 @@ export default function reducers(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        items: action.payload.json,
+        currentItem: action.payload,
       };
     case "speakerByIdFromParams/load/rejected":
       return {
@@ -123,8 +124,8 @@ export default function reducers(state = initialState, action) {
     case "speakers/edit/fulfilled":
       return {
         ...state,
-        items: state.items.map((item) => {
-          if (item._id === action.payload.id) {
+        currentItem: state.currentItem.map((item) => {
+          if (item._id === action.payload) {
             return {
               ...item,
               ...action.payload.data,
@@ -149,8 +150,8 @@ export default function reducers(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        items: {
-          ...state.items,
+        currentItem: {
+          ...state.currentItem,
           avatar: action.payload,
         },
       };
@@ -300,7 +301,7 @@ export const getRandomSpeakers = () => {
         });
       }
     } catch (e) {
-      dispatch({ type: "speakersRandom/load/rejected", error: e.toString() });
+      dispatch({ type: "speakerRandom/load/rejected", error: e.toString() });
     }
   };
 };
@@ -327,7 +328,7 @@ export const getSpeakerByIdFromParams = (id) => {
         });
       } else {
         dispatch({
-          type: "speaker/load/fulfilled",
+          type: "speakerByIdFromParams/load/fulfilled",
           payload: json,
         });
       }
@@ -345,7 +346,7 @@ export const patchSpeaker = (data) => {
     const state = getState();
     dispatch({ type: "speakers/edit/pending" });
     try {
-      await fetch(`http://localhost:4001/speaker`, {
+     const response = await fetch(`http://localhost:4001/speaker`, {
         method: "PATCH",
         headers: {
           "Content-type": "application/json",
@@ -353,9 +354,10 @@ export const patchSpeaker = (data) => {
         },
         body: JSON.stringify(data),
       });
+     const json = response.json()
       dispatch({
         type: "speakers/edit/fulfilled",
-        payload: data,
+        payload: json,
       });
     } catch (e) {
       dispatch({
