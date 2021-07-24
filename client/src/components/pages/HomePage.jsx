@@ -28,6 +28,7 @@ const useStyless = makeStyles((theme) => {
       width: 400,
       lineHeight: '3px'
     },
+
     loopIcon: {
       color: '#f50057',
       '&.selected': {
@@ -108,6 +109,7 @@ const useStyles = makeStyles((theme) => ({
     width: 500,
     marginLeft: 50,
   },
+
   submit: {
     margin: theme.spacing(3, 0, 2),
     backgroundColor: "white",
@@ -218,9 +220,11 @@ function HomePage(props) {
                       </Typography>
                     </div>
                     <div>
-                      <ThemeProvider style theme={muiTheme}>
-                        <AudioPlayer volume={false} useStyles={useStyless} src={speaker.lastVoice?.audio} />
-                      </ThemeProvider>;
+                      <audio
+                        className={classes.audio}
+                        src={speaker.lastVoice?.audio}
+                        controls
+                      ></audio>
                     </div>
                     <div style={{ marginTop: 20 }}>
                       <Typography style={{ color: "white", marginRight: 25 }}>
