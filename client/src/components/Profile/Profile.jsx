@@ -91,7 +91,6 @@ const useStyless = makeStyles((theme) => {
 });
 
 
-
 const useStyles = makeStyles((theme) => ({
   class: {
     color: '#f50057',
@@ -212,6 +211,17 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     justifyContent: "space-around",
     cursor: 'pointer'
+  },
+  audio: {
+    backgroundColor: "black",
+    height: 30,
+    marginTop: 30,
+    "&::-webkit-media-controls-panel": {
+      backgroundColor: "#f50057",
+    },
+    "&::-webkit-media-controls-current-time-display": {
+      color: "white",
+    },
   },
   cost: {
     textAlign: "center",
@@ -381,32 +391,29 @@ function Profile({ setIsEditing }) {
       </Container>
       {voices.map((voice) => {
         return (
-          <div style={{ marginLeft: 170, marginTop: 30 }} >
+          <div style={{ marginLeft: 300, marginTop: 30 }} >
             <div className={classes.title}>
               <div>{"<"}</div>
               <div>{voice.title}</div>
               <div>{">"}</div>
             </div>
-            <div style={{display: "flex", width: 600}}>
-              <div style={{marginLeft: 140}}>
-                <ThemeProvider theme={muiTheme}>
-                  <AudioPlayer useStyles={useStyless} src={voice.audio} />
-                </ThemeProvider>
+            <div style={{display: "flex", justifyContent: "space-between", width: 600}}>
+              <div>
+                <audio className={classes.audio} src={voice.audio} controls />
               </div>
-              <div style={{lineHeight: 4}}>
-            <Button
-              classes={{root: classes.class}}
-              // style={{
-              //   backgroundColor: "#4c4dc3",
-              //
-              //   color: "white",
-              // }}
-              disabled={deleting}
-              aria-label="edit"
-              onClick={() => dispatch(deleteVoice(voice._id))}
-            >
-              <DeleteIcon />
-            </Button>
+              <div style={{lineHeight: 7}}>
+                <Fab
+                  style={{
+                    backgroundColor: "#4c4dc3",
+
+                    color: "white",
+                  }}
+                  disabled={deleting}
+                  aria-label="edit"
+                  onClick={() => dispatch(deleteVoice(voice._id))}
+                >
+                  <DeleteIcon />
+                </Fab>
               </div>
             </div>
           </div>
