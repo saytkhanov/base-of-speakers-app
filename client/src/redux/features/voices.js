@@ -133,7 +133,7 @@ export const addVoice =(data) => {
           file: state.voices.file
         })
       })
-      const json = response.json()
+      const json = await response.json()
       dispatch({type: "voice/create/fulfilled", payload: json})
     } catch (e) {
       console.log(e.message)

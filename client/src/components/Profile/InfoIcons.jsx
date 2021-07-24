@@ -106,28 +106,7 @@ function Profile() {
                     paper: classes.drawerPaper,
                   }}
                 >
-                  <div className={classes.drawerContainer}>
-                    <List className={classes.hover}>
-                      <ListItem button>
-                        <ListItemText style={{ color: "white" }}>
-                          Личные данные
-                        </ListItemText>
-                        <ListItemIcon style={{ color: "white" }}>
-                          <AccountCircleIcon />
-                        </ListItemIcon>
-                      </ListItem>
-                    </List>
-                    <List className={classes.hover}>
-                      <ListItem button>
-                        <ListItemText style={{ color: "white" }}>
-                          Аудиозаписи
-                        </ListItemText>
-                        <ListItemIcon style={{ color: "white" }}>
-                          <MicIcon />
-                        </ListItemIcon>
-                      </ListItem>
-                    </List>
-                  </div>
+
                 </div>
               </div>
             </div>

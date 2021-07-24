@@ -32,7 +32,6 @@ module.exports.voicesControllers = {
           const createVoice = await new Voice({
             title,
             audio: file,
-            description,
             speaker: req.user.id
           })
           await createVoice.save();

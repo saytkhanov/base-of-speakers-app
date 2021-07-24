@@ -26,7 +26,80 @@ const drawerWidth = 240
 
 const muiTheme = createMuiTheme({});
 
+const useStyless = makeStyles((theme) => {
+  return {
+    root: {
+      backgroundColor: 'inherit',
+      height: 0,
+      marginTop: 10,
+      // marginLeft: 1,
+      width: 400,
+      lineHeight: '3px'
+    },
+    loopIcon: {
+      color: '#f50057',
+      '&.selected': {
+        color: '#f50057',
+      },
+      '&:hover': {
+        color: 'white',
+      },
+      [theme.breakpoints.down('sm')]: {
+        display: 'none',
+      },
+    },
+    playIcon: {
+      color: '#f50057',
+      '&:hover': {
+        color: 'white',
+      },
+    },
+    replayIcon: {
+      color: '#f50057',
+    },
+    pauseIcon: {
+      color: '#f50057',
+      '&:hover': {
+        color: 'white',
+      },
+    },
+    volumeIcon: {
+      color: '#f50057',
+      '&:hover': {
+        color: 'white',
+      },
+    },
+    volumeSlider: {
+      color: '#f50057',
+    },
+    progressTime: {
+      color: '#f50057',
+    },
+    mainSlider: {
+      color: '#f50057',
+      '& .MuiSlider-rail': {
+        color: 'white',
+      },
+      '& .MuiSlider-track': {
+        color: '#f50057',
+      },
+      '& .MuiSlider-thumb': {
+        color: '#f50057',
+      },
+    },
+  };
+});
+
+
+
 const useStyles = makeStyles((theme) => ({
+  class: {
+    color: '#f50057',
+    backgroundColor: 'inherit',
+    '&:hover': {
+      color: 'white',
+    }
+  },
   root: {
     display: "flex",
   },
@@ -71,17 +144,6 @@ const useStyles = makeStyles((theme) => ({
     left: 0,
     right: 0,
     backgroundColor: "rgba(0,0,0,.3)",
-  },
-  audio: {
-    height: 50,
-    marginTop: 30,
-    width: 500,
-    "&::-webkit-media-controls-panel": {
-      backgroundColor: "#f50057",
-    },
-    "&::-webkit-media-controls-current-time-display": {
-      color: "white",
-    },
   },
   add: {
     position: "fixed",
@@ -148,7 +210,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 20,
     margin: "auto",
     width: "100%",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     cursor: 'pointer'
   },
   cost: {
@@ -157,22 +219,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const StyledTextFieldForInfo = styled(TextField)`
-.MuiInputBase-root {
-  height: 25px;
-  color: white;
-}
-  .MuiOutlinedInput-root {
-    fieldset {
-      border-color: white;
-    }
-    &:hover fieldset {
-      border-color: #f50057;
-    }
-    &.Mui-focused fieldset {
-      border-color: #f50057;
-    }
-`
 
 function Profile({ setIsEditing }) {
   const dispatch = useDispatch();
@@ -291,6 +337,7 @@ function Profile({ setIsEditing }) {
         <Button
           onClick={() => setOpenForm(true)}
           color={"secondary"}
+          style={{marginLeft: 80}}
           variant={"contained"}
         >
           Добавить запись
@@ -310,18 +357,9 @@ function Profile({ setIsEditing }) {
                onChange={handleChangeTitle}
               />
             </div>
-            <div class="form-group">
-                    <textarea
-                      name="text"
-                      placeholder="Введите описание"
-                      class="form-control"
-                      onChange={handleChangeDescription}
-                    ></textarea>
-            </div>
             <input type="file" onChange={handleChangeVoice} />
             <div class="form-group">
               <button
-
                 class="btn btn-primary btn-sm"
                 type="button"
                 onClick={handleAdd}
@@ -343,31 +381,32 @@ function Profile({ setIsEditing }) {
       </Container>
       {voices.map((voice) => {
         return (
-          <div style={{ marginLeft: 300, marginTop: 30 }} >
+          <div style={{ marginLeft: 170, marginTop: 30 }} >
             <div className={classes.title}>
               <div>{"<"}</div>
               <div>{voice.title}</div>
               <div>{">"}</div>
             </div>
-            <div style={{display: "flex", justifyContent: "space-between", width: 600}}>
-              <div>
+            <div style={{display: "flex", width: 600}}>
+              <div style={{marginLeft: 140}}>
                 <ThemeProvider theme={muiTheme}>
-                  <AudioPlayer src={voice.audio} />
-                </ThemeProvider>;
+                  <AudioPlayer useStyles={useStyless} src={voice.audio} />
+                </ThemeProvider>
               </div>
-              <div style={{lineHeight: 7}}>
-            <Fab
-              style={{
-                backgroundColor: "#4c4dc3",
-
-                color: "white",
-              }}
+              <div style={{lineHeight: 4}}>
+            <Button
+              classes={{root: classes.class}}
+              // style={{
+              //   backgroundColor: "#4c4dc3",
+              //
+              //   color: "white",
+              // }}
               disabled={deleting}
               aria-label="edit"
               onClick={() => dispatch(deleteVoice(voice._id))}
             >
               <DeleteIcon />
-            </Fab>
+            </Button>
               </div>
             </div>
           </div>
