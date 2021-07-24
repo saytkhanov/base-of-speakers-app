@@ -20,7 +20,11 @@ import Button from "@material-ui/core/Button";
 import { PhotoCamera } from '@material-ui/icons'
 import Container from '@material-ui/core/Container'
 import styled from 'styled-components'
-const drawerWidth = 240;
+import { createMuiTheme, ThemeProvider } from '@material-ui/core';
+import AudioPlayer from 'material-ui-audio-player';
+const drawerWidth = 240
+
+const muiTheme = createMuiTheme({});
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -340,7 +344,6 @@ function Profile({ setIsEditing }) {
       {voices.map((voice) => {
         return (
           <div style={{ marginLeft: 300, marginTop: 30 }} >
-            <audio className={classes.audio} src={voice.audio} preload="auto" controls />
             <div className={classes.title}>
               <div>{"<"}</div>
               <div>{voice.title}</div>
@@ -348,7 +351,9 @@ function Profile({ setIsEditing }) {
             </div>
             <div style={{display: "flex", justifyContent: "space-between", width: 600}}>
               <div>
-            <audio className={classes.audio} src={voice.audio} controls />
+                <ThemeProvider theme={muiTheme}>
+                  <AudioPlayer src={voice.audio} />
+                </ThemeProvider>;
               </div>
               <div style={{lineHeight: 7}}>
             <Fab
