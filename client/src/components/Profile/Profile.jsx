@@ -21,7 +21,6 @@ import { PhotoCamera } from '@material-ui/icons'
 import Container from '@material-ui/core/Container'
 import styled from 'styled-components'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
-import AudioPlayer from 'material-ui-audio-player';
 const drawerWidth = 240
 
 const muiTheme = createMuiTheme({});
