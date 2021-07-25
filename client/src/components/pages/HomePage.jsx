@@ -7,14 +7,10 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { Carousel } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import { getVoices } from "../../redux/features/voices";
 import AboutsUs from "../AboutsUs";
 import Footer from "../Footer";
-import Preloader from "../Preloader";
 import HomePagePreloader from "../HomePagePreloader";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
-import AudioPlayer from 'material-ui-audio-player';
-const muiTheme = createMuiTheme({});
 
 
 
