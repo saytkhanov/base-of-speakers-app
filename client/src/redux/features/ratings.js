@@ -56,7 +56,7 @@ export default function reducer(state = initialState, action) {
 export const loadRatings = () => {
   return async (dispatch) => {
     dispatch({ type: "ratings/load/pending" });
-    const response = await fetch("http://localhost:4001/rating");
+    const response = await fetch("/rating");
     const json = await response.json();
     if (json.error) {
       dispatch({
@@ -72,7 +72,7 @@ export const loadRatings = () => {
 export const addRating = (id, data) => {
   return async (dispatch) => {
     dispatch({ type: "ratings/load/pending" });
-    const response = await fetch(`http://localhost:4001/rating/${id}`, {
+    const response = await fetch(`/rating/${id}`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -87,7 +87,7 @@ export const addRating = (id, data) => {
 export const loadRatingsBySort = () => {
   return async (dispatch) => {
     dispatch({ type: "ratingsBySort/load/pending" });
-    const response = await fetch("http://localhost:4001/sort");
+    const response = await fetch("/sort");
     const json = await response.json();
     dispatch({ type: "ratingsBySort/load/fulfilled", payload: json });
   };

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Box, Table, TableContainer, Typography } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
-import { getSpeakers } from "../../redux/features/speakers";
+import { getSpeakers, loadSpeakerByCost } from "../../redux/features/speakers";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core";
 import SpeakersBody from "./Table/SpeakersBody";
@@ -17,18 +17,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function AllSpeakers({ speakersResults, gender }) {
+function AllSpeakers({ speakersResults, gender, cost }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.speakers.loading);
-  useEffect(() => dispatch(getSpeakers()), [dispatch]);
-
+  const costsBySpeakers = useSelector((state) => state.speakers.cost);
+  useEffect(() => {
+    dispatch(getSpeakers());
+    dispatch(loadSpeakerByCost());
+  }, [dispatch]);
+  console.log(cost);
   const speakers = speakersResults.filter((item) => {
     if (!gender) return true;
     if (gender === "Мужской") return item.gender === "male";
     if (gender === "Женский") return item.gender === "female";
   });
-
+  console.log(gender);
   return (
     <>
       <div style={{ height: 20, backgroundColor: "black" }}></div>
@@ -39,7 +43,7 @@ function AllSpeakers({ speakersResults, gender }) {
           backgroundImage: `url(https://images.wallpaperscraft.ru/image/mikrofon_dym_zatemnennyj_117667_1920x1080.jpg)`,
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
-          backgroundSize: "cover"
+          backgroundSize: "cover",
         }}
       >
         <Container fixed>
@@ -47,15 +51,20 @@ function AllSpeakers({ speakersResults, gender }) {
             <Grid item md={12}>
               <Box style={{ marginTop: 20, textAlign: "left" }}>
                 <Typography variant="h6" style={{ color: "white" }}>
-                  Найдено дикторов: {speakers.length}
+                  Найдено дикторов:{" "}
+                  {cost ? costsBySpeakers.length : speakers.length}
                 </Typography>
               </Box>
             </Grid>
             <TableContainer style={{ width: "100%" }}>
               <Table style={{ width: "100%" }}>
-                {speakers.map((speaker) => {
-                  return <SpeakersBody speaker={speaker} />;
-                })}
+                {cost
+                  ? costsBySpeakers.map((speaker) => {
+                    return <SpeakersBody speaker={speaker} />;
+                  })
+                  : speakers.map((speaker) => {
+                    return <SpeakersBody speaker={speaker} />;
+                  })}
               </Table>
             </TableContainer>
           </Grid>

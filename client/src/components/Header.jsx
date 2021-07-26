@@ -11,12 +11,11 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import { makeStyles } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
-import Categories from "./categories/Categories";
+
 
 import { useDispatch, useSelector } from "react-redux";
 import { tokenRemove } from "../redux/features/speakers";
 
-import Grid from "@material-ui/core/Grid";
 import React from "react";
 import HeadsetMicIcon from "@material-ui/icons/HeadsetMic";
 

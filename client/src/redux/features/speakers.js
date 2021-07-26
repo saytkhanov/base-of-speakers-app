@@ -161,6 +161,23 @@ export default function reducers(state = initialState, action) {
         loading: false,
         error: action.error,
       };
+    case "cost/load/pending":
+      return {
+        ...state,
+        loading: true
+      }
+    case "cost/load/fulfilled":
+      return {
+        ...state,
+        cost: action.payload,
+        loading: false
+      }
+    case "cost/load/rejected":
+      return {
+        ...state,
+        loading: false,
+        error: action.error
+      }
     default:
       return state;
   }
@@ -201,7 +218,7 @@ export const authSpeaker = (data) => {
     dispatch({ type: "speaker/login/pending" });
 
     try {
-      const response = await fetch(`http://localhost:4001/login`, {
+      const response = await fetch(`/login`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -234,7 +251,7 @@ export const speakerById = () => {
     const state = getState();
     dispatch({ type: "speakerById/load/pending" });
     try {
-      const response = await fetch(`http://localhost:4001/speaker`, {
+      const response = await fetch(`/speaker`, {
         headers: {
           Authorization: `Bearer ${state.speakers.token}`,
         },
@@ -263,7 +280,7 @@ export const getSpeakers = () => {
   return async (dispatch) => {
     dispatch({ type: "speaker/load/pending" });
     try {
-      const response = await fetch(`http://localhost:4001`);
+      const response = await fetch(`/`);
       const json = await response.json();
       if (json.error) {
         dispatch({
@@ -287,7 +304,7 @@ export const getRandomSpeakers = () => {
   return async (dispatch) => {
     dispatch({ type: "speakerRandom/load/pending" });
     try {
-      const response = await fetch(`http://localhost:4001/random`);
+      const response = await fetch(`/random`);
       const json = await response.json();
       if (json.error) {
         dispatch({
@@ -319,7 +336,7 @@ export const getSpeakerByIdFromParams = (id) => {
   return async (dispatch) => {
     dispatch({ type: "speakerByIdFromParams/load/pending" });
     try {
-      const response = await fetch(`http://localhost:4001/speaker/${id}`);
+      const response = await fetch(`/speaker/${id}`);
       const json = await response.json();
       if (json.error) {
         dispatch({
@@ -346,7 +363,7 @@ export const patchSpeaker = (data) => {
     const state = getState();
     dispatch({ type: "speakers/edit/pending" });
     try {
-     const response = await fetch(`http://localhost:4001/speaker`, {
+     const response = await fetch(`/speaker`, {
         method: "PATCH",
         headers: {
           "Content-type": "application/json",
@@ -374,7 +391,7 @@ export const uploadAvatar = (file) => {
     try {
       const formData = new FormData();
       formData.append("file", file);
-      const response = await fetch(`http://localhost:4001/avatar`, {
+      const response = await fetch(`/avatar`, {
         method: "POST",
         headers: {
           // "Content-type": "application/json",
@@ -389,3 +406,18 @@ export const uploadAvatar = (file) => {
     }
   };
 };
+
+
+export const loadSpeakerByCost = () => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch('/sort')
+      const json = await response.json()
+      dispatch({
+        type: "cost/load/fulfilled", payload: json
+      })
+    } catch (e) {
+      console.log(e.message);
+    }
+  }
+}
