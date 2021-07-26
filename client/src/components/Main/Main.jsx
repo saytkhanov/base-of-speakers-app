@@ -8,6 +8,7 @@ import Profile from "../Profile/Profile";
 import CategoryAndSearchHeader from "../categories/CategoryAndSearchHeader";
 import SpeakerById from "../categories/Table/SpeakerById";
 import Index from "../Profile/InfoIcons";
+import Card from "../Card/Card";
 
 function Main(props) {
   const token = useSelector((state) => state.speakers.token);
@@ -32,6 +33,9 @@ function Main(props) {
           <Route path="/speaker/:id">
             <SpeakerById />
           </Route>
+          <Route path="/payment">
+            <Card/>
+          </Route>
           <Redirect to="/" />
         </Switch>
       </main>
@@ -52,6 +56,9 @@ function Main(props) {
         </Route>
         <Route path="/speaker/:id">
           <SpeakerById />
+        </Route>
+        <Route path="/payment">
+          <Card/>
         </Route>
         <Redirect to="/profile" />
       </Switch>
