@@ -55,7 +55,7 @@ module.exports.speakersController = {
   },
   getSpeakerBySort: async (req, res) => {
     try {
-      const speaker = await Speaker.find({}, { _id: 0 }).sort({ cost: -1 });
+      const speaker = await Speaker.find({}, { _id: 1 }).sort({ cost: -1 });
       res.json(speaker);
     } catch (e) {}
   },
