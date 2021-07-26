@@ -202,7 +202,7 @@ export const getVoiceById = (id) => {
     dispatch({ type: "voices/load/pending" });
     try {
       const response = await fetch(`http://localhost:4001/voices/${id}`);
-      const json = await response.json();:
+      const json = await response.json();
       if (json.error) {
         dispatch({
           type: "voices/load/rejected",
