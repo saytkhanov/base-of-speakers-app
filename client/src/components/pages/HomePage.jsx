@@ -7,14 +7,10 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { Carousel } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import { getVoices } from "../../redux/features/voices";
 import AboutsUs from "../AboutsUs";
 import Footer from "../Footer";
-import Preloader from "../Preloader";
 import HomePagePreloader from "../HomePagePreloader";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
-import AudioPlayer from 'material-ui-audio-player';
-const muiTheme = createMuiTheme({});
 
 
 
@@ -28,6 +24,7 @@ const useStyless = makeStyles((theme) => {
       width: 400,
       lineHeight: '3px'
     },
+
     loopIcon: {
       color: '#f50057',
       '&.selected': {
@@ -108,6 +105,7 @@ const useStyles = makeStyles((theme) => ({
     width: 500,
     marginLeft: 50,
   },
+
   submit: {
     margin: theme.spacing(3, 0, 2),
     backgroundColor: "white",
@@ -218,9 +216,11 @@ function HomePage(props) {
                       </Typography>
                     </div>
                     <div>
-                      <ThemeProvider style theme={muiTheme}>
-                        <AudioPlayer volume={false} useStyles={useStyless} src={speaker.lastVoice?.audio} />
-                      </ThemeProvider>;
+                      <audio
+                        className={classes.audio}
+                        src={speaker.lastVoice?.audio}
+                        controls
+                      ></audio>
                     </div>
                     <div style={{ marginTop: 20 }}>
                       <Typography style={{ color: "white", marginRight: 25 }}>
