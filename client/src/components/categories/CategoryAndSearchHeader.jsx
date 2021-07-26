@@ -15,71 +15,71 @@ import Footer from "../Footer";
 import Preloader from "../Preloader";
 
 const useStyles = makeStyles((theme) => ({
-    mainFeaturesPost: {
-      position: "relative",
-      color: theme.palette.common.white,
-      backgroundSize: "cover",
-      backgroundRepeat: "no-repeat",
-      backgroundPosition: "center",
-    },
-    mainFeaturesPostContent: {
-      position: "relative",
-      width: "100%",
-      padding: theme.spacing(6),
-      marginTop: theme.spacing(1),
-    },
-    overlay: {
-      position: "absolute",
-      top: 0,
-      bottom: 0,
-      left: 0,
-      right: 0,
-      backgroundColor: "rgba(0,0,0,.1)",
-    },
-    root: {
-      color: "white",
-      textAlign: "center",
-    },
-    search: {
-      position: "relative",
-      borderRadius: theme.shape.borderRadius,
-      backgroundColor: alpha(theme.palette.common.white, 0.15),
-      "&:hover": {
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
-      },
-      marginLeft: 0,
-      width: "100%",
-      [theme.breakpoints.up("sm")]: {
-        marginLeft: theme.spacing(1),
-        width: "auto",
-      },
-    },
-    searchIcon: {
-      padding: theme.spacing(0, 2),
-      height: "100%",
-      position: "absolute",
-      pointerEvents: "none",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    inputRoot: {
-      color: "white",
-    },
-    inputInput: {
-      padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-  transition: theme.transitions.create("width"),
-  width: "100%",
-  color: "white",
-  [theme.breakpoints.up("sm")]: {
-  width: "16ch",
-    "&:focus": {
-    width: "18ch",
+  mainFeaturesPost: {
+    position: "relative",
+    color: theme.palette.common.white,
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
   },
-},
-},
+  mainFeaturesPostContent: {
+    position: "relative",
+    width: "100%",
+    padding: theme.spacing(6),
+    marginTop: theme.spacing(1),
+  },
+  overlay: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "rgba(0,0,0,.1)",
+  },
+  root: {
+    color: "white",
+    textAlign: "center",
+  },
+  search: {
+    position: "relative",
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    "&:hover": {
+      backgroundColor: alpha(theme.palette.common.white, 0.25),
+    },
+    marginLeft: 0,
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: theme.spacing(1),
+      width: "auto",
+    },
+  },
+  searchIcon: {
+    padding: theme.spacing(0, 2),
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  inputRoot: {
+    color: "white",
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    color: "white",
+    [theme.breakpoints.up("sm")]: {
+      width: "16ch",
+      "&:focus": {
+        width: "18ch",
+      },
+    },
+  },
 }));
 
 function CategoryAndSearchHeader(props) {
@@ -87,7 +87,6 @@ function CategoryAndSearchHeader(props) {
   const [query, setQuery] = useState("");
   const [gender, setGender] = useState();
   const [cost, setCost] = useState(false);
-  const speakers = useSelector((state) => state.speakers.items);
   const loading = useSelector((state) => state.speakers.loading);
 
   useEffect(() => {
@@ -96,22 +95,31 @@ function CategoryAndSearchHeader(props) {
 
   const classes = useStyles();
 
+  const speakers = useSelector((state) => {
+    if (cost) {
+      return state.speakers.items.sort((a, b) => a.cost - b.cost);
+    }
+
+    return state.speakers.items;
+  });
+
   const fuse = new Fuse(speakers, {
     keys: ["firstName", "lastName"],
     includeScore: true,
   });
-
-  const handleOnSearch = (ev) => {
-    setQuery(ev.target.value);
-  };
 
   const results = fuse.search(query);
 
   const speakersResults = query
     ? results.map((result) => result.item)
     : speakers;
+  //
 
-return (
+  const handleOnSearch = (ev) => {
+    setQuery(ev.target.value);
+  };
+
+  return (
     <>
       <Paper
         className={classes.mainFeaturesPost}
@@ -149,7 +157,7 @@ return (
                       variant="contained"
                       color="secondary"
                       onClick={() => {
-                        setGender("Мужской");
+                        setGender("male");
                         setCost(false);
                       }}
                     >
@@ -162,7 +170,7 @@ return (
                       variant="contained"
                       color="secondary"
                       onClick={() => {
-                        setGender("Женский");
+                        setGender("female");
                         setCost(false);
                       }}
                     >
@@ -173,7 +181,10 @@ return (
                     style={{ fontWeight: "bold", marginRight: 20 }}
                     variant="contained"
                     color="secondary"
-                    onClick={() => setCost(true)}
+                    onClick={() => {
+                      setGender();
+                      setCost(true);
+                    }}
                   >
                     Цены
                   </Button>

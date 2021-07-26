@@ -1,5 +1,6 @@
 const initialState = {
   items: [],
+  cost: [],
   loading: false,
   deleting: false,
   error: null,
@@ -18,7 +19,7 @@ export default function reducers(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        items: action.payload,
+        token: action.payload.token,
       };
     case "speakers/create/rejected":
       return {
@@ -161,23 +162,23 @@ export default function reducers(state = initialState, action) {
         loading: false,
         error: action.error,
       };
-    case "cost/load/pending":
-      return {
-        ...state,
-        loading: true
-      }
-    case "cost/load/fulfilled":
-      return {
-        ...state,
-        cost: action.payload,
-        loading: false
-      }
-    case "cost/load/rejected":
-      return {
-        ...state,
-        loading: false,
-        error: action.error
-      }
+      case "cost/load/pending":
+        return {
+          ...state,
+          loading: true
+        }
+        case "cost/load/fulfilled":
+        return {
+          ...state,
+          cost: action.payload,
+          loading: false
+        }
+        case "cost/load/rejected":
+        return {
+          ...state,
+          loading: false,
+          erro: action.error
+        }
     default:
       return state;
   }
@@ -206,6 +207,8 @@ export const registerSpeaker = (data) => {
           type: "speakers/create/fulfilled",
           payload: json,
         });
+        console.log(json);
+        localStorage.setItem("token", json.token);
       }
     } catch (e) {
       console.log(e.message);
@@ -218,7 +221,7 @@ export const authSpeaker = (data) => {
     dispatch({ type: "speaker/login/pending" });
 
     try {
-      const response = await fetch(`/login`, {
+      const response = await fetch(`http://localhost:4001/login`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -251,7 +254,7 @@ export const speakerById = () => {
     const state = getState();
     dispatch({ type: "speakerById/load/pending" });
     try {
-      const response = await fetch(`/speaker`, {
+      const response = await fetch(`http://localhost:4001/speaker`, {
         headers: {
           Authorization: `Bearer ${state.speakers.token}`,
         },
@@ -280,7 +283,7 @@ export const getSpeakers = () => {
   return async (dispatch) => {
     dispatch({ type: "speaker/load/pending" });
     try {
-      const response = await fetch(`/`);
+      const response = await fetch(`http://localhost:4001`);
       const json = await response.json();
       if (json.error) {
         dispatch({
@@ -304,7 +307,7 @@ export const getRandomSpeakers = () => {
   return async (dispatch) => {
     dispatch({ type: "speakerRandom/load/pending" });
     try {
-      const response = await fetch(`/random`);
+      const response = await fetch(`http://localhost:4001/random`);
       const json = await response.json();
       if (json.error) {
         dispatch({
@@ -336,7 +339,7 @@ export const getSpeakerByIdFromParams = (id) => {
   return async (dispatch) => {
     dispatch({ type: "speakerByIdFromParams/load/pending" });
     try {
-      const response = await fetch(`/speaker/${id}`);
+      const response = await fetch(`http://localhost:4001/speaker/${id}`);
       const json = await response.json();
       if (json.error) {
         dispatch({
@@ -363,7 +366,7 @@ export const patchSpeaker = (data) => {
     const state = getState();
     dispatch({ type: "speakers/edit/pending" });
     try {
-     const response = await fetch(`/speaker`, {
+     const response = await fetch(`http://localhost:4001/speaker`, {
         method: "PATCH",
         headers: {
           "Content-type": "application/json",
@@ -391,7 +394,7 @@ export const uploadAvatar = (file) => {
     try {
       const formData = new FormData();
       formData.append("file", file);
-      const response = await fetch(`/avatar`, {
+      const response = await fetch(`http://localhost:4001/avatar`, {
         method: "POST",
         headers: {
           // "Content-type": "application/json",
@@ -407,11 +410,10 @@ export const uploadAvatar = (file) => {
   };
 };
 
-
 export const loadSpeakerByCost = () => {
   return async (dispatch) => {
     try {
-      const response = await fetch('/sort')
+      const response = await fetch(`http://localhost:4001/sort`)
       const json = await response.json()
       dispatch({
         type: "cost/load/fulfilled", payload: json

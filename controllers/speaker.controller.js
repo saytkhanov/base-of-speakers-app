@@ -55,7 +55,7 @@ module.exports.speakersController = {
   },
   getSpeakerBySort: async (req, res) => {
     try {
-      const speaker = await Speaker.find({}, { _id: 0 }).sort({ cost: -1 });
+      const speaker = await Speaker.find({}).sort({ cost: -1 });
       res.json(speaker);
     } catch (e) {}
   },
@@ -195,10 +195,10 @@ module.exports.speakersController = {
       avatar,
       cost,
     } = req.body;
-    console.log(firstName);
+
     if (!login) {
       return res.status(httpStatus.BAD_REQUEST).json({
-        message: "Необходимо указать login",
+        error: "Необходимо указать login",
       });
     }
 
@@ -242,10 +242,18 @@ module.exports.speakersController = {
         avatar,
       });
       await registerSpeaker.save();
-      res.status(201).json({ message: "Диктор создан" });
+      const payload = {
+        id: registerSpeaker._id,
+        login: registerSpeaker.login,
+      };
+
+      const token = await jwt.sign(payload, process.env.SECRET_JWT_KEY, {
+        expiresIn: "24h",
+      });
+      res.status(201).json({token, message: "Диктор создан" });
     } catch (e) {
       console.log(e.message);
-      res.status(httpStatus.SERVICE_UNAVAILABLE).json({ message: e.message });
+      res.status(httpStatus.SERVICE_UNAVAILABLE).json({ error: e.message });
     }
   },
   login: async (req, res) => {
