@@ -50,24 +50,24 @@ export default function reducers(state = initialState, action) {
     case "voice/upload/fulfilled":
       return {
         ...state,
-        loading: false,
         file: action.payload.file,
+        loading: false,
       };
     case "voice/create/pending":
       return {
         ...state,
-        creating: true,
+        loading: true,
       };
     case "voice/create/fulfilled":
       return {
         ...state,
-        creating: false,
         items: [...state.items, action.payload],
+        loading: false,
       };
     case "voice/create/rejected":
       return {
         ...state,
-        creating: false,
+        loading: false,
         error: action.error,
       };
     case "voice/delete/pending":
@@ -133,7 +133,7 @@ export const addVoice = (data) => {
           file: state.voices.file,
         }),
       });
-      const json = response.json();
+      const json = await response.json();
       if (json.error) {
         dispatch({
           type: "voice/create/rejected",
@@ -150,7 +150,6 @@ export const addVoice = (data) => {
 
 export const uploadVoice = (e) => {
   return async (dispatch, getState) => {
-    dispatch({ type: "voice/upload/pending" });
     const state = getState();
     try {
       const formData = new FormData();

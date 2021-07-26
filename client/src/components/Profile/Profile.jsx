@@ -21,6 +21,7 @@ import { PhotoCamera } from '@material-ui/icons'
 import Container from '@material-ui/core/Container'
 import styled from 'styled-components'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
+import Preloader from '../Preloader'
 const drawerWidth = 240
 
 const muiTheme = createMuiTheme({});
@@ -236,7 +237,9 @@ function Profile({ setIsEditing }) {
   const speaker = useSelector((state) => state.speakers.currentItem);
   const voices = useSelector((state) => state.voices.items);
   const [openForm, setOpenForm] = useState(false)
+  const loading = useSelector(state => state.voices.loading)
   const deleting = useSelector(state => state.voices.deleting)
+  const creating = useSelector(state => state.voices.creating)
   useEffect(() => {
     dispatch(getVoiceByIdForAuth());
   }, [dispatch]);
@@ -256,9 +259,6 @@ function Profile({ setIsEditing }) {
     setTitle(e.target.value);
   };
 
-  const handleChangeDescription = (e) => {
-    setDescription(e.target.value);
-  };
 
   const handleChangeVoice = async (e) => {
     await dispatch(uploadVoice(e));
@@ -274,7 +274,9 @@ function Profile({ setIsEditing }) {
   //   dispatch(uploadVoice(file, fileName));
   // };
 
-  console.log(deleting)
+  if(loading) {
+    return <Preloader/>
+  }
 
   return (
     <div className="container">
@@ -372,6 +374,7 @@ function Profile({ setIsEditing }) {
                 class="btn btn-primary btn-sm"
                 type="button"
                 onClick={handleAdd}
+                disabled={creating}
               >
                 {" "}
                 Добавить запись{" "}
@@ -417,6 +420,7 @@ function Profile({ setIsEditing }) {
             </div>
           </div>
         );
+
       })}
       <Grid item classes={{ root: classes.add }}>
         <Fab
