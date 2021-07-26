@@ -3,9 +3,23 @@ const Rating = require("../models/Rating.model");
 module.exports.ratingsController = {
   getRatingBySort: async (req, res) => {
     try {
-      const rating = await Rating.find({}, { _id: 0 }).sort({ rating: -1 });
-      res.json(rating);
-    } catch (e) {}
+      const rating = await Rating.aggregate(
+        [
+          {
+            $group:
+              {
+                _id: "$speaker",
+                rating: { $avg: { $multiply: [ "$rating" ] } },
+                // speaker: { '$$speaker': "$$speaker" }
+              },
+          },
+          {$sort: {rating: -1}}
+        ]
+      )
+      res.json(rating)
+    } catch (e) {
+      console.log(e.message)
+    }
   },
   addRating: async (req, res) => {
     try {

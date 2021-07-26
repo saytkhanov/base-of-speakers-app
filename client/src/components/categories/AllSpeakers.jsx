@@ -8,6 +8,7 @@ import SpeakersBody from "./Table/SpeakersBody";
 import Grid from "@material-ui/core/Grid";
 import Preloader from "../Preloader";
 import Footer from "../Footer";
+import { loadRatingsBySort } from '../../redux/features/ratings'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,19 +20,22 @@ const useStyles = makeStyles((theme) => ({
 
 function AllSpeakers({ speakersResults, gender, cost }) {
   const classes = useStyles();
+
   const dispatch = useDispatch();
+
   const loading = useSelector((state) => state.speakers.loading);
   const costsBySpeakers = useSelector((state) => state.speakers.cost);
+  const ratings = useSelector(state => state.ratings.items)
   useEffect(() => {
     dispatch(getSpeakers());
     dispatch(loadSpeakerByCost());
+    dispatch(loadRatingsBySort())
   }, [dispatch]);
-  console.log(cost);
   const speakers = speakersResults.filter((item) => {
     if (!gender) return true;
-    if (gender === "Мужской") return item.gender === "male";
-    if (gender === "Женский") return item.gender === "female";
+    if (gender) return item.gender === gender;
   });
+
   console.log(gender);
   return (
     <>
@@ -52,19 +56,15 @@ function AllSpeakers({ speakersResults, gender, cost }) {
               <Box style={{ marginTop: 20, textAlign: "left" }}>
                 <Typography variant="h6" style={{ color: "white" }}>
                   Найдено дикторов:{" "}
-                  {cost ? costsBySpeakers.length : speakers.length}
+                  {speakers.length}
                 </Typography>
               </Box>
             </Grid>
             <TableContainer style={{ width: "100%" }}>
               <Table style={{ width: "100%" }}>
-                {cost
-                  ? costsBySpeakers.map((speaker) => {
-                    return <SpeakersBody speaker={speaker} />;
-                  })
-                  : speakers.map((speaker) => {
-                    return <SpeakersBody speaker={speaker} />;
-                  })}
+                {speakers.map((speaker) => {
+                  return <SpeakersBody speaker={speaker} />;
+                })}
               </Table>
             </TableContainer>
           </Grid>

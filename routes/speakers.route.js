@@ -6,8 +6,9 @@ const {
   speakersController
 } = require('../controllers/speaker.controller');
 
+
 router.get('/sort', speakersController.getSpeakerBySort)
-router.get('/',  speakersController.getAllSpeakers);
+router.get('/all',  speakersController.getAllSpeakers);
 router.get('/random', speakersController.getRandomSpeakers)
 router.get('/speaker', authMiddleware, speakersController.getSpeakerById);
 router.post('/speaker', speakersController.registerSpeaker);

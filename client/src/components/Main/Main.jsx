@@ -51,12 +51,6 @@ function Main(props) {
         <Route path="/profile">
           <Index />
         </Route>
-        <Route path="/auth">
-          <AuthPage />
-        </Route>
-        <Route path="/login">
-          <LoginPage />
-        </Route>
         <Route path="/showAll">
           <CategoryAndSearchHeader />
         </Route>
@@ -66,7 +60,7 @@ function Main(props) {
         <Route path="/payment">
           <Card/>
         </Route>
-        <Redirect to="/" />
+        <Redirect to="/profile" />
       </Switch>
     </main>
   );
