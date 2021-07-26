@@ -87,7 +87,7 @@ export const addRating = (id, data) => {
 export const loadRatingsBySort = () => {
   return async (dispatch) => {
     dispatch({ type: "ratingsBySort/load/pending" });
-    const response = await fetch("/sort");
+    const response = await fetch("/byrating");
     const json = await response.json();
     dispatch({ type: "ratingsBySort/load/fulfilled", payload: json });
   };

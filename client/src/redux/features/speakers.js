@@ -283,7 +283,7 @@ export const getSpeakers = () => {
   return async (dispatch) => {
     dispatch({ type: "speaker/load/pending" });
     try {
-      const response = await fetch(`http://localhost:4001`);
+      const response = await fetch('/all');
       const json = await response.json();
       if (json.error) {
         dispatch({

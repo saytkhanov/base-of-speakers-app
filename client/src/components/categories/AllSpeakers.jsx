@@ -8,6 +8,7 @@ import SpeakersBody from "./Table/SpeakersBody";
 import Grid from "@material-ui/core/Grid";
 import Preloader from "../Preloader";
 import Footer from "../Footer";
+import { loadRatingsBySort } from '../../redux/features/ratings'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,12 +24,13 @@ function AllSpeakers({ speakersResults, gender, cost }) {
   const dispatch = useDispatch();
 
   const loading = useSelector((state) => state.speakers.loading);
-
+  const costsBySpeakers = useSelector((state) => state.speakers.cost);
+  const ratings = useSelector(state => state.ratings.items)
   useEffect(() => {
     dispatch(getSpeakers());
     dispatch(loadSpeakerByCost());
+    dispatch(loadRatingsBySort())
   }, [dispatch]);
-
   const speakers = speakersResults.filter((item) => {
     if (!gender) return true;
     if (gender) return item.gender === gender;
