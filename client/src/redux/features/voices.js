@@ -121,7 +121,7 @@ export const addVoice = (data) => {
     dispatch({ type: "voice/create/pending" });
     const state = getState();
     try {
-      const response = await fetch(`http://localhost:4001/voice`, {
+      const response = await fetch(`/voice`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${state.speakers.token}`,
@@ -155,7 +155,7 @@ export const uploadVoice = (e) => {
     try {
       const formData = new FormData();
       formData.append("file", e.target.files[0]);
-      const response = await fetch(`http://localhost:4001/voice/upload`, {
+      const response = await fetch(`/voice/upload`, {
         method: "POST",
         headers: {
           // "Content-type": "application/json",
@@ -183,7 +183,7 @@ export const deleteVoice = (id) => {
     dispatch({ type: "voice/delete/pending" });
     const state = getState();
     try {
-    await fetch(`http://localhost:4001/voice/${id}`, {
+    await fetch(`/voice/${id}`, {
         method: 'DELETE',
         headers: {
           // "Content-type": "application/json",
@@ -201,7 +201,7 @@ export const getVoiceById = (id) => {
   return async (dispatch) => {
     dispatch({ type: "voices/load/pending" });
     try {
-      const response = await fetch(`http://localhost:4001/voices/${id}`);
+      const response = await fetch(`/voices/${id}`);
       const json = await response.json();
       if (json.error) {
         dispatch({
@@ -222,7 +222,7 @@ export const getVoiceByIdForAuth = () => {
     dispatch({ type: "voice/load/pending" });
     const state = getState();
     try {
-      const response = await fetch(`http://localhost:4001/voice`, {
+      const response = await fetch(`/voice`, {
         headers: {
           Authorization: `Bearer ${state.speakers.token}`,
         },
