@@ -22,7 +22,7 @@ app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
 })
 
-
+const { PORT } = process.env
 
 const start = async () => {
   try {
@@ -33,7 +33,7 @@ const start = async () => {
       useCreateIndex: true
     });
     app.listen(process.env.PORT, () => {
-      console.log(`Server has been started on port: ${process.env.PORT}  `);
+      console.log(`Server has been started on ${PORT} `)
     });
   } catch (e) {
     console.log(e.message);
