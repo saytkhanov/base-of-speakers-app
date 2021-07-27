@@ -13,7 +13,6 @@ import AllSpeakers from "./AllSpeakers";
 import { getSpeakers } from "../../redux/features/speakers";
 import Footer from "../Footer";
 import Preloader from "../Preloader";
-import { loadRatingsBySort } from "../../redux/features/ratings";
 
 const useStyles = makeStyles((theme) => ({
   mainFeaturesPost: {
@@ -88,13 +87,10 @@ function CategoryAndSearchHeader(props) {
   const [query, setQuery] = useState("");
   const [gender, setGender] = useState();
   const [cost, setCost] = useState(false);
-  const [rating, setRating] = useState(false)
   const loading = useSelector((state) => state.speakers.loading);
-  const SpeakerSortByRating = useSelector(state => state.ratings.items)
 
   useEffect(() => {
     dispatch(getSpeakers());
-    dispatch(loadRatingsBySort())
   }, [dispatch]);
 
   const classes = useStyles();
@@ -103,16 +99,10 @@ function CategoryAndSearchHeader(props) {
     if (cost) {
       return state.speakers.items.sort((a, b) => b.cost - a.cost);
     }
-    if(rating) {
-      const speak = state.speakers.items.filter(items => {
-        if(items._id === SpeakerSortByRating._id ) return true
-        return state.speakers.items
-      })
-      return  speak
-    }
+
     return state.speakers.items;
   });
-  console.log(speakers);
+
   const fuse = new Fuse(speakers, {
     keys: ["firstName", "lastName"],
     includeScore: true,
@@ -157,7 +147,6 @@ function CategoryAndSearchHeader(props) {
                     onClick={() => {
                       setGender();
                       setCost(false);
-                      setRating(false)
                     }}
                   >
                     Все
@@ -170,7 +159,6 @@ function CategoryAndSearchHeader(props) {
                       onClick={() => {
                         setGender("male");
                         setCost(false);
-                        setRating(false)
                       }}
                     >
                       Мужской
@@ -184,7 +172,6 @@ function CategoryAndSearchHeader(props) {
                       onClick={() => {
                         setGender("female");
                         setCost(false);
-                        setRating(false)
                       }}
                     >
                       Женский
@@ -197,7 +184,6 @@ function CategoryAndSearchHeader(props) {
                     onClick={() => {
                       setGender();
                       setCost(true);
-                      setRating(false)
                     }}
                   >
                     Цены
@@ -206,11 +192,6 @@ function CategoryAndSearchHeader(props) {
                     style={{ fontWeight: "bold", marginRight: 20 }}
                     variant="contained"
                     color="secondary"
-                    onClick={() => {
-                      setGender();
-                      setCost(false);
-                      setRating(true)
-                    }}
                   >
                     Рейтинг
                   </Button>
@@ -228,7 +209,6 @@ function CategoryAndSearchHeader(props) {
         speakersResults={speakersResults}
         gender={gender}
         cost={cost}
-        SpeakerSirtByRating={SpeakerSortByRating}
       />
     </>
   );
