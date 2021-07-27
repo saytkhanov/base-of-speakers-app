@@ -17,6 +17,10 @@ app.use(express.static(path.resolve(__dirname, "public")));
 app.use(fileUpload());
 app.use(routes);
 app.use(morgan("combined"));
+app.use(express.static(path.resolve(__dirname, "client", "build")))
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
+})
 
 
 

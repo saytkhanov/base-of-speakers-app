@@ -44,7 +44,7 @@ function AllSpeakers({ speakersResults, gender, SpeakerSortByRating }) {
         style={{
           width: "100%",
           backgroundColor: "#052040",
-          backgroundImage: `url(https://images.wallpaperscraft.ru/image/mikrofon_dym_zatemnennyj_117667_1920x1080.jpg)`,
+          backgroundImage: `url(https://images.wallpaperscraft.ru/image/mikrofon_audio_elektroakustika_126145_1920x1080.jpg)`,
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
           backgroundSize: "cover",
