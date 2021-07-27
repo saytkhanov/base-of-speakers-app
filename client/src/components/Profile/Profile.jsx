@@ -213,8 +213,7 @@ const useStyles = makeStyles((theme) => ({
     cursor: 'pointer'
   },
   audio: {
-    backgroundColor: "black",
-    height: 30,
+    height: 26,
     marginTop: 30,
     "&::-webkit-media-controls-panel": {
       backgroundColor: "#f50057",
@@ -317,23 +316,26 @@ function Profile({ setIsEditing }) {
             {speaker.firstName} {}
             {speaker.lastName}
           </h2>
-            <Fab
-              style={{
-                backgroundColor: "black",
+            <div>
+              <Fab
+                style={{
+                  backgroundColor: "inherit",
 
-                color: "white",
-              }}
-              aria-label="edit"
-              onClick={() => setIsEditing(true)}
-            >
-              <EditIcon />
-            </Fab>
+                  color: "#f50057",
+                }}
+                aria-label="edit"
+                onClick={() => setIsEditing(true)}
+              >
+                <EditIcon />
+              </Fab>
+            </div>
           </div>
-          <div>
+            <div>
             <Typography style={{ color: "white", fontSize: 25, marginTop: 120 }}>
               Цена: от {speaker.cost} ₽
             </Typography>
           </div>
+
         </div>
         {/* <Button>
              <EditIcon />
@@ -393,22 +395,22 @@ function Profile({ setIsEditing }) {
       </Container>
       {voices.map((voice) => {
         return (
-          <div style={{ marginLeft: 300, marginTop: 30 }} >
+          <div style={{ marginLeft: 170, marginTop: 30 }} >
             <div className={classes.title}>
               <div>{"<"}</div>
               <div>{voice.title}</div>
               <div>{">"}</div>
             </div>
-            <div style={{display: "flex", justifyContent: "space-between", width: 600}}>
-              <div>
+            <div style={{display: "flex", width: 600}}>
+              <div style={{marginLeft: 180}}>
                 <audio className={classes.audio} src={voice.audio} controls />
               </div>
-              <div style={{lineHeight: 7}}>
+              <div style={{lineHeight: 5, marginLeft: 10}}>
                 <Fab
                   style={{
-                    backgroundColor: "#4c4dc3",
+                    backgroundColor: "inherit",
 
-                    color: "white",
+                    color: "#f50057",
                   }}
                   disabled={deleting}
                   aria-label="edit"
@@ -422,14 +424,6 @@ function Profile({ setIsEditing }) {
         );
 
       })}
-      <Grid item classes={{ root: classes.add }}>
-        <Fab
-          style={{ backgroundColor: "black", color: "white" }}
-          aria-label="add"
-        >
-          <AddIcon />
-        </Fab>
-      </Grid>
 
       {/*<p>Телефон</p>*/}
       {/*<div style={{ display: "flex" }}>*/}

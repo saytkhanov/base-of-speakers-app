@@ -97,7 +97,7 @@ function CategoryAndSearchHeader(props) {
 
   const speakers = useSelector((state) => {
     if (cost) {
-      return state.speakers.items.sort((a, b) => a.cost - b.cost);
+      return state.speakers.items.sort((a, b) => b.cost - a.cost);
     }
 
     return state.speakers.items;

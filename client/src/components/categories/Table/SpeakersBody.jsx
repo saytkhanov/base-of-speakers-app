@@ -7,12 +7,11 @@ import {
   Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link,NavLink } from "react-router-dom";
 import {getSpeakers} from "../../../redux/features/speakers";
 import {useDispatch, useSelector} from "react-redux";
 import Preloader from "../../Preloader";
 import { loadRatingsBySort } from '../../../redux/features/ratings'
-import { NavLink } from 'react-bootstrap'
 
 const useStyles = makeStyles((theme) => ({
   audio: {
@@ -31,7 +30,14 @@ const useStyles = makeStyles((theme) => ({
       textDecoration: 'none',
       color: "rgba(255,255,255, 0.7)",
     }
-  }
+  },
+  // button: {
+  //   backgroundColor: "#f50057", color: "white", fontWeight: "bold",
+  //   '&:hover': {
+  //     textDecoration: 'none',
+  //     color: "rgba(0,0,0, 0.1)",
+  //   }
+  // }
 }));
 
 function SpeakersBody({ speaker }) {
@@ -40,13 +46,13 @@ function SpeakersBody({ speaker }) {
   const ratings = useSelector(state => state.ratings.items)
   useEffect(() => dispatch(getSpeakers()), [dispatch]);
   useEffect(() => dispatch(loadRatingsBySort()),[dispatch])
-  // const loadByRating = ratings.find(item => {
-  //   if(item._id === speaker._id) {
-  //     return item
-  //   }
-  //   return null
-  // })
-  // console.log(loadByRating?.rating.toFixed(1))
+  const loadByRating = ratings.find(item => {
+    if(item._id === speaker._id) {
+      return item
+    }
+    return null
+  })
+  console.log(loadByRating?.rating.toFixed(1))
 
   const classes = useStyles();
 
@@ -87,13 +93,15 @@ function SpeakersBody({ speaker }) {
             style={{ color: "white", fontSize: 20, fontWeight: "bold" }}
           >
             {" "}
-            {speaker.cost}₽
+            {speaker.cost} ₽
           </Typography>
         </TableCell>
         <TableCell>
-          <Button style={{ backgroundColor: "#f50057", color: "white", fontWeight: "bold" }}>
+          <NavLink className={classes.navlink} to='/payment'>
+          <Button className={classes.button} style={{ backgroundColor: "#f50057", color: "white", fontWeight: "bold",}} >
             Заказать
           </Button>
+          </NavLink>
         </TableCell>
       </TableRow>
     </TableBody>
