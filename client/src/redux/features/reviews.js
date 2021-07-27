@@ -54,8 +54,8 @@ export default function reducer(state = initialState, action) {
 export const loadReviews = () => {
   return async (dispatch) => {
     dispatch({ type: "reviews/load/pending" });
-    const responce = await fetch("/reviews");
-    const json = await responce.json();
+    const response = await fetch("http://localhost:4001/reviews");
+    const json = await response.json();
     if (json.error) {
       dispatch({
         type: "reviews/load/rejected",
@@ -70,21 +70,21 @@ export const loadReviews = () => {
 export const addReview = (id, data) => {
   return async (dispatch) => {
     dispatch({ type: "reviews/load/pending" });
-    const responce = await fetch(`/speaker/${id}/review`, {
+    const response = await fetch(`/speaker/${id}/review`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
       },
       body: JSON.stringify(data),
     });
-    const json = await responce.json();
+    const json = await response.json();
     if (json.error) {
       dispatch({
         type: "reviews/create/rejected",
         error: json.error,
       });
     } else {
-      dispatch({ type: "reviews/create/fulfilled", payload: json });
+      dispatch({ type: "review/create/fulfilled", payload: json });
     }
   };
 };

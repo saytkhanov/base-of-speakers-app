@@ -31,12 +31,12 @@ function AllSpeakers({ speakersResults, gender, cost }) {
     dispatch(loadSpeakerByCost());
     dispatch(loadRatingsBySort())
   }, [dispatch]);
+
   const speakers = speakersResults.filter((item) => {
     if (!gender) return true;
     if (gender) return item.gender === gender;
   });
 
-  console.log(gender);
   return (
     <>
       <div style={{ height: 20, backgroundColor: "black" }}></div>

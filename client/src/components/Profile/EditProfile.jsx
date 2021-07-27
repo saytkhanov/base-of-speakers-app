@@ -7,10 +7,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Avatar, Fab, IconButton, TextField, Typography } from '@material-ui/core'
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
-import { getVoiceById, getVoiceByIdForAuth, getVoices } from '../../redux/features/voices'
+import { deleteVoice, getVoiceById, getVoiceByIdForAuth, getVoices } from '../../redux/features/voices'
 import AddIcon from "@material-ui/icons/Add";
 import SaveIcon from "@material-ui/icons/Save";
 import { PhotoCamera } from '@material-ui/icons'
+import DeleteIcon from '@material-ui/icons/Delete'
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -58,17 +59,6 @@ const useStyles = makeStyles((theme) => ({
     left: 0,
     right: 0,
     backgroundColor: "rgba(0,0,0,.3)",
-  },
-  audio: {
-    height: 50,
-    marginTop: 30,
-    width: 500,
-    "&::-webkit-media-controls-panel": {
-      backgroundColor: "#f50057",
-    },
-    "&::-webkit-media-controls-current-time-display": {
-      color: "white",
-    },
   },
   add: {
     position: "fixed",
@@ -129,6 +119,28 @@ const useStyles = makeStyles((theme) => ({
   },
   input: {
     display: 'none',
+  },
+  title: {
+    display:'flex',
+    fontSize: 20,
+    margin: "auto",
+    width: "100%",
+    justifyContent: "space-around",
+    cursor: 'pointer'
+  },
+  audio: {
+    height: 26,
+    marginTop: 30,
+    "&::-webkit-media-controls-panel": {
+      backgroundColor: "#f50057",
+    },
+    "&::-webkit-media-controls-current-time-display": {
+      color: "white",
+    },
+  },
+  cost: {
+    textAlign: "center",
+    paddingTop: 20
   }
 }));
 const StyledTextField = styled(TextField)`
@@ -169,6 +181,7 @@ function Profile({ setIsEditing }) {
   const dispatch = useDispatch();
   const speaker = useSelector((state) => state.speakers.currentItem);
   const voices = useSelector((state) => state.voices.items);
+  const deleting = useSelector(state => state.voices.deleting)
 
   useEffect(() => {
     dispatch(getVoiceByIdForAuth());
@@ -270,7 +283,9 @@ function Profile({ setIsEditing }) {
             onChange={handleChangeLastName}
           />
             <Fab
-              style={{ backgroundColor: "black", color: "white" }}
+              style={{backgroundColor: "inherit",
+
+                color: "#f50057",}}
               aria-label="edit"
               onClick={handleEdit}
               // disabled={editing}
@@ -327,21 +342,34 @@ function Profile({ setIsEditing }) {
       </div>
       {voices.map((voice) => {
         return (
-          <div style={{ marginLeft: 300, marginTop: 30 }}>
-            <audio className={classes.audio} src={voice.audio} controls></audio>
+          <div style={{ marginLeft: 170, marginTop: 30 }} >
+            <div className={classes.title}>
+              <div>{"<"}</div>
+              <div>{voice.title}</div>
+              <div>{">"}</div>
+            </div>
+            <div style={{display: "flex", width: 600}}>
+              <div style={{marginLeft: 180}}>
+                <audio className={classes.audio} src={voice.audio} controls />
+              </div>
+              <div style={{lineHeight: 5, marginLeft: 10}}>
+                <Fab
+                  style={{
+                    backgroundColor: "inherit",
+
+                    color: "#f50057",
+                  }}
+                  disabled={deleting}
+                  aria-label="edit"
+                  onClick={() => dispatch(deleteVoice(voice._id))}
+                >
+                  <DeleteIcon />
+                </Fab>
+              </div>
+            </div>
           </div>
         );
       })}
-      <Grid item classes={{ root: classes.add }}>
-        <Fab
-          style={{ backgroundColor: "black", color: "white" }}
-          aria-label="add"
-        >
-          <AddIcon />
-        </Fab>
-      </Grid>
-      <Grid item classes={{ root: classes.edit }}>
-      </Grid>
       {/*<p>Телефон</p>*/}
       {/*<div style={{ display: "flex" }}>*/}
       {/*  <p>Не указан</p>*/}

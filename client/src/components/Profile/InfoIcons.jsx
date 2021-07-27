@@ -27,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.drawer + 1,
   },
   drawer: {
-    width: drawerWidth,
     flexShrink: 0,
   },
   drawerPaper: {
@@ -108,8 +107,28 @@ function Profile() {
                 >
 
                 </div>
+                <div
+                  className={classes.drawer}
+                  classes={{
+                    paper: classes.drawerPaper,
+                  }}
+                >
+                  <div className={classes.drawerContainer}>
+                    <List>
+                      {["Личные данные", "Аудиозаписи"].map((text, index) => (
+                        <ListItem button key={text}>
+                          <ListItemText style={{color: 'white', marginLeft: 30, marginRight: 20}} primary={text} />
+                          <ListItemIcon style={{color: 'white'}}>
+                            {index % 2 === 0 ? <AccountCircleIcon /> : <MicIcon />}
+                          </ListItemIcon>
+                        </ListItem>
+                      ))}
+                    </List>
+                  </div>
+                </div>
               </div>
             </div>
+
           </Grid>
         </Grid>
       </Container>
@@ -150,26 +169,6 @@ function Profile() {
     //       {/*  <div></div>*/}
     //       {/*</div>*/}
     //   </div>
-    //   <div
-    //     className={classes.drawer}
-    //     classes={{
-    //       paper: classes.drawerPaper,
-    //     }}
-    //   >
-    //     <div className={classes.drawerContainer}>
-    //       <List style={{backgroundColor: '#f50057'}}>
-    //         {["Личные данные", "Аудиозаписи"].map((text, index) => (
-    //           <ListItem button key={text}>
-    //             <ListItemText style={{color: 'white'}} primary={text} />
-    //             <ListItemIcon style={{color: 'white'}}>
-    //               {index % 2 === 0 ? <AccountCircleIcon /> : <MicIcon />}
-    //             </ListItemIcon>
-    //           </ListItem>
-    //         ))}
-    //       </List>
-    //     </div>
-    //   </div>
-    // </div>
     //   </Paper>
     // </Container>
     // </div>

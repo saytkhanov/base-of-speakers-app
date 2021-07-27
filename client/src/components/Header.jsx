@@ -100,7 +100,7 @@ function Header(props) {
                   to="/profile"
                 >
                   <Button
-                    style={{ backgroundColor: "white" }}
+                    style={{ backgroundColor: "white", fontWeight: 'bold' }}
                     variant="contained"
                   >
                     Личный кабинет

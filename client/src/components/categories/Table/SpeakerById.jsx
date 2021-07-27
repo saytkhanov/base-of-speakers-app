@@ -6,12 +6,13 @@ import Box from "@material-ui/core/Box";
 import {
   Avatar,
   Button,
-  makeStyles,
+  makeStyles, Paper,
   TableCell,
   Typography,
-} from "@material-ui/core";
+} from '@material-ui/core'
 import Rating from "@material-ui/lab/Rating";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
+import dayjs from "dayjs";
 
 import FormatQuoteIcon from "@material-ui/icons/FormatQuote";
 import Container from "@material-ui/core/Container";
@@ -21,6 +22,7 @@ import Footer from "../../Footer";
 import { addReview, loadReviews } from "../../../redux/features/reviews";
 import { addRating, loadRatings } from "../../../redux/features/ratings";
 import Preloader from "../../Preloader";
+import {  NavLink } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   audio: {
@@ -52,9 +54,9 @@ const useStyles = makeStyles((theme) => ({
     margin: "auto",
   },
   cost: {
-    margin: "auto",
-    marginTop: "5%",
-    paddingBottom: "3%",
+    margin: "0px",
+    marginTop: "40px",
+    paddingBottom: "0px",
   },
   reviews: {
     width: 500,
@@ -63,6 +65,13 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "5px ",
     margin: "auto",
     marginBottom: 20,
+  },
+  navlink: {
+    color: "white",
+    '&:hover': {
+      textDecoration: 'none',
+      color: "rgba(255,255,255, 0.7)",
+    }
   },
 }));
 
@@ -169,21 +178,24 @@ function SpeakerById(props) {
                   <Typography
                     classes={{ root: classes.firstName }}
                     variant="h6"
-                    style={{ color: "white" }}
+                    style={{ color: "white", marginTop: 10 }}
                   >
                     Возраст: 24
                   </Typography>
-                  <Typography variant={"h6"} style={{ color: "white" }}>
+                  <Typography variant={"h6"} style={{ color: "white", marginTop: 44 }}>
                     {speaker.description}
                   </Typography>
                 </Grid>
+                <div style={{marginLeft: 200}}>
                 <Grid classes={{ root: classes.cost }}>
+                  <div>
                   <Typography variant={"h6"} style={{ color: "white" }}>
                     Рейтинг: {fixRating}
                   </Typography>
                   <Box component="fieldset" mb={3} borderColor="transparent">
                     <Rating
                       name="simple-controlled"
+                      style={{color: "#f50057"}}
                       value={fixRating}
                       precision={0.5}
                       emptyIcon={<StarBorderIcon fontSize="inherit" />}
@@ -191,15 +203,19 @@ function SpeakerById(props) {
                       onClick={handleAddRating}
                     />
                   </Box>
+                  </div>
                 </Grid>
                 <Grid classes={{ root: classes.cost }}>
                   <Typography variant={"h6"} style={{ color: "white" }}>
                     Цена: {speaker.cost}
                   </Typography>
+                  <NavLink className={classes.navlink} to='/payment'>
                   <Button color={"secondary"} variant={"contained"}>
                     Заказать
                   </Button>
+                  </NavLink>
                 </Grid>
+                </div>
               </Grid>
             </Grid>
             <Grid container style={{ marginTop: "5%" }}>
@@ -274,20 +290,39 @@ function SpeakerById(props) {
                 </form>
               ) : null}
             </Container>
-            <div style={{ margin: "auto" }}>
+            <div style={{ margin: "auto", width: '100%' }}>
+              <div style={{ padding: 14 }} className="App">
+                <Typography variant="h3" style={{color: 'white'}}>Comments</Typography>
+                <Paper style={{ padding: "40px 20px" }}>
               {reviews.map((review) => {
                 return (
-                  <div className={classes.reviews}>
-                    <div style={{ marginLeft: 30 }}>
-                      <FormatQuoteIcon />
-                      <p>{review.text}</p>
-                      <div style={{ display: "flex" }}>
-                        <Avatar /> <p>{review.username}</p>
-                      </div>
-                    </div>
-                  </div>
+                  <Grid container wrap="nowrap" spacing={2}>
+                    <Grid item>
+                      <Avatar alt="Remy Sharp" />
+                    </Grid>
+                    <Grid justifyContent="left" item xs zeroMinWidth>
+                      <h4 style={{ margin: 0, textAlign: "left" , color: "#f50057"}} c>{review.username}</h4>
+                      <p style={{ textAlign: "left" }}>
+                        {review.text}
+                      </p>
+                      <p style={{ textAlign: "left", color: "gray" }}>
+                        {dayjs(review.createdAt).format("DD.MM.YY   HH:mm")}
+                      </p>
+                    </Grid>
+                  </Grid>
+                  // <div className={classes.reviews}>
+                  //   <div style={{ marginLeft: 30 }}>
+                  //     <FormatQuoteIcon />
+                  //     <p>{review.text}</p>
+                  //     <div style={{ display: "flex" }}>
+                  //       <Avatar /> <p>{review.username}</p>
+                  //     </div>
+                  //   </div>
+                  // </div>
                 );
               })}
+                </Paper>
+              </div>
             </div>
           </Grid>
         </Container>
