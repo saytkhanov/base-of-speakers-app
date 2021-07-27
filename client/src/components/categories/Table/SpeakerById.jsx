@@ -239,7 +239,7 @@ function SpeakerById(props) {
                 color={"secondary"}
                 variant={"contained"}
               >
-                Оставьте отзыв
+                Оставить отзыв
               </Button>
             </Grid>
             <Container classes={{ root: classes.cost }}>
@@ -269,8 +269,9 @@ function SpeakerById(props) {
                       class="form-control"
                     ></textarea>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" style={{display: 'flex', justifyContent: 'space-between'}}>
                     <button
+                      style={{backgroundColor: '#f50057',border: 0}}
                       onClick={handleAddReview}
                       class="btn btn-primary btn-sm"
                       type="button"
@@ -279,6 +280,7 @@ function SpeakerById(props) {
                       Добавить комментарий{" "}
                     </button>
                     <button
+                      style={{backgroundColor: '#f50057', border: 0}}
                       onClick={() => setOpenForm(false)}
                       class="btn btn-primary btn-sm"
                       type="button"
