@@ -52,6 +52,7 @@ function SpeakersBody({ speaker }) {
     }
     return null
   })
+  const fixedRating = loadByRating?.rating.toFixed(1)
   console.log(loadByRating?.rating.toFixed(1))
 
   const classes = useStyles();
@@ -80,6 +81,11 @@ function SpeakersBody({ speaker }) {
           </Typography>
         </TableCell>
         <TableCell>
+          <Typography variant="h4" style={{ color: "white" }}>
+              {fixedRating}
+          </Typography>
+        </TableCell>
+        <TableCell>
           <div>
             <audio
               className={classes.audio}
@@ -90,7 +96,7 @@ function SpeakersBody({ speaker }) {
         </TableCell>
         <TableCell>
           <Typography
-            style={{ color: "white", fontSize: 20, fontWeight: "bold" }}
+            style={{ width: 70, color: "white", fontSize: 20, fontWeight: "bold" }}
           >
             {" "}
             {speaker.cost} ₽

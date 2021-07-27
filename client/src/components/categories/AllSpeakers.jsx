@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function AllSpeakers({ speakersResults, gender, cost }) {
+function AllSpeakers({ speakersResults, gender, SpeakerSortByRating }) {
   const classes = useStyles();
 
   const dispatch = useDispatch();
@@ -31,7 +31,7 @@ function AllSpeakers({ speakersResults, gender, cost }) {
     dispatch(loadSpeakerByCost());
     dispatch(loadRatingsBySort())
   }, [dispatch]);
-
+  console.log(speakersResults);
   const speakers = speakersResults.filter((item) => {
     if (!gender) return true;
     if (gender) return item.gender === gender;
