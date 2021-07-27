@@ -23,6 +23,7 @@ import { addReview, loadReviews } from "../../../redux/features/reviews";
 import { addRating, loadRatings } from "../../../redux/features/ratings";
 import Preloader from "../../Preloader";
 import {  NavLink } from 'react-router-dom'
+import ProfilePreloader from '../../ProfilePreloader';
 
 const useStyles = makeStyles((theme) => ({
   audio: {
@@ -134,7 +135,7 @@ function SpeakerById(props) {
   useEffect(() => dispatch(loadRatings()), [dispatch]);
 
   if(loading) {
-    return <Preloader/>
+    return <ProfilePreloader/>
   }
 
   return (
