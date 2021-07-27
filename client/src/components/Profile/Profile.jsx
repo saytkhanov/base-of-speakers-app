@@ -22,6 +22,8 @@ import Container from '@material-ui/core/Container'
 import styled from 'styled-components'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import Preloader from '../Preloader'
+import ProfilePreloader from '../ProfilePreloader';
+import ProfilePreloaderForSpeaker from '../ProfilePreloaderForSpeaker';
 const drawerWidth = 240
 
 const muiTheme = createMuiTheme({});
@@ -273,10 +275,6 @@ function Profile({ setIsEditing }) {
   //   const fileName = e.target.files[0].name;
   //   dispatch(uploadVoice(file, fileName));
   // };
-
-  if(loading) {
-    return <Preloader/>
-  }
 
   return (
     <div className="container">
