@@ -224,7 +224,8 @@ const useStyles = makeStyles((theme) => ({
   },
   cost: {
     textAlign: "center",
-    paddingTop: 20
+    paddingTop: 20,
+    marginLeft: 220
   }
 }));
 
@@ -358,7 +359,7 @@ function Profile({ setIsEditing }) {
       </Grid>
       <Container classes={{ root: classes.cost }}>
         {openForm ? (
-          <form>
+          <>
             <div class="input-group mb-3">
               <input
                 type="text"
@@ -371,8 +372,9 @@ function Profile({ setIsEditing }) {
               />
             </div>
             <input type="file" onChange={handleChangeVoice} />
-            <div class="form-group">
+            <div class="form-group" style={{display: 'flex', justifyContent: 'space-between'}}>
               <button
+                style={{backgroundColor: '#f50057',border: 0}}
                 class="btn btn-primary btn-sm"
                 type="button"
                 onClick={handleAdd}
@@ -383,6 +385,7 @@ function Profile({ setIsEditing }) {
               </button>
               <button
                 onClick={() => setOpenForm(false)}
+                style={{backgroundColor: '#f50057',border: 0}}
                 class="btn btn-primary btn-sm"
                 type="button"
               >
@@ -390,7 +393,7 @@ function Profile({ setIsEditing }) {
                 Закрыть
               </button>
             </div>
-          </form>
+            </>
         ) : null}
       </Container>
       {voices.map((voice) => {

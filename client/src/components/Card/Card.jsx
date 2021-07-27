@@ -8,7 +8,7 @@ const useStyles = makeStyles({
     width: "100%"
   },
   card: {
-    backgroundColor: "#701b59",
+    backgroundColor: "black",
     borderRadius: 10,
     padding: 40,
     width: 320,
