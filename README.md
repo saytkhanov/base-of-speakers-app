@@ -65,6 +65,7 @@ ___
 <img alt="Heroku" src="https://img.shields.io/badge/-jsonwebtoken-764ABC?style=for-the-badge&logoColor=white" />
 </div>
 
+
 ![redux-thunk](https://img.shields.io/badge/-redux--thunk-black?style=for-the-badge)
 ![jsonwebtoken](https://img.shields.io/badge/-jsonwebtoken-red?style=for-the-badge)
 ![dotenv](https://img.shields.io/badge/-dotenv-red?style=for-the-badge)
@@ -112,3 +113,7 @@ ___
 - ✅ Вывод рандомных дикторов на основной странице
 
 ___
+
+
+___
+
