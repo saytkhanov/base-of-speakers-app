@@ -1,45 +1,45 @@
 # Сайт Биржа Дикторов
 ____ 
-В качестве финального проекта наша команда разработала это [приложение](#).
+В качестве финального проекта наша команда разработала это [приложение](https://speakers-mern.herokuapp.com/).
+![gif](https://github.com/saytkhanov/base-of-speakers-app/blob/main/1.gif)
+![gif](https://github.com/saytkhanov/base-of-speakers-app/blob/main/2.gif)
+![gif](https://github.com/saytkhanov/base-of-speakers-app/blob/main/3.gif)
 
 ## Функционал сайта
 ____ 
-+ Авторизация и Регистрация
-+ Без авторизации:
-  + Вывод всех дикторов
-  + Поиск дикторов по категориям
-  + Поиск дикторов по имени
-  + Возможность дать оценку диктору
-  + Возможность оставить отзыв диктору
-  + Заказать услуги диктора
-+ При авторизации:
-  + Личный кабинет
-  + Добавление и изменение аватарки
-  + Загрузка аудизаписей вместе с заголовком
-  + Вывод всех дикторов
-  + Поиск дикторов по категориям
-  + Поиск дикторов по имени
-  + Возможность дать оценку диктору
-  + Возможность оставить отзыв диктору
+### Авторизация и Регистрация
++ #### Без авторизации:
+    + Вывод всех дикторов
+    + Поиск дикторов по категориям
+    + Поиск дикторов по имени
+    + Фильтрация дикторов по ценам  
+    + Возможность дать оценку диктору
+    + Возможность оставить отзыв диктору
+    + Заказать услуги диктора
++ #### При авторизации:
+    + Личный кабинет
+    + Добавление и изменение аватарки
+    + Загрузка аудизаписей вместе с заголовком
+    + Вывод всех дикторов
+    + Поиск дикторов по категориям
+    + Фильтрация дикторов по ценам
+    + Поиск дикторов по имени
+    + Возможность дать оценку диктору
+    + Возможность оставить отзыв диктору
 
 # Запуск проекта
 Для запуска приложения нужно набрать следующие команды в терминале:
 ___
-```
+
 npm i
-```
-```
+
 cd client
-```
-```
+
 npm i
-```
-```
+
 cd ..
-```
-```
+
 npm run dev
-```
 ___
 # Использованные технологии:
 <div> 
@@ -49,7 +49,7 @@ ___
 <img alt="Redux-Thunk" src="https://img.shields.io/badge/-Redux_Thunk-white?style=for-the-badge&logo=Redux&logoColor=430098" />
 <img alt="Prettier" src="https://img.shields.io/badge/-Prettier-grey?style=for-the-badge&logo=Prettier&logoColor=orange" />
 <img alt="Redux-Logger" src="https://img.shields.io/badge/-Redux_Logger-430098?style=for-the-badge&logo=Redux&logoColor=white" />
-<img alt="JSON-Server" src="https://img.shields.io/badge/-JSON_Server-white?style=for-the-badge&logo=JSON&logoColor=black" />
+<img alt="Mongo-DB" src="https://img.shields.io/badge/-Mongo_DB-red?style=for-the-badge&logo=MongoDB&logoColor=black" />
 <img alt="bcrypt" src="https://img.shields.io/badge/redux devtools-430098?style=for-the-badge&logo=redux">
 <img alt="React-Router" src="https://img.shields.io/badge/-React_Router-black?style=for-the-badge&logo=react-router&logoColor=orange" />
 <img alt="git" src="https://img.shields.io/badge/-Git-F05032?style=for-the-badge&logo=git&logoColor=white" />
@@ -60,7 +60,23 @@ ___
 <img alt="bcrypt" src="https://img.shields.io/badge/mongoose-✔-green?style=for-the-badge&logo=mongoose">
 <img alt="bcrypt" src="https://img.shields.io/badge/eslint-blue?style=for-the-badge&logo=eslint">
 <img alt="Heroku" src="https://img.shields.io/badge/-Heroku-764ABC?style=for-the-badge&logo=heroku&logoColor=white" />
+<img alt="Heroku" src="https://img.shields.io/badge/-jsonwebtoken-764ABC?style=for-the-badge&logoColor=white" />
 </div>
+
+![redux-thunk](https://img.shields.io/badge/-redux--thunk-black)
+![jsonwebtoken](https://img.shields.io/badge/-jsonwebtoken-red)
+![dotenv](https://img.shields.io/badge/-dotenv-red)
+![http-status](https://img.shields.io/badge/-http--status-purple)
+![morgan](https://img.shields.io/badge/-morgan-green)
+![cors](https://img.shields.io/badge/-cors-pink)
+![Material-UI](https://img.shields.io/badge/-Materilal--UI-blue)
+ ![react-router-dom](https://img.shields.io/badge/-react--router--dom-red)
+  ![day-js](https://img.shields.io/badge/-day--js-orange)
+  ![Node-JS](https://img.shields.io/badge/-Node--JS-blue)
+  ![concurrently](https://img.shields.io/badge/-concurrently-black)
+  ![fuse-js](https://img.shields.io/badge/-fuse--JS-yellow)
+![styled-components](https://img.shields.io/badge/-styled--components-green)
+
 
 ___
 # Наша команда:
@@ -99,4 +115,3 @@ ___
 </div>
 
 ___
-
