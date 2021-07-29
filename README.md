@@ -101,10 +101,34 @@ ___
 ___
 # Выполненные мною задачи:
 <div>
-<input type="checkbox" checked></input> Модели, контроллеры и роуты для отзывов и категорий
+<input type="checkbox" checked></input> Модели, контроллеры и роуты для дикторов и записей
 </div>
 <div>
-<input type="checkbox" checked></input> Вывод всех дикторов и дикторов по категориям
+<input type="checkbox" checked></input> Вывод рандомных дикторов на основной странице
+</div>
+<div>
+<input type="checkbox" checked></input> Добавление и удаление записи
+</div>
+<div>
+<input type="checkbox" checked></input> Полный дизайн сайта, особенно основной страницы
+</div>
+<div>
+<input type="checkbox" checked></input> Возможность добавления и изменения аватарки
+</div>
+<div>
+<input type="checkbox" checked></input> Возможность добавления данных о себе и изменения личных данных
+</div>
+<div>
+<input type="checkbox" checked></input> Вывод рейтинга и возможность вывода на базе данных
+</div>
+<div>
+<input type="checkbox" checked></input> Основная информация о сайте и шапка сайта
+</div>
+<div>
+<input type="checkbox" checked></input> Выбор пола при регистрации
+</div>
+<div>
+<input type="checkbox" checked></input> Вывод рандомных дикторов на основной странице
 </div>
 <div>
 <input type="checkbox" checked></input> Футер сайта
