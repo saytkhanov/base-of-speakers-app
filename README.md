@@ -65,19 +65,18 @@ ___
 <img alt="Heroku" src="https://img.shields.io/badge/-jsonwebtoken-764ABC?style=for-the-badge&logoColor=white" />
 </div>
 
-![redux-thunk](https://img.shields.io/badge/-redux--thunk-black)
-![jsonwebtoken](https://img.shields.io/badge/-jsonwebtoken-red)
-![dotenv](https://img.shields.io/badge/-dotenv-red)
-![http-status](https://img.shields.io/badge/-http--status-purple)
-![morgan](https://img.shields.io/badge/-morgan-green)
-![cors](https://img.shields.io/badge/-cors-pink)
-![Material-UI](https://img.shields.io/badge/-Materilal--UI-blue)
- ![react-router-dom](https://img.shields.io/badge/-react--router--dom-red)
-  ![day-js](https://img.shields.io/badge/-day--js-orange)
-  ![Node-JS](https://img.shields.io/badge/-Node--JS-blue)
-  ![concurrently](https://img.shields.io/badge/-concurrently-black)
-  ![fuse-js](https://img.shields.io/badge/-fuse--JS-yellow)
-![styled-components](https://img.shields.io/badge/-styled--components-green)
+![jsonwebtoken](https://img.shields.io/badge/-jsonwebtoken-red?style=for-the-badge)
+![dotenv](https://img.shields.io/badge/-dotenv-red?style=for-the-badge)
+![http-status](https://img.shields.io/badge/-http--status-purple?style=for-the-badge)
+![morgan](https://img.shields.io/badge/-morgan-green?style=for-the-badge)
+![cors](https://img.shields.io/badge/-cors-pink?style=for-the-badge)
+![Material-UI](https://img.shields.io/badge/-Materilal--UI-blue?style=for-the-badge)
+ ![react-router-dom](https://img.shields.io/badge/-react--router--dom-red?style=for-the-badge)
+  ![day-js](https://img.shields.io/badge/-day--js-orange?style=for-the-badge)
+  ![Node-JS](https://img.shields.io/badge/-Node--JS-blue?style=for-the-badge)
+  ![concurrently](https://img.shields.io/badge/-concurrently-black?style=for-the-badge)
+  ![fuse-js](https://img.shields.io/badge/-fuse--JS-yellow?style=for-the-badge)
+![styled-components](https://img.shields.io/badge/-styled--components-green?style=for-the-badge)
 
 
 ___
