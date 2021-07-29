@@ -374,7 +374,7 @@ export const patchSpeaker = (data) => {
         },
         body: JSON.stringify(data),
       });
-     const json = response.json()
+     const json = await response.json()
       dispatch({
         type: "speakers/edit/fulfilled",
         payload: json,
