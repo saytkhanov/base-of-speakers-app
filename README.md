@@ -6,21 +6,21 @@ ____
 ____ 
 + Авторизация и Регистрация
 + Без авторизации:
-    + Вывод всех дикторов
-    + Поиск дикторов по категориям
-    + Поиск дикторов по имени
-    + Возможность дать оценку диктору
-    + Возможность оставить отзыв диктору
-    + Заказать услуги диктора
+  + Вывод всех дикторов
+  + Поиск дикторов по категориям
+  + Поиск дикторов по имени
+  + Возможность дать оценку диктору
+  + Возможность оставить отзыв диктору
+  + Заказать услуги диктора
 + При авторизации:
-    + Личный кабинет
-    + Добавление и изменение аватарки
-    + Загрузка аудизаписей вместе с заголовком
-    + Вывод всех дикторов
-    + Поиск дикторов по категориям
-    + Поиск дикторов по имени
-    + Возможность дать оценку диктору
-    + Возможность оставить отзыв диктору
+  + Личный кабинет
+  + Добавление и изменение аватарки
+  + Загрузка аудизаписей вместе с заголовком
+  + Вывод всех дикторов
+  + Поиск дикторов по категориям
+  + Поиск дикторов по имени
+  + Возможность дать оценку диктору
+  + Возможность оставить отзыв диктору
 
 # Запуск проекта
 Для запуска приложения нужно набрать следующие команды в терминале:
@@ -42,6 +42,7 @@ npm run dev
 ```
 ___
 # Использованные технологии:
+<div> 
 <img alt="React" src="https://img.shields.io/badge/-React-45b8d8?style=for-the-badge&logo=react&logoColor=white" />
 <img alt="Github" src="https://img.shields.io/badge/-Github-black?style=for-the-badge&logo=github&logoColor=white" />
 <img alt="Redux" src="https://img.shields.io/badge/-Redux-430098?style=for-the-badge&logo=redux&logoColor=white" />
@@ -59,6 +60,7 @@ ___
 <img alt="bcrypt" src="https://img.shields.io/badge/mongoose-✔-green?style=for-the-badge&logo=mongoose">
 <img alt="bcrypt" src="https://img.shields.io/badge/eslint-blue?style=for-the-badge&logo=eslint">
 <img alt="Heroku" src="https://img.shields.io/badge/-Heroku-764ABC?style=for-the-badge&logo=heroku&logoColor=white" />
+</div>
 
 ___
 # Наша команда:
@@ -80,10 +82,21 @@ ___
 
 ___
 # Выполненные мною задачи:
--[X] Модели, контроллеры и роуты для отзывов и категорий
--[X] Вывод всех дикторов и дикторов по категориям
--[X] Футер сайта
--[X] Профиль диктора при отсутствии авторизации
--[X] Прелоадеры
+<div>
+<input type="checkbox" checked></input> Модели, контроллеры и роуты для отзывов и категорий
+</div>
+<div>
+<input type="checkbox" checked></input> Вывод всех дикторов и дикторов по категориям
+</div>
+<div>
+<input type="checkbox" checked></input> Футер сайта
+</div>
+<div>
+<input type="checkbox" checked></input> Профиль диктора при отсутствии авторизации
+</div>
+<div>
+<input type="checkbox" checked></input> Прелоадеры
+</div>
+
 ___
 
